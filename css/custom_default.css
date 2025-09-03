@@ -1,7 +1,72 @@
-body {
-  background: url("../imgs/bg-1.png") repeat-x top #ffffff;
+/* New Layout */
+:root {
+  --main-bg-color: #fff;
+  --main-text-color: #333;
+  --link-color: #1e8aff;
+  --line-color: #1b365d;
+  --tab-active-color: #0033a0;
+  --tab-inactive-color: #d6d2c4;
 }
 
-#header, #headervid, #footer, #audio-panel, #subjectPlayer {
-     background: #3c3c3c;
+.main-box {
+  display: flex;
+  gap: 20px;
+  background: var(--main-bg-color);
+  box-sizing: border-box;
+}
+.main-box .left-side {
+  flex: 0 0 35%;
+  border-right: 4px solid var(--line-color);
+  box-sizing: border-box;
+}
+.main-box .right-side {
+  flex: 0 0 65%;
+  box-sizing: border-box;
+}
+.main-box .left-side .top-details {
+  position: relative;
+  border-bottom: 4px solid var(--line-color);
+  padding: 20px;
+  text-align: left;
+}
+.main-box .left-side .bottom-details {
+  padding: 0 20px;
+}
+
+#headerimg {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  height: 55px;
+}
+.main-box .left-side #audio-panel {
+  padding: 20px;
+}
+
+.main-box .custom-tabs {
+  background: transparent;
+  border: none;
+}
+.main-box .custom-tabs .ui-widget-header {
+  border: none;
+  background: none;
+  padding: 0;
+}
+.main-box .custom-tabs .ui-tabs-nav li {
+  margin: 0;
+  border: 1px solid var(--tab-active-color) !important;
+  border-radius: 0;
+}
+.main-box .custom-tabs .ui-tabs-nav li a {  
+  background: var(--tab-inactive-color);
+  border-color: var(--tab-inactive-color);
+  color: var(--line-color);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 25px;
+}
+.main-box .custom-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active a {   
+  background: var(--tab-active-color);
+  border-color: var(--tab-active-color);
+  color: #fff;
 }
