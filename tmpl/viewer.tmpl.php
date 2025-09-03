@@ -130,81 +130,11 @@ endif;
                 }
             }
         </script>
-        <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
-            <div id="header">
-            <?php } else {
-                ?>
-                <div id="headervid">  
-                    <?php
-                }
-                if ($printMode) {
-                    ?> 
-                    <a href="#" class="printCustom" ></a>
-                <?php } if (isset($repoConfig)): ?>
-                    <img id="headerimg"
-                         src="<?php echo $repoConfig['footerimg']; ?>"
-                         alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
-                     <?php endif;
-                     ?>
-                <div class="center">
-                    <h1><?php echo $interview->title; ?></h1>
-                    <div id="secondaryMetaData">
-                        <div>
-                            <strong><?php echo $interview->repository; ?></strong>
-                            <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
-                            <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
-                            <br/>
-                            <span class="detail-metadata">
 
-                                <?php
-                                if (trim($interview->interviewer)) {
-                                    echo "{$interview->interviewer}, Interviewer";
-                                }
-                                ?>
-                                <?php
-                                if (trim($interview->interviewer) && trim($interview->accession)) {
-                                    echo " | ";
-                                }
-                                ?>
-                                <?php echo $interview->accession; ?><br/>
-
-                                <?php if ((string) $interview->collection_link != '') { ?>
-                                    <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
-                                <?php } else {
-                                    ?>
-                                    <?php echo $interview->collection; ?>
-                                <?php }
-                                ?>
-                                <?php
-                                if (trim($interview->collection) && trim($interview->series)) {
-                                    echo " | ";
-                                }
-                                ?>
-                                <?php if ((string) $interview->series_link != '') { ?>
-                                    <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
-                                <?php } else {
-                                    ?>
-                                    <?php echo $interview->series; ?>
-                                <?php }
-                                ?>
-                            </span>
-                        </div>
-                    </div>
-                    <div id="audio-panel">
-                        <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
-                    </div>
-                </div>
-            </div>
-            <div id="main" class="<?php echo $heightAdjustmentClass; ?>">
-                <?php if ($printMode) { ?>
-                    <a href="#" class="printCustomMobile" ></a>
-                <?php } if (!empty($userNotes)): ?>
-                    <div class="user_notes"><?php echo $interview->user_notes ?>
-                        <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
-                    </div>
-                <?php endif; ?>
+        
+            <!-- <div id="main" class="<?php echo $heightAdjustmentClass; ?>">
+                
                 <div id="main-panels">
-                    <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
                     <div id="content-panel">
                         <div id="holder-panel"></div>
                         <?php
@@ -225,7 +155,133 @@ endif;
                     </div>
 
                 </div>
+            </div> -->
+
+
+
+            <div class="main-box">
+                <div class="left-side">
+                    <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
+                        <div id="header">
+                        <?php } else {
+                            ?>
+                            <div id="headervid">  
+                            <div class="top-details">
+                                <?php
+                            }
+                            if ($printMode) {
+                                ?> 
+                                <a href="#" class="printCustom" ></a>
+                            <?php } if (isset($repoConfig)): ?>
+                                <img id="headerimg"
+                                    src="<?php echo $repoConfig['footerimg']; ?>"
+                                    alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
+                                <?php endif;
+                                ?>
+                                <h1><?php echo $interview->title; ?></h1>
+
+                                <div id="secondaryMetaData">
+                                    <div>
+                                        <strong><?php echo $interview->repository; ?></strong>
+                                        <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
+                                        <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
+                                        <br/>
+                                        <span class="detail-metadata">
+
+                                            <?php
+                                            if (trim($interview->interviewer)) {
+                                                echo "{$interview->interviewer}, Interviewer";
+                                            }
+                                            ?>
+                                            <?php
+                                            if (trim($interview->interviewer) && trim($interview->accession)) {
+                                                echo " | ";
+                                            }
+                                            ?>
+                                            <?php echo $interview->accession; ?><br/>
+
+                                            <?php if ((string) $interview->collection_link != '') { ?>
+                                                <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
+                                            <?php } else {
+                                                ?>
+                                                <?php echo $interview->collection; ?>
+                                            <?php }
+                                            ?>
+                                            <?php
+                                            if (trim($interview->collection) && trim($interview->series)) {
+                                                echo " | ";
+                                            }
+                                            ?>
+                                            <?php if ((string) $interview->series_link != '') { ?>
+                                                <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
+                                            <?php } else {
+                                                ?>
+                                                <?php echo $interview->series; ?>
+                                            <?php }
+                                            ?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="audio-panel">
+                                <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+                            </div>
+
+                            <div class="bottom-details">
+                                <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
+                                    <ul>
+                                        <li><a href="#about-tab-1">About</a></li>
+                                        <li><a href="#search-tab-1">Search</a></li>
+                                        <li><a href="#index-tab-1">Index</a></li>
+                                        <li><a href="#transcript-tab-1">Transcript</a></li>
+                                        <li><a href="#visualization-tab-1">Visualization</a></li>
+                                    </ul>
+                                    <div id="about-tab-1">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil cumque labore nulla dignissimos! Quos inventore tenetur eaque fugiat iusto, magnam, harum eius quas exercitationem non minima vero sed maxime numquam.</p>
+                                    </div>
+                                    <div id="search-tab-1">
+                                        <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+                                    </div>
+                                    <div id="index-tab-1">
+                                        <p><?php echo $interview->index; ?></p>
+                                    </div>
+                                    <div id="transcript-tab-1">
+                                        <?php echo $interview->transcript; ?>
+                                    </div>
+                                    <div id="visualization-tab-1">
+                                        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                </div>
+                <div class="right-side">
+                    <?php if ($printMode) { ?>
+                        <a href="#" class="printCustomMobile" ></a>
+                    <?php } if (!empty($userNotes)): ?>
+                        <div class="user_notes"><?php echo $interview->user_notes ?>
+                            <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
+                        </div>
+                    <?php endif; ?>
+                    <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
+                        <ul>
+                            <li><a href="#index-tab-2">Index</a></li>
+                            <li><a href="#transcript-tab-2">Transcript</a></li>
+                            <li><a href="#visualization-tab-2">Visualization</a></li>
+                        </ul>
+                        <div id="index-tab-2">
+                            <p><?php echo $interview->index; ?></p>
+                        </div>
+                        <div id="transcript-tab-2">
+                            <?php echo $interview->transcript; ?>
+                        </div>
+                        <div id="visualization-tab-2">
+                            <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                        </div>
+                    </div>   
+                </div>
             </div>
+
             <div id="footer">
                 <div id="footer-metadata">
                     <?php if (!empty($rights)) { ?>
@@ -294,6 +350,11 @@ endif;
                 </div>
                 <br clear="both"/>
             </div>
+
+
+
+
+
             <script src="js/jquery.jplayer.min.js"></script>
             <script src="js/jquery.easing.1.4.js"></script>
             <script src="js/jquery.scrollTo-min.js"></script>
@@ -562,6 +623,7 @@ switch ($interview->playername) {
             </script>
             <script>
                 var cachefile = '<?php echo $interview->cachefile; ?>';
+                $(".custom-tabs").tabs();
             </script>
 
     </body> 
