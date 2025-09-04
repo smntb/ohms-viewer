@@ -592,35 +592,22 @@ h2, #secondaryMetaData {
     margin-right: 7%;
 }
 
-#secondaryMetaData {
-}
-
 #transcript-panel, #transcript-panel-alt {
-    width: 52%;
-    height: 548px;
-    border: 1px solid #dcdcdc;
+    width: 100%;
     position: absolute;
-    float: left;
     overflow: auto;
     outline: 0;
-    margin-left: 20px;
+    margin: auto;
     background: #ffffff;
     text-align: left;
 }
 
 #index-panel, #index-panel-alt {
-    display: none;
-    width: 48%;
-    height: 548px;
-    margin-top: 10px;
-    border: 1px solid #dcdcdc;
+    width: 100%;
     position: absolute;
-    float: left;
     overflow: auto;
     outline: 0;
     margin: auto;
-    padding-left: 2%;
-    padding-right: 2%;
     background: #ffffff;
     text-align: left;
 }
@@ -716,9 +703,9 @@ input {
         width: 55%;
     }
 
-    #index-panel {
+    /* #index-panel {
         width: 50%;
-    }
+    } */
 
     #search-toggle {
         width: 100%;
@@ -1418,8 +1405,7 @@ p.bold {
     width: 38px;
     height: 37px;
     background-size: 38px 37px;
-    position: absolute;
-    right: 1%;
+    display: none;
 }
 .printCustomMobile{
     display:none;

@@ -19,8 +19,8 @@ function toggleSwitch() {
     }
     var TranscriptView = function () {
         $('#search-type').val(0);
-        $('#index-panel').hide();
-        $('#transcript-panel').show();
+        // $('#index-panel').hide();
+        // $('#transcript-panel').show();
         $('.user_notes').show();
         $('#search-legend .search-label').html('Search this Transcript');
         $('#submit-btn').off('click').on('click', getSearchResults);
@@ -53,8 +53,8 @@ function toggleSwitch() {
     var IndexView = function () {
         $('#search-type').val(1);
         $('.user_notes').show();
-        $('#transcript-panel').hide();
-        $('#index-panel').show();
+        // $('#transcript-panel').hide();
+        // $('#index-panel').show();
         $('#search-legend .search-label').html('Search this Index');
         $('#submit-btn').off('click').on('click', getIndexResults);
         $('#kw').off('keypress').on('keypress', getIndexResults);

@@ -182,24 +182,9 @@ endif;
 
                                 <div id="secondaryMetaData">
                                     <div>
-                                        <strong><?php echo $interview->repository; ?></strong>
                                         <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
                                         <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
-                                        <br/>
                                         <span class="detail-metadata">
-
-                                            <?php
-                                            if (trim($interview->interviewer)) {
-                                                echo "{$interview->interviewer}, Interviewer";
-                                            }
-                                            ?>
-                                            <?php
-                                            if (trim($interview->interviewer) && trim($interview->accession)) {
-                                                echo " | ";
-                                            }
-                                            ?>
-                                            <?php echo $interview->accession; ?><br/>
-
                                             <?php if ((string) $interview->collection_link != '') { ?>
                                                 <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
                                             <?php } else {
@@ -237,16 +222,60 @@ endif;
                                         <li><a href="#visualization-tab-1">Visualization</a></li>
                                     </ul>
                                     <div id="about-tab-1">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil cumque labore nulla dignissimos! Quos inventore tenetur eaque fugiat iusto, magnam, harum eius quas exercitationem non minima vero sed maxime numquam.</p>
+                                        <div class="about-panel">
+                                            <strong>Interview Summary</strong>
+
+                                            <p>Fawn Weaver, the CEO of Uncle Nearest Premium Whiskey,
+                                            discusses her background and path to entering the whiskey
+                                            industry. Weaver talks about her research into the history of Jack
+                                            Daniel and Nathan "Nearest" Green, and her personal experiences
+                                            with whiskey. She describes the challenges she's faced running
+                                            the business, what qualities she values in leaders, and her work
+                                            as an author.</p>
+
+
+                                            <strong>Interview Accession</strong>
+                                            <p>
+                                                <?php
+                                                if (trim($interview->interviewer) && trim($interview->accession)) {
+                                                    
+                                                }
+                                                ?>
+                                                <?php echo $interview->accession; ?>
+                                            </p>
+
+                                            <strong>Interviewer Name</strong>
+
+                                            <p>
+                                                <?php echo $interview->repository; ?>
+                                            </p>
+
+                                            <strong>Interviewee Name</strong>
+
+                                            <p><?php
+                                            if (trim($interview->interviewer)) {
+                                                echo "{$interview->interviewer}";
+                                            }
+                                            ?></p>
+                                        </div>
                                     </div>
                                     <div id="search-tab-1">
                                         <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
                                     </div>
                                     <div id="index-tab-1">
-                                        <p><?php echo $interview->index; ?></p>
+                                        <div id="index-panel" class="index-panel">
+                                            <?php echo $interview->index; ?>
+                                        </div>
                                     </div>
                                     <div id="transcript-tab-1">
-                                        <?php echo $interview->transcript; ?>
+                                        <div id="transcript-panel" class="transcript-panel">
+                                            <div class="date-layers">
+                                                <ul>
+                                                    <li>Data Layers:</li>
+                                                </ul>
+                                            </div>
+                                            <?php echo $interview->transcript; ?>
+                                        </div>
                                     </div>
                                     <div id="visualization-tab-1">
                                         <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
@@ -256,6 +285,10 @@ endif;
                         </div>
                 </div>
                 <div class="right-side">
+                    <?php if ($printMode) {
+                                ?> 
+                                <a href="#" class="printCustom" ></a>
+                            <?php } ?>
                     <?php if ($interview->translate == '1'): ?>
                         <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
                             <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
@@ -281,10 +314,14 @@ endif;
                             <li><a href="#visualization-tab-2">Visualization</a></li>
                         </ul>
                         <div id="index-tab-2">
-                            <p><?php echo $interview->index; ?></p>
+                            <div id="index-panel" class="index-panel">
+                                <?php echo $interview->index; ?>
+                            </div>
                         </div>
                         <div id="transcript-tab-2">
-                            <?php echo $interview->transcript; ?>
+                            <div id="transcript-panel" class="transcript-panel">
+                                <?php echo $interview->transcript; ?>
+                            </div>
                         </div>
                         <div id="visualization-tab-2">
                             <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
