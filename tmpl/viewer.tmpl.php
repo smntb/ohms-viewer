@@ -256,6 +256,17 @@ endif;
                         </div>
                 </div>
                 <div class="right-side">
+                    <?php if ($interview->translate == '1'): ?>
+                        <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
+                            <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
+                            data-translate="<?php $interview->transcript_alt_lang; ?>"
+                            data-toggleAvailable="<?php echo $toggleAvailable;?>"
+                            data-linkto="<?php echo $targetLanguage ?>">
+                                <?php echo $targetLanguage ?></a>
+                        </div>
+                    <?php
+                    endif;
+                    ?>
                     <?php if ($printMode) { ?>
                         <a href="#" class="printCustomMobile" ></a>
                     <?php } if (!empty($userNotes)): ?>
@@ -280,6 +291,7 @@ endif;
                         </div>
                     </div>   
                 </div>
+                <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
             </div>
 
             <div id="footer">
@@ -624,6 +636,10 @@ switch ($interview->playername) {
             <script>
                 var cachefile = '<?php echo $interview->cachefile; ?>';
                 $(".custom-tabs").tabs();
+
+                $(".toggle-sides").click(function(){
+                    $(".main-box").toggleClass("toggled");
+                });
             </script>
 
     </body> 

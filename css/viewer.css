@@ -82,11 +82,11 @@ h1 {
     padding-left: 30px; 
 } */
 
-p {
+/* p {
     margin-left: 50px;
     margin-right: 50px;
     margin-top: 10px;
-}
+} */
 
 #footer-logo {
     text-align: right;
@@ -460,10 +460,6 @@ div.point {
 .nblu {
     color: #366999 !important;
 }
-.indexSegmentLink {
-    float: right;
-    color: blue !important;
-}
 
 .segmentLink {
     border: #000000 1px solid;
@@ -687,7 +683,7 @@ input {
     margin-left: 4px;
     font-weight: bold;
 }
-@media only screen and (min-width: 1470px) and (max-width: 1570px) {
+/* @media only screen and (min-width: 1470px) and (max-width: 1570px) {
     .index-circle{
         margin-left: 79.8% !important;
     }
@@ -711,11 +707,11 @@ input {
     .index-circle{
         margin-left: 76% !important;
     }
-}
+} */
 @media only screen and (min-width: 801px) and (max-width: 1000px) {
-    .index-circle{
+    /* .index-circle{
         margin-left: 77.0% !important;
-    }
+    } */
     #content-panel {
         width: 55%;
     }
@@ -1336,16 +1332,12 @@ p.bold {
 .segm-circle {
     font-size: 14px;
     font-family: none;
-    position: absolute;
-    left: 25px;
     cursor: pointer !important;
 
 }
 .alpha-circle {
     font-size: 14px;
     font-family: none;
-    position: absolute;
-    left: 25px;
     cursor: pointer !important;
 
 }
@@ -1366,23 +1358,28 @@ p.bold {
 .index-circle{
     background-image: url(../imgs/t_icon.png);
     background-repeat: no-repeat;
-    margin-left: 79%;
-    width: 21px;
-    height: 24px;
-    background-size: 21px 24px;
+    width: 20px;
+    height: 27px;
+    background-size: 20px;
+    display: block;
 }
 .transcript-line p{
     margin-left: 80px !important;
 }
+
+.indexSegmentLink {
+    display: block;
+    width: 28px;
+    height: 27px;
+}
 .segment-circle
 {
-    background-image: url(../imgs/share_segment_dark.png);
+    background-image: url(../imgs/share_segment_dark.svg);
     background-repeat: no-repeat;
-    margin-left: 84%;
-    width: 22px;
-    height: 24px;
-    background-size: 22px 24px;
-    filter: contrast(25%);
+    width: 28px;
+    height: 27px;
+    background-size: 27px;
+    display: block;
 }
 
 .multiGPSSection{

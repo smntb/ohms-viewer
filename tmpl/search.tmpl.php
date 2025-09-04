@@ -61,36 +61,61 @@ $toggleDisplay = "";
         <option id="search-transcript" value="0" <?php echo $transcript_option ?>>Transcript</option>
         <option id="search-index" value="1" <?php echo $index_option ?>>Index</option>
     </select>
-<!--    <button id="print-pdf" title="Print" class="print-btn"><i class="fa fa-print"></i> Print</button>-->
+    <button id="print-pdf" title="Print" class="print-btn"><i class="fa fa-print"></i> Print</button>
 </div>
 
-<?php if ($interview->translate == '1'): ?>
-    <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
-        <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
-           data-translate="<?php $interview->transcript_alt_lang; ?>"
-           data-toggleAvailable="<?php echo $toggleAvailable;?>"
-           data-linkto="<?php echo $targetLanguage ?>">Switch to
-            <?php echo $targetLanguage ?></a>
-    </div>
-    <br/>
-<?php
-endif;
-?>
 <span id="alert"></span>
 <form id="search-form" onSubmit="return false;" name="search-form" class="preview-search-form">
     <fieldset>
-        <legend align="center" id="search-legend"><span class="search-label">Search this <?php echo $searchThisLabel ?></span>
-            <span class="search-show-info"><i class="fa fa-lg fa-caret-right"></i></span>
-            <span class="search-hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
-        </legend>
         <div class="search-content">
             <label for="kw" style="display:none;">Search keyword field</label>
-            <input class="kw-empty" title="Search keyword field" id="kw" name="kw" size="30" value="Keyword"/>
+            <input class="kw-empty" title="Search keyword field" id="kw" name="kw" size="30" value="Keyword" placeholder="Search this Interview" />
             <button class="search-button" id="submit-btn">Go</button>
-            <a href="#" class="searchclear-button" id="clear-btn">X</a>
-            <div id="search-results"></div>
+            <a href="#" class="searchclear-button" id="clear-btn">Clear search term X</a>
+            <div id="accordionHolderSearch">
+                <h3>
+                    <span class="toggle-span">Index</span>
+                    <div id="paginate" class="compact-theme simple-pagination">
+                        <ul>
+                            <li class="disabled">
+                                <span class="current prev">&lt;</span>
+                            </li>
+                            <li>
+                                <span id="paginate_info">Showing 1 - 5 of 8</span>
+                            </li>
+                            <li>
+                                <a href="#page-2" class="page-link next">&gt;</a>
+                            </li>
+                        </ul>
+                    </div>
+                </h3>
+                <div>
+                    <div id="search-results"></div>
+                </div><h3>
+                    <span class="toggle-span">Transcript</span>
+                    <div id="paginate" class="compact-theme simple-pagination">
+                        <ul>
+                            <li class="disabled">
+                                <span class="current prev">&lt;</span>
+                            </li>
+                            <li>
+                                <span id="paginate_info">Showing 1 - 5 of 8</span>
+                            </li>
+                            <li>
+                                <a href="#page-2" class="page-link next">&gt;</a>
+                            </li>
+                        </ul>
+                    </div>
+                </h3>
+                <div>
+                    <p>
+                    Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+                    purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+                    velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+                    suscipit faucibus urna.
+                    </p>
+                </div>
+            </div>
         </div>
     </fieldset>
 </form>
-
-

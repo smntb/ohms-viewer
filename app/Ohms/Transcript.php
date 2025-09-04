@@ -52,7 +52,7 @@ class Transcript {
                 $this->indexHTML = '';
                 return;
             }
-            $indexHTML = "<div id=\"accordionHolder\">\n";
+            $indexHTML = "<div class=\"accordionHolder\">\n";
             foreach ($this->index->point as $point) {
                 $timePoint = $this->formatTimepoint($point->time);
                 $synopsis = $translate ? $point->synopsis_alt : $point->synopsis;
@@ -177,8 +177,8 @@ class Transcript {
 <div class="point">
   <p style="margin-bottom:1.2em;">
    <a class="indexJumpLink" href="#" data-timestamp="{$point->time}">Play segment</a>
-   <span title="View transcript" id="info_index_{$time}" data-index-time="{$time}" onclick="toggleRedirectTranscriptIndex({$time}, 'index-to-transcript');" class="alpha-circle index-circle"></span>
-   <a title="Share Segment" class="indexSegmentLink" href="javascript:void(0);" data-timestamp="{$point->time}"><span class="segm-circle segment-circle"></span></a>
+   <div class="options"><span title="View transcript" id="info_index_{$time}" data-index-time="{$time}" onclick="toggleRedirectTranscriptIndex({$time}, 'index-to-transcript');" class="alpha-circle index-circle"></span>
+   <a title="Share Segment" class="indexSegmentLink" href="javascript:void(0);" data-timestamp="{$point->time}"><span class="segm-circle segment-circle"></span></a></div>
    <br clear="both" />
   </p>
   <div class="segmentLink" id="segmentLink{$point->time}" style="width:100%">

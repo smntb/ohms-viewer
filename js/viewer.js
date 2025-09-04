@@ -65,7 +65,7 @@ jQuery(document).ready(function ($) {
 
     $('#kw').focus();
 
-    $('#accordionHolder').accordion({
+    $('.accordionHolder').accordion({
         autoHeight: false,
         collapsible: true,
         active: activeIndex,
@@ -78,6 +78,27 @@ jQuery(document).ready(function ($) {
             }
         }
     });
+
+    $('#accordionHolderSearch').accordion({
+        header: '> h3',
+        collapsible: true,
+        active: false,
+        autoHeight: false,
+    });
+
+    // Disable default header clicks
+    $('#accordionHolderSearch h3').off('click');
+
+    // Toggle only on span click
+    $('#accordionHolderSearch').on('click', '.toggle-span', function (e) {
+        const $header = $(this).closest('h3');
+        const index = $('#accordionHolderSearch h3').index($header);
+        const $accordion = $('#accordionHolderSearch');
+        const current = $accordion.accordion('option', 'active');
+
+        $accordion.accordion('option', 'active', current === index ? false : index);
+    });
+    
     $('.show-info').bind('click', function () {
         $('.show-info').hide();
         $('.hide-info').show();
