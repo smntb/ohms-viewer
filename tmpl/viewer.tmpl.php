@@ -159,176 +159,211 @@ endif;
 
 
 
-            <div class="main-box">
-                <div class="left-side">
-                    <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
-                        <div id="header">
-                        <?php } else {
-                            ?>
-                            <div id="headervid">  
-                            <div class="top-details">
-                                <?php
-                            }
-                            if ($printMode) {
-                                ?> 
-                                <a href="#" class="printCustom" ></a>
-                            <?php } if (isset($repoConfig)): ?>
-                                <img id="headerimg"
-                                    src="<?php echo $repoConfig['footerimg']; ?>"
-                                    alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
-                                <?php endif;
+            <div class="main-box-holder">
+                <div class="main-box">
+                    <div class="left-side">
+                        <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
+                            <div id="header">
+                            <?php } else {
                                 ?>
-                                <h1><?php echo $interview->title; ?></h1>
+                                <div id="headervid">  
+                                <div class="top-details">
+                                    <?php
+                                }
+                                if ($printMode) {
+                                    ?> 
+                                    <a href="#" class="printCustom" ></a>
+                                <?php } if (isset($repoConfig)): ?>
+                                    <img id="headerimg"
+                                        src="<?php echo $repoConfig['footerimg']; ?>"
+                                        alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
+                                    <?php endif;
+                                    ?>
+                                    <h1><?php echo $interview->title; ?></h1>
 
-                                <div id="secondaryMetaData">
-                                    <div>
-                                        <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
-                                        <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
-                                        <span class="detail-metadata">
-                                            <?php if ((string) $interview->collection_link != '') { ?>
-                                                <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
-                                            <?php } else {
+                                    <div id="secondaryMetaData">
+                                        <div>
+                                            <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
+                                            <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
+                                            <span class="detail-metadata">
+                                                <?php if ((string) $interview->collection_link != '') { ?>
+                                                    <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
+                                                <?php } else {
+                                                    ?>
+                                                    <?php echo $interview->collection; ?>
+                                                <?php }
                                                 ?>
-                                                <?php echo $interview->collection; ?>
-                                            <?php }
-                                            ?>
-                                            <?php
-                                            if (trim($interview->collection) && trim($interview->series)) {
-                                                echo " | ";
-                                            }
-                                            ?>
-                                            <?php if ((string) $interview->series_link != '') { ?>
-                                                <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
-                                            <?php } else {
-                                                ?>
-                                                <?php echo $interview->series; ?>
-                                            <?php }
-                                            ?>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="audio-panel">
-                                <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
-                            </div>
-
-                            <div class="bottom-details">
-                                <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
-                                    <ul>
-                                        <li><a href="#about-tab-1">About</a></li>
-                                        <li><a href="#search-tab-1">Search</a></li>
-                                        <li><a href="#index-tab-1">Index</a></li>
-                                        <li><a href="#transcript-tab-1">Transcript</a></li>
-                                        <li><a href="#visualization-tab-1">Visualization</a></li>
-                                    </ul>
-                                    <div id="about-tab-1">
-                                        <div class="about-panel">
-                                            <strong>Interview Summary</strong>
-
-                                            <p>Fawn Weaver, the CEO of Uncle Nearest Premium Whiskey,
-                                            discusses her background and path to entering the whiskey
-                                            industry. Weaver talks about her research into the history of Jack
-                                            Daniel and Nathan "Nearest" Green, and her personal experiences
-                                            with whiskey. She describes the challenges she's faced running
-                                            the business, what qualities she values in leaders, and her work
-                                            as an author.</p>
-
-
-                                            <strong>Interview Accession</strong>
-                                            <p>
                                                 <?php
-                                                if (trim($interview->interviewer) && trim($interview->accession)) {
-                                                    
+                                                if (trim($interview->collection) && trim($interview->series)) {
+                                                    echo " | ";
                                                 }
                                                 ?>
-                                                <?php echo $interview->accession; ?>
-                                            </p>
-
-                                            <strong>Interviewer Name</strong>
-
-                                            <p>
-                                                <?php echo $interview->repository; ?>
-                                            </p>
-
-                                            <strong>Interviewee Name</strong>
-
-                                            <p><?php
-                                            if (trim($interview->interviewer)) {
-                                                echo "{$interview->interviewer}";
-                                            }
-                                            ?></p>
+                                                <?php if ((string) $interview->series_link != '') { ?>
+                                                    <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
+                                                <?php } else {
+                                                    ?>
+                                                    <?php echo $interview->series; ?>
+                                                <?php }
+                                                ?>
+                                            </span>
                                         </div>
                                     </div>
-                                    <div id="search-tab-1">
-                                        <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
-                                    </div>
-                                    <div id="index-tab-1">
-                                        <div id="index-panel" class="index-panel">
-                                            <?php echo $interview->index; ?>
-                                        </div>
-                                    </div>
-                                    <div id="transcript-tab-1">
-                                        <div id="transcript-panel" class="transcript-panel">
-                                            <div class="date-layers">
-                                                <ul>
-                                                    <li>Data Layers:</li>
-                                                </ul>
+                                </div>
+                                <div id="audio-panel">
+                                    <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+                                </div>
+
+                                <div class="bottom-details">
+                                    <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
+                                        <ul>
+                                            <li><a href="#about-tab-1">About</a></li>
+                                            <li><a href="#search-tab-1">Search</a></li>
+                                            <li><a href="#index-tab-1">Index</a></li>
+                                            <li><a href="#transcript-tab-1">Transcript</a></li>
+                                            <li><a href="#visualization-tab-1">Visualization</a></li>
+                                            <li><a href="#wordcloud-tab-1">Word Cloud</a></li>
+                                            <li><a href="#map-tab-1">Map</a></li>
+                                            <li><a href="#timeline-tab-1">Timeline</a></li>
+                                        </ul>
+                                        <div id="about-tab-1">
+                                            <div class="about-panel">
+                                                <strong>Interview Summary</strong>
+
+                                                <p>Fawn Weaver, the CEO of Uncle Nearest Premium Whiskey,
+                                                discusses her background and path to entering the whiskey
+                                                industry. Weaver talks about her research into the history of Jack
+                                                Daniel and Nathan "Nearest" Green, and her personal experiences
+                                                with whiskey. She describes the challenges she's faced running
+                                                the business, what qualities she values in leaders, and her work
+                                                as an author.</p>
+
+
+                                                <strong>Interview Accession</strong>
+                                                <p>
+                                                    <?php
+                                                    if (trim($interview->interviewer) && trim($interview->accession)) {
+                                                        
+                                                    }
+                                                    ?>
+                                                    <?php echo $interview->accession; ?>
+                                                </p>
+
+                                                <strong>Interviewer Name</strong>
+
+                                                <p>
+                                                    <?php echo $interview->repository; ?>
+                                                </p>
+
+                                                <strong>Interviewee Name</strong>
+
+                                                <p><?php
+                                                if (trim($interview->interviewer)) {
+                                                    echo "{$interview->interviewer}";
+                                                }
+                                                ?></p>
                                             </div>
-                                            <?php echo $interview->transcript; ?>
                                         </div>
+                                        <div id="search-tab-1">
+                                            <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+                                        </div>
+                                        <div id="index-tab-1">
+                                            <div id="index-panel" class="index-panel">
+                                                <?php echo $interview->index; ?>
+                                            </div>
+                                        </div>
+                                        <div id="transcript-tab-1">
+                                            <div id="transcript-panel" class="transcript-panel">
+                                                <div class="data-layers">
+                                                    <div class="custom-checkbox">
+                                                        <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
+                                                        <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
+                                                    </div>
+                                                    <ul class="data-layers-list">
+                                                        <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
+                                                        <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
+                                                        <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
+                                                        <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
+                                                        <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
+                                                    </ul>
+                                                </div>
+                                                <?php echo $interview->transcript; ?>
+                                            </div>
+                                        </div>
+                                        <div id="visualization-tab-1">
+                                            <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                                        </div>
+                                        <div id="wordcloud-tab-1">
+                                            <div class="word">word</div>
+                                        </div>
+                                        <div id="map-tab-1">
+                                            <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
+                                        </div>
+                                        <div id="timeline-tab-1">
+                                            <div class="timeline">timeline</div>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div>
+                    </div>
+                    <div class="right-side">
+                        <?php if ($printMode) {
+                                    ?> 
+                                    <a href="#" class="printCustom" ></a>
+                                <?php } ?>
+                        <?php if ($interview->translate == '1'): ?>
+                            <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
+                                <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
+                                data-translate="<?php $interview->transcript_alt_lang; ?>"
+                                data-toggleAvailable="<?php echo $toggleAvailable;?>"
+                                data-linkto="<?php echo $targetLanguage ?>">
+                                    <?php echo $targetLanguage ?></a>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
+                        <?php if ($printMode) { ?>
+                            <a href="#" class="printCustomMobile" ></a>
+                        <?php } if (!empty($userNotes)): ?>
+                            <div class="user_notes"><?php echo $interview->user_notes ?>
+                                <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
+                            </div>
+                        <?php endif; ?>
+                        <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
+                            <ul>
+                                <li><a href="#index-tab-2">Index</a></li>
+                                <li><a href="#transcript-tab-2">Transcript</a></li>
+                                <li><a href="#visualization-tab-2">Visualization</a></li>
+                            </ul>
+                            <div id="index-tab-2">
+                                <div id="index-panel" class="index-panel">
+                                    <?php echo $interview->index; ?>
+                                </div>
+                            </div>
+                            <div id="transcript-tab-2">
+                                <div id="transcript-panel" class="transcript-panel">
+                                    <div class="data-layers">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
+                                            <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
+                                        </div>
+                                        <ul class="data-layers-list">
+                                            <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
+                                            <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
+                                            <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
+                                            <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
+                                            <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
+                                        </ul>
                                     </div>
-                                    <div id="visualization-tab-1">
-                                        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-                                    </div>
-                                </div>    
+                                    <?php echo $interview->transcript; ?>
+                                </div>
                             </div>
-                        </div>
+                            <div id="visualization-tab-2">
+                                <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                            </div>
+                        </div>   
+                    </div>
+                    <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
                 </div>
-                <div class="right-side">
-                    <?php if ($printMode) {
-                                ?> 
-                                <a href="#" class="printCustom" ></a>
-                            <?php } ?>
-                    <?php if ($interview->translate == '1'): ?>
-                        <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
-                            <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
-                            data-translate="<?php $interview->transcript_alt_lang; ?>"
-                            data-toggleAvailable="<?php echo $toggleAvailable;?>"
-                            data-linkto="<?php echo $targetLanguage ?>">
-                                <?php echo $targetLanguage ?></a>
-                        </div>
-                    <?php
-                    endif;
-                    ?>
-                    <?php if ($printMode) { ?>
-                        <a href="#" class="printCustomMobile" ></a>
-                    <?php } if (!empty($userNotes)): ?>
-                        <div class="user_notes"><?php echo $interview->user_notes ?>
-                            <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
-                        </div>
-                    <?php endif; ?>
-                    <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
-                        <ul>
-                            <li><a href="#index-tab-2">Index</a></li>
-                            <li><a href="#transcript-tab-2">Transcript</a></li>
-                            <li><a href="#visualization-tab-2">Visualization</a></li>
-                        </ul>
-                        <div id="index-tab-2">
-                            <div id="index-panel" class="index-panel">
-                                <?php echo $interview->index; ?>
-                            </div>
-                        </div>
-                        <div id="transcript-tab-2">
-                            <div id="transcript-panel" class="transcript-panel">
-                                <?php echo $interview->transcript; ?>
-                            </div>
-                        </div>
-                        <div id="visualization-tab-2">
-                            <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-                        </div>
-                    </div>   
-                </div>
-                <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
             </div>
 
             <div id="footer">
@@ -676,6 +711,29 @@ switch ($interview->playername) {
 
                 $(".toggle-sides").click(function(){
                     $(".main-box").toggleClass("toggled");
+                });
+
+                $('.data-layers-list').hide();
+                $('.toggle-layers').change(function() {
+                    if ($(this).is(':checked')) {
+                        $('.data-layers-list').show();
+                    } else {
+                        $('.data-layers-list').hide();
+                    }
+                });
+
+                $('.data-layers-list').on('click', '.fa-eye, .fa-eye-slash', function(e) {
+                    e.stopPropagation();
+                    const $icon = $(this);
+                    const $span = $icon.closest('span');
+
+                    $span.toggleClass('active-layer');
+
+                    if ($icon.hasClass('fa-eye')) {
+                        $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                    } else {
+                        $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                    }
                 });
             </script>
 

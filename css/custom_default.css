@@ -10,6 +10,12 @@
   --line-color: #1b365d;
   --tab-active-color: #0033a0;
   --tab-inactive-color: #d6d2c4;
+
+  --bdg-person: #dea590;
+  --bdg-place: #9aa6c1;
+  --bdg-date: #e1be90;
+  --bdg-org: #ced1ab;
+  --bdg-event: #c6a5ac;
 }
 
 * {
@@ -19,19 +25,69 @@
   font-family: var(--font-family);
 }
 
+.custom-checkbox {
+  font-size: 14px;
+}
+.custom-checkbox input {
+  display: none;
+}
+.custom-checkbox input[type=checkbox] + label {
+  cursor: pointer;
+  position: relative;
+  padding-left: 25px;
+}
+.custom-checkbox input[type=checkbox] + label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--line-color);
+  border-radius: 3px;
+  background: #fff;
+}
+.custom-checkbox input[type=checkbox] + label:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  transform: translateY(-50%) rotate(45deg);
+  width: 4px;
+  height: 9px;
+  border: solid var(--line-color);
+  border-width: 0 2px 2px 0;
+  opacity: 0;
+  visibility: hidden;
+}
+.custom-checkbox input[type=checkbox]:checked + label:after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.main-box-holder {
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .main-box {
   font-family: var(--font-family);
   display: flex;
   background: var(--main-bg-color);
   box-sizing: border-box;
-  height: 100vh;
   position: relative;
+  flex: 1;
+  overflow: hidden;
+
 }
 .main-box .left-side {
   flex: 0 0 30%;
   border-right: 4px solid var(--line-color);
   box-sizing: border-box;
   position: relative;
+  overflow: auto;
 }
 .toggle-sides {
   left: 30%;
@@ -87,11 +143,11 @@
 }
 .main-box .left-side #index-panel, 
 .main-box .left-side #index-panel-alt {
-  height: 200px;
+  /* height: 200px; */
 }
 .main-box .left-side #transcript-panel, 
 .main-box .left-side #transcript-panel-alt {
-  height: 300px;
+  /* height: 300px; */
 }
 .main-box.toggled .right-side {
   flex: 0 0 30%;
@@ -355,8 +411,47 @@
   color: var(--line-color);
   border: none;
 }
-
-
+.data-layers {
+  padding: 10px 0 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.data-layers strong {
+  display: inline-flex;
+  align-items: center;
+}
+.data-layers-list {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  flex-wrap: wrap;
+}
+.data-layers-list li span {
+  font-size: 14px;
+  color: #000;   
+  border: 1px solid var(--line-color);
+  padding: 5px 10px;
+  display: inline-block;
+  border-radius: 3px;
+}
+.bdg-person {
+  background: var(--bdg-person);
+}
+.bdg-date {
+  background: var(--bdg-date);
+}
+.bdg-org {
+  background: var(--bdg-org);
+}
+.bdg-place {
+  background: var(--bdg-place);
+}
+.bdg-event {
+  background: var(--bdg-event);
+}
 #footer {
   width: 100%;
   padding: 20px;
