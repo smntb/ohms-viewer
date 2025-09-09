@@ -347,22 +347,26 @@
   max-width: 100%;
 }
 
-.main-box .custom-tabs {
+.main-box #custom-tabs-left,
+.main-box #custom-tabs-right {
   background: transparent;
   border: none;
   padding: 0;
 }
-.main-box .custom-tabs .ui-widget-header {
+.main-box #custom-tabs-left .ui-widget-header,
+.main-box #custom-tabs-right .ui-widget-header {
   border: none;
   background: none;
   padding: 0;
 }
-.main-box .custom-tabs .ui-tabs-nav li {
+.main-box #custom-tabs-left .ui-tabs-nav li,
+.main-box #custom-tabs-right .ui-tabs-nav li {
   margin: 0;
   border: 1px solid var(--tab-active-color) !important;
   border-radius: 0;
 }
-.main-box .custom-tabs .ui-tabs-nav li a {  
+.main-box #custom-tabs-left .ui-tabs-nav li a,
+.main-box #custom-tabs-right .ui-tabs-nav li a {  
   background: var(--tab-inactive-color);
   border-color: var(--tab-inactive-color);
   color: var(--line-color);
@@ -370,13 +374,38 @@
   font-weight: 500;
   padding: 8px 15px;
 }
-.main-box .custom-tabs .ui-tabs-nav li.ui-tabs-selected {
+
+.main-box #custom-tabs-left .ui-tabs-nav li.ui-tabs-selected,
+.main-box #custom-tabs-right .ui-tabs-nav li.ui-tabs-selected {
   padding-bottom: 0;
 }
-.main-box .custom-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active a {   
+.main-box #custom-tabs-left .ui-tabs-nav li.ui-tabs-selected.ui-state-active a,
+.main-box #custom-tabs-right .ui-tabs-nav li.ui-tabs-selected.ui-state-active a {   
   background: var(--tab-active-color);
   border-color: var(--tab-active-color);
   color: #fff;
+}
+.dropdown-toggle-tab .dropdown-toggle {
+  background: var(--tab-inactive-color);
+  border-color: var(--tab-inactive-color);
+  color: var(--line-color);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 15px;
+}
+.dropdown-toggle-tab .dropdown-toggle.active {
+  background: var(--tab-active-color);
+  border-color: var(--tab-active-color);
+  color: #fff;
+}
+.dropdown-menu {
+  max-width: 150px;
+  position: absolute;
+  z-index: 999;
+}
+.dropdown-menu li,
+.dropdown-menu li a {
+  width: 100%;
 }
 
 .main-box .ui-tabs .ui-tabs-panel {

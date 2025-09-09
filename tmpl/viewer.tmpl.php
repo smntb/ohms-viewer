@@ -214,17 +214,20 @@ endif;
                                 </div>
 
                                 <div class="bottom-details">
-                                    <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
+
+                                    <div id="custom-tabs-left">
                                         <ul>
                                             <li><a href="#about-tab-1">About</a></li>
                                             <li><a href="#search-tab-1">Search</a></li>
                                             <li><a href="#index-tab-1">Index</a></li>
                                             <li><a href="#transcript-tab-1">Transcript</a></li>
-                                            <li><a href="#visualization-tab-1">Visualization</a></li>
-                                            <li><a href="#wordcloud-tab-1">Word Cloud</a></li>
-                                            <li><a href="#map-tab-1">Map</a></li>
-                                            <li><a href="#timeline-tab-1">Timeline</a></li>
+
+                                            <!-- These will be moved into dropdown via JS -->
+                                            <li class="dropdown-tab"><a href="#wordcloud-tab-1">Word Cloud</a></li>
+                                            <li class="dropdown-tab"><a href="#map-tab-1">Map</a></li>
+                                            <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
                                         </ul>
+
                                         <div id="about-tab-1">
                                             <div class="about-panel">
                                                 <strong>Interview Summary</strong>
@@ -289,19 +292,12 @@ endif;
                                                 <?php echo $interview->transcript; ?>
                                             </div>
                                         </div>
-                                        <div id="visualization-tab-1">
-                                            <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-                                        </div>
-                                        <div id="wordcloud-tab-1">
-                                            <div class="word">word</div>
-                                        </div>
+                                        <div id="wordcloud-tab-1">Word Cloud Content</div>
                                         <div id="map-tab-1">
                                             <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
                                         </div>
-                                        <div id="timeline-tab-1">
-                                            <div class="timeline">timeline</div>
-                                        </div>
-                                    </div>    
+                                        <div id="timeline-tab-1">Timeline Content</div>
+                                    </div>
                                 </div>
                             </div>
                     </div>
@@ -328,12 +324,17 @@ endif;
                                 <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
                             </div>
                         <?php endif; ?>
-                        <div class="custom-tabs <?php echo $heightAdjustmentClass; ?>">
+                        <div id="custom-tabs-right">
                             <ul>
                                 <li><a href="#index-tab-2">Index</a></li>
                                 <li><a href="#transcript-tab-2">Transcript</a></li>
-                                <li><a href="#visualization-tab-2">Visualization</a></li>
+
+                                <!-- These will be moved into dropdown via JS -->
+                                <li class="dropdown-tab"><a href="#wordcloud-tab-2">Word Cloud</a></li>
+                                <li class="dropdown-tab"><a href="#map-tab-2">Map</a></li>
+                                <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
                             </ul>
+
                             <div id="index-tab-2">
                                 <div id="index-panel" class="index-panel">
                                     <?php echo $interview->index; ?>
@@ -357,10 +358,12 @@ endif;
                                     <?php echo $interview->transcript; ?>
                                 </div>
                             </div>
-                            <div id="visualization-tab-2">
-                                <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                            <div id="wordcloud-tab-2">Word Cloud Content</div>
+                            <div id="map-tab-2">
+                                <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
                             </div>
-                        </div>   
+                            <div id="timeline-tab-2">Timeline Content</div>
+                        </div>
                     </div>
                     <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
                 </div>
@@ -707,12 +710,68 @@ switch ($interview->playername) {
             </script>
             <script>
                 var cachefile = '<?php echo $interview->cachefile; ?>';
-                $(".custom-tabs").tabs();
+                
+                $(function () {
+                    function setupDropdownTabs(containerSelector, dropdownLabel = "Visualization ▼") {
+                        const $tabs = $(containerSelector).tabs();
 
-                $(".toggle-sides").click(function(){
-                    $(".main-box").toggleClass("toggled");
+                        // Step 1: Select the dropdown tab items
+                        const $dropdownTabs = $(`${containerSelector} .ui-tabs-nav li.dropdown-tab`);
+
+                        if ($dropdownTabs.length === 0) return; // No dropdown tabs, skip setup
+
+                        // Step 2: Create the dropdown structure
+                        const $dropdownContainer = $(`
+                            <li class="dropdown-toggle-tab">
+                                <div class="dropdown-toggle">${dropdownLabel}</div>
+                                <ul class="dropdown-menu" style="display: none;"></ul>
+                            </li>
+                        `);
+
+                        // Step 3: Move the dropdown tabs into the dropdown menu
+                        $dropdownTabs.each(function () {
+                            $(this).appendTo($dropdownContainer.find(".dropdown-menu"));
+                        });
+
+                        // Step 4: Append the dropdown container to the tab list
+                        $(`${containerSelector} .ui-tabs-nav`).append($dropdownContainer);
+
+                        // Step 5: Toggle dropdown menu
+                        $(`${containerSelector} .dropdown-toggle`).on("click", function (e) {
+                            e.stopPropagation();
+                            $(this).siblings(".dropdown-menu").toggle();
+                        });
+
+                        // Step 6: Hide dropdown when clicking outside
+                        $(document).on("click", function () {
+                            $(`${containerSelector} .dropdown-menu`).hide();
+                        });
+
+                        // Remove active from toggle when other tab is clicked
+                        $(`${containerSelector} .ui-tabs-nav li a`).on("click", function () {
+                            $(`${containerSelector} .dropdown-toggle`).removeClass('active');
+                        });
+
+                        // Optional: Hide dropdown after tab click
+                        $(`${containerSelector} .dropdown-menu a`).on("click", function () {
+                            const $li = $(this).parent();
+                            $li.removeClass("ui-tabs-selected ui-state-active");
+                            $li.parent().prev().addClass('active');
+                            $li.parent().hide();
+                        });
+                    }
+
+                    // Apply to both tab containers
+                    setupDropdownTabs("#custom-tabs-left");
+                    setupDropdownTabs("#custom-tabs-right");
+
                 });
 
+
+
+
+
+                
                 $('.data-layers-list').hide();
                 $('.toggle-layers').change(function() {
                     if ($(this).is(':checked')) {
