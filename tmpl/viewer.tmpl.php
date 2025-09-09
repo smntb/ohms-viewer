@@ -312,11 +312,17 @@ endif;
                                 <?php } ?>
                         <?php if ($interview->translate == '1'): ?>
                             <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
-                                <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
+                                
+                                <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->language ?>"
                                 data-translate="<?php $interview->transcript_alt_lang; ?>"
                                 data-toggleAvailable="<?php echo $toggleAvailable;?>"
-                                data-linkto="<?php echo $targetLanguage ?>">
-                                    <?php echo $targetLanguage ?></a>
+                                data-linkto="<?php echo $interview->transcript_alt_lang ?>" data-default="<?php echo $interview->language ?>">
+                                    <?php echo $interview->transcript_alt_lang ?></a>
+                                <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->transcript_alt_lang ?>"
+                                data-translate="<?php $interview->language; ?>"
+                                data-toggleAvailable="<?php echo $toggleAvailable;?>"
+                                data-linkto="<?php echo $interview->language ?>" data-default="<?php echo $interview->language ?>">
+                                    <?php echo $interview->language ?></a>
                             </div>
                         <?php
                         endif;
@@ -442,7 +448,7 @@ endif;
             <script src="js/jquery.jplayer.min.js"></script>
             <script src="js/jquery.easing.1.4.js"></script>
             <script src="js/jquery.scrollTo-min.js"></script>
-            <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.10"></script>
+            <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.12"></script>
             <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
             <link rel="stylesheet" href="skin/skin-dark/jplayer.dark.css" type="text/css" media="screen"/>
             <script src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>

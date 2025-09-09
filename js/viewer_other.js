@@ -2,12 +2,12 @@ jQuery(function ($) {
     var loaded = false;
 
 
-    $('#translate-link').click(function (e) {
+    $('.translate-link').click(function (e) {
         var urlIndexPiece = '';
         var re;
         e.preventDefault();
         var toggleAvailability = "";
-        if ($('#translate-link').attr('data-toggleAvailable') == 'hide') {
+        if ($(this).attr('data-toggleAvailable') == 'hide') {
             toggleAvailability = "&t_available=1";
         }
         if ($('#search-type').val() == 'Index') {
@@ -16,7 +16,7 @@ jQuery(function ($) {
                 urlIndexPiece = '&index=' + activeIndexPanel;
             }
         }
-        if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
+        if ($(this).attr('data-linkto') == $(this).attr('data-default')) {
             re = /&translate=(.*)/g;
             location.href = location.href.replace(re, '') + '&time=' + Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
         } else {
