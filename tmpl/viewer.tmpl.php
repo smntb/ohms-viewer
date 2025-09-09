@@ -219,13 +219,14 @@ endif;
                                         <ul>
                                             <li><a href="#about-tab-1">About</a></li>
                                             <li><a href="#search-tab-1">Search</a></li>
-                                            <li><a href="#index-tab-1">Index</a></li>
-                                            <li><a href="#transcript-tab-1">Transcript</a></li>
+                                            <li><a href="#index-tab-1">Index <span class="count">4</span></a></li>
+                                            <li><a href="#transcript-tab-1">Transcript <span class="count">8</span></a></li>
 
                                             <!-- These will be moved into dropdown via JS -->
                                             <li class="dropdown-tab"><a href="#wordcloud-tab-1">Word Cloud</a></li>
                                             <li class="dropdown-tab"><a href="#map-tab-1">Map</a></li>
                                             <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
+                                            <li class="dropdown-tab"><a href="#browser-tab-1">Browser</a></li>
                                         </ul>
 
                                         <div id="about-tab-1">
@@ -292,21 +293,69 @@ endif;
                                                 <?php echo $interview->transcript; ?>
                                             </div>
                                         </div>
-                                        <div id="wordcloud-tab-1">Word Cloud Content</div>
+                                        <div id="wordcloud-tab-1">
+                                            <!-- <div id='wordcloud'></div> -->
+                                             WordCloud
+                                        </div>
                                         <div id="map-tab-1">
                                             <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
                                         </div>
-                                        <div id="timeline-tab-1">Timeline Content</div>
+                                        <div id="timeline-tab-1">
+                                            <div class="timeline">
+                                                <div class="container left">
+                                                    <div class="content">
+                                                    <strong>2017</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="container right">
+                                                    <div class="content">
+                                                    <strong>2016</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="container left">
+                                                    <div class="content">
+                                                    <strong>2015</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="container right">
+                                                    <div class="content">
+                                                    <strong>2012</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="container left">
+                                                    <div class="content">
+                                                    <strong>2011</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="container right">
+                                                    <div class="content">
+                                                    <strong>2007</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="browser-tab-1">
+                                            Browser Info
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                     </div>
                     <div class="right-side">
-                        <?php if ($printMode) {
-                                    ?> 
-                                    <a href="#" class="printCustom" ></a>
-                                <?php } ?>
-                        <?php if ($interview->translate == '1'): ?>
+                        <div class="toolbar-right">
+                            <?php if ($interview->translate == '1'): ?>
                             <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
                                 
                                 <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->language ?>"
@@ -323,6 +372,12 @@ endif;
                         <?php
                         endif;
                         ?>
+                        <a href="#" class="refreshPage"></a>
+                            <?php if ($printMode) {
+                                    ?> 
+                                    <a href="#" class="printCustom" ></a>
+                                <?php } ?>
+                        </div>
                         <?php if ($printMode) { ?>
                             <a href="#" class="printCustomMobile" ></a>
                         <?php } if (!empty($userNotes)): ?>
@@ -332,13 +387,14 @@ endif;
                         <?php endif; ?>
                         <div id="custom-tabs-right">
                             <ul>
-                                <li><a href="#index-tab-2">Index</a></li>
-                                <li><a href="#transcript-tab-2">Transcript</a></li>
+                                <li><a href="#index-tab-2">Index <span class="count">4</span></a></li>
+                                <li><a href="#transcript-tab-2">Transcript <span class="count">8</span></a></li>
 
                                 <!-- These will be moved into dropdown via JS -->
                                 <li class="dropdown-tab"><a href="#wordcloud-tab-2">Word Cloud</a></li>
                                 <li class="dropdown-tab"><a href="#map-tab-2">Map</a></li>
                                 <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
+                                <li class="dropdown-tab"><a href="#browser-tab-2">Browser</a></li>
                             </ul>
 
                             <div id="index-tab-2">
@@ -364,11 +420,61 @@ endif;
                                     <?php echo $interview->transcript; ?>
                                 </div>
                             </div>
-                            <div id="wordcloud-tab-2">Word Cloud Content</div>
+                            <div id="wordcloud-tab-2">
+                                <div id='wordcloud'></div>
+                            </div>
                             <div id="map-tab-2">
                                 <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
                             </div>
-                            <div id="timeline-tab-2">Timeline Content</div>
+                            <div id="timeline-tab-2">
+                                <div class="timeline">
+                                    <div class="container left">
+                                        <div class="content">
+                                        <strong>2017</strong>
+                                        <div class="org">ORG: Org Name</div>
+                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                        </div>
+                                    </div>
+                                    <div class="container right">
+                                        <div class="content">
+                                        <strong>2016</strong>
+                                        <div class="org">ORG: Org Name</div>
+                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                        </div>
+                                    </div>
+                                    <div class="container left">
+                                        <div class="content">
+                                        <strong>2015</strong>
+                                        <div class="org">ORG: Org Name</div>
+                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                        </div>
+                                    </div>
+                                    <div class="container right">
+                                        <div class="content">
+                                        <strong>2012</strong>
+                                        <div class="org">ORG: Org Name</div>
+                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                        </div>
+                                    </div>
+                                    <div class="container left">
+                                        <div class="content">
+                                        <strong>2011</strong>
+                                        <div class="org">ORG: Org Name</div>
+                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                        </div>
+                                    </div>
+                                    <div class="container right">
+                                        <div class="content">
+                                        <strong>2007</strong>
+                                        <div class="org">ORG: Org Name</div>
+                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="browser-tab-2">
+                                Browser Info
+                            </div>
                         </div>
                     </div>
                     <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
@@ -464,6 +570,8 @@ endif;
             <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
             <script src="js/popper.js"></script>
             <script src="js/tooltip.js"></script>
+        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
+        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
             <script>
                             var allToolTipInstances = {};
                             $(document).ready(function () {
@@ -771,11 +879,19 @@ switch ($interview->playername) {
                     setupDropdownTabs("#custom-tabs-left");
                     setupDropdownTabs("#custom-tabs-right");
 
+                    function hasTranslateParam() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        return urlParams.get('translate') === '1';
+                    }
+
+                    // Add a class to <body> or any element you want
+                    if (hasTranslateParam()) {
+                        $('a[data-lang="<?php echo $interview->language; ?>"]').addClass('active');
+                    } else {
+                        $('a[data-lang="<?php echo $interview->transcript_alt_lang; ?>"]').addClass('active');
+                    }
+
                 });
-
-
-
-
 
                 
                 $('.data-layers-list').hide();
@@ -800,6 +916,253 @@ switch ($interview->playername) {
                         $icon.removeClass('fa-eye-slash').addClass('fa-eye');
                     }
                 });
+                var chart = echarts.init(document.getElementById('wordcloud'));
+                const colorPalette = ['#dea590', '#9aa6c1', '#e1be90', '#ced1ab', '#c6a5ac'];
+
+            var option = {
+                tooltip: {},
+                series: [ {
+                    type: 'wordCloud',
+                    gridSize: 2,
+                    sizeRange: [12, 50],
+                    rotationRange: [-90, 90],
+                    // The shape of the "cloud" to draw. Can be any polar equation represented as a
+                    // callback function, or a keyword present. Available presents are circle (default),
+                    // cardioid (apple or heart shape curve, the most known polar equation), diamond (
+                    // alias of square), triangle-forward, triangle, (alias of triangle-upright, pentagon, and star.
+                    // Shapes: pentagon, star, random-light, random-dark, circle, cardioid, diamond, triangle-forward, triangle, triangle-upright, apple, heart shape curve
+                                shape: 'circle',
+                                width: 400,
+                                height: 400,
+                                drawOutOfBound: true,
+                                textStyle: {
+                                    normal: {
+                                        color: function (params) {
+                                            const index = params.dataIndex || 0;
+                                            return colorPalette[index % colorPalette.length];
+                                        }
+                                    },
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowColor: '#333'
+                                    }
+                                },
+                                data: [
+                                    {
+                                        name: 'Machine Learning',
+                                        value: 10000,
+                                        textStyle: {
+                                            normal: {
+                                                color: 'black'
+                                            },
+                                            emphasis: {
+                                                color: 'red'
+                                            }
+                                        }
+                                    },
+                                    {
+                                        name: 'Deep Learning',
+                                        value: 6181
+                                    },
+                                    {
+                                        name: 'Computer Vision',
+                                        value: 4386
+                                    },
+                                    {
+                                        name: 'Artificial Intelligence',
+                                        value: 4055
+                                    },
+                                    {
+                                        name: 'Neural Network',
+                                        value: 3500
+                                    },
+                                    {
+                                        name: 'Algorithm',
+                                        value: 3333
+                                    },
+                                    {
+                                        name: 'Model',
+                                        value: 2700
+                                    },
+                                    {
+                                        name: 'Supervised',
+                                        value: 2500
+                                    },
+                                    {
+                                        name: 'Unsupervised',
+                                        value: 2333
+                                    },
+                                    {
+                                        name: 'Natural Language Processing',
+                                        value: 1900
+                                    },
+                                    {
+                                        name: 'Chatbot',
+                                        value: 1800
+                                    },
+                                    {
+                                        name: 'Virtual Assistant',
+                                        value: 1500
+                                    },
+                                    {
+                                        name: 'Speech Recognition',
+                                        value: 1400
+                                    },
+                                    {
+                                        name: 'Convolutional Neural Network',
+                                        value: 1325
+                                    },
+                                    {
+                                        name: 'Reinforcement Learning',
+                                        value: 1300
+                                    },
+                                    {
+                                        name: 'Training Data',
+                                        value: 1250
+                                    },
+                                    {
+                                        name: 'Classification',
+                                        value: 1233
+                                    },
+                                    {
+                                        name: 'Regression',
+                                        value: 1000
+                                    },
+                                    {
+                                        name: 'Decision Tree',
+                                        value: 900
+                                    },
+                                    {
+                                        name: 'K-Means',
+                                        value: 875
+                                    },
+                                    {
+                                        name: 'N-Gram Analysis',
+                                        value: 850
+                                    },
+                                    {
+                                        name: 'Microservices',
+                                        value: 833
+                                    },
+                                    {
+                                        name: 'Pattern Recognition',
+                                        value: 790
+                                    },
+                                    {
+                                        name: 'APIs',
+                                        value: 775
+                                    },
+                                    {
+                                        name: 'Feature Engineering',
+                                        value: 700
+                                    },
+                                    {
+                                        name: 'Random Forest',
+                                        value: 650
+                                    },
+                                    {
+                                        name: 'Bagging',
+                                        value: 600
+                                    },
+                                    {
+                                        name: 'Anomaly Detection',
+                                        value: 575
+                                    },
+                                    {
+                                        name: 'Naive Bayes',
+                                        value: 500
+                                    },
+                                    {
+                                        name: 'Autoencoder',
+                                        value: 400
+                                    },
+                                    {
+                                        name: 'Backpropagation',
+                                        value: 300
+                                    },
+                                    {
+                                        name: 'TensorFlow',
+                                        value: 290
+                                    },
+                                    {
+                                        name: 'word2vec',
+                                        value: 280
+                                    },
+                                    {
+                                        name: 'Object Recognition',
+                                        value: 250
+                                    },
+                                    {
+                                        name: 'Python',
+                                        value: 235
+                                    },
+                                    {
+                                        name: 'Predictive Analytics',
+                                        value: 225
+                                    },
+                                    {
+                                        name: 'Predictive Modeling',
+                                        value: 215
+                                    },
+                                    {
+                                        name: 'Optical Character Recognition',
+                                        value: 200
+                                    },
+                                    {
+                                        name: 'Overfitting',
+                                        value: 190
+                                    },
+                                    {
+                                        name: 'JavaScript',
+                                        value: 185
+                                    },
+                                    {
+                                        name: 'Text Analytics',
+                                        value: 180
+                                    },
+                                    {
+                                        name: 'Cognitive Computing',
+                                        value: 175
+                                    },
+                                    {
+                                        name: 'Augmented Intelligence',
+                                        value: 160
+                                    },
+                                    {
+                                        name: 'Statistical Models',
+                                        value: 155
+                                    },
+                                    {
+                                        name: 'Clustering',
+                                        value: 150
+                                    },
+                                    {
+                                        name: 'Topic Modeling',
+                                        value: 145
+                                    },
+                                    {
+                                        name: 'Data Mining',
+                                        value: 140
+                                    },
+                                    {
+                                        name: 'Data Science',
+                                        value: 138
+                                    },
+                                    {
+                                        name: 'Semi-Supervised Learning',
+                                        value: 137
+                                    },
+                                    {
+                                        name: 'Artificial Neural Networks',
+                                        value: 125
+                                    }
+                                ]
+                            } ]
+                        };
+
+                        chart.setOption(option);
+
+                        window.onresize = chart.resize;
             </script>
 
     </body> 

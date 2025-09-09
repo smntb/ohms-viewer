@@ -85,6 +85,28 @@ jQuery(document).ready(function ($) {
         active: false,
         autoHeight: false,
     });
+    
+    $(".toggle-sides").click(function () {
+        const isIndex1Active = $('a[href="#index-tab-1"]').parent().hasClass('ui-tabs-selected');
+        const isIndex2Active = $('a[href="#index-tab-2"]').parent().hasClass('ui-tabs-selected');
+        const isTranscript1Active = $('a[href="#transcript-tab-1"]').parent().hasClass('ui-tabs-selected');
+        const isTranscript2Active = $('a[href="#transcript-tab-2"]').parent().hasClass('ui-tabs-selected');
+
+        // If any index tab is active, switch both to transcript (but only one active)
+        if (isIndex1Active) {
+            $('a[href="#transcript-tab-1"]').trigger("click");
+        } else if (isIndex2Active) {
+            $('a[href="#transcript-tab-2"]').trigger("click");
+        }
+        // If any transcript tab is active, switch both to index (but only one active)
+        else if (isTranscript1Active) {
+            $('a[href="#index-tab-1"]').trigger("click");
+        } else if (isTranscript2Active) {
+            $('a[href="#index-tab-2"]').trigger("click");
+        }
+    });
+
+
 
     // Disable default header clicks
     $('#accordionHolderSearch h3').off('click');

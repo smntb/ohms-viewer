@@ -600,6 +600,7 @@ h2, #secondaryMetaData {
     margin: auto;
     background: #ffffff;
     text-align: left;
+    padding-bottom: 30px;
 }
 
 #index-panel, #index-panel-alt {
@@ -610,6 +611,7 @@ h2, #secondaryMetaData {
     margin: auto;
     background: #ffffff;
     text-align: left;
+    padding-bottom: 30px;
 }
 
 #searchbox-panel {
