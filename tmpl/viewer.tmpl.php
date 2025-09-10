@@ -290,6 +290,7 @@ endif;
                                                         <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
                                                     </ul>
                                                 </div>
+                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In, totam assumenda consequatur iusto aut vero enim incidunt aspernatur, ipsa perspiciatis velit explicabo esse nemo autem consequuntur! Repellat minima sint omnis.</p>
                                                 <?php echo $interview->transcript; ?>
                                             </div>
                                         </div>
