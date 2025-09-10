@@ -47,7 +47,7 @@ $toggleDisplay = "";
 ?>
 
 <input type="hidden" id="is_translate" value="<?php echo $isTranslate;?>">
-<div id="search-toggle"  class="<?php echo $toggleAvailable;?>" >
+<!-- <div id="search-toggle"  class="<?php echo $toggleAvailable;?>" >
     <span class="toggle-txt-info">Transcript</span>
 
     <div class="switch" style="<?php echo $toggleDisplay; ?>">
@@ -62,7 +62,7 @@ $toggleDisplay = "";
         <option id="search-index" value="1" <?php echo $index_option ?>>Index</option>
     </select>
     <button id="print-pdf" title="Print" class="print-btn"><i class="fa fa-print"></i> Print</button>
-</div>
+</div> -->
 
 <span id="alert"></span>
 <form id="search-form" onSubmit="return false;" name="search-form" class="preview-search-form">
@@ -72,19 +72,19 @@ $toggleDisplay = "";
             <input class="kw-empty" title="Search keyword field" id="kw" name="kw" size="30" value="Keyword" placeholder="Search this Interview" />
             <button class="search-button" id="submit-btn">Go</button>
             <a href="#" class="searchclear-button" id="clear-btn">Clear search term X</a>
-            <div id="accordionHolderSearch">
+            <!-- <div id="accordionHolderSearch">
                 <h3>
                     <span class="toggle-span">Index</span>
                     <div id="paginate" class="compact-theme simple-pagination">
                         <ul>
                             <li class="disabled">
-                                <span class="current prev">&lt;</span>
+                                <span class="current prev"><img src="/imgs/arrow-square.webp" alt="Previous" /></span>
                             </li>
                             <li>
                                 <span id="paginate_info">Showing 1 - 5 of 8</span>
                             </li>
                             <li>
-                                <a href="#page-2" class="page-link next">&gt;</a>
+                                <a href="#page-2" class="page-link next"><img src="/imgs/arrow-square.webp" alt="Next" /></a>
                             </li>
                         </ul>
                     </div>
@@ -96,13 +96,13 @@ $toggleDisplay = "";
                     <div id="paginate" class="compact-theme simple-pagination">
                         <ul>
                             <li class="disabled">
-                                <span class="current prev">&lt;</span>
+                                <span class="current prev"><img src="/imgs/arrow-square.webp" alt="Previous" /></span>
                             </li>
                             <li>
                                 <span id="paginate_info">Showing 1 - 5 of 8</span>
                             </li>
                             <li>
-                                <a href="#page-2" class="page-link next">&gt;</a>
+                                <a href="#page-2" class="page-link next"><img src="/imgs/arrow-square.webp" alt="Next" /></a>
                             </li>
                         </ul>
                     </div>
@@ -115,7 +115,7 @@ $toggleDisplay = "";
                     suscipit faucibus urna.
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </fieldset>
 </form>

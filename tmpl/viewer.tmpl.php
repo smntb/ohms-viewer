@@ -163,322 +163,321 @@ endif;
                 <div class="main-box">
                     <div class="left-side">
                         <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
-                            <div id="header">
-                            <?php } else {
+                        <div id="header">
+                        <?php } else {
+                            ?>
+                            <div id="headervid">  
+                            <div class="top-details">
+                                <?php
+                            }
+                            if ($printMode) {
+                                ?> 
+                                <a href="#" class="printCustom" ></a>
+                            <?php } if (isset($repoConfig)): ?>
+                                <img id="headerimg"
+                                    src="<?php echo $repoConfig['footerimg']; ?>"
+                                    alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
+                                <?php endif;
                                 ?>
-                                <div id="headervid">  
-                                <div class="top-details">
-                                    <?php
-                                }
-                                if ($printMode) {
-                                    ?> 
-                                    <a href="#" class="printCustom" ></a>
-                                <?php } if (isset($repoConfig)): ?>
-                                    <img id="headerimg"
-                                        src="<?php echo $repoConfig['footerimg']; ?>"
-                                        alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
-                                    <?php endif;
-                                    ?>
-                                    <h1><?php echo $interview->title; ?></h1>
+                                <h1><?php echo $interview->title; ?></h1>
 
-                                    <div id="secondaryMetaData">
-                                        <div>
-                                            <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
-                                            <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
-                                            <span class="detail-metadata">
-                                                <?php if ((string) $interview->collection_link != '') { ?>
-                                                    <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
-                                                <?php } else {
-                                                    ?>
-                                                    <?php echo $interview->collection; ?>
-                                                <?php }
+                                <div id="secondaryMetaData">
+                                    <div>
+                                        <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
+                                        <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
+                                        <span class="detail-metadata">
+                                            <?php if ((string) $interview->collection_link != '') { ?>
+                                                <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
+                                            <?php } else {
                                                 ?>
-                                                <?php
-                                                if (trim($interview->collection) && trim($interview->series)) {
-                                                    echo " | ";
-                                                }
+                                                <?php echo $interview->collection; ?>
+                                            <?php }
+                                            ?>
+                                            <?php
+                                            if (trim($interview->collection) && trim($interview->series)) {
+                                                echo " | ";
+                                            }
+                                            ?>
+                                            <?php if ((string) $interview->series_link != '') { ?>
+                                                <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
+                                            <?php } else {
                                                 ?>
-                                                <?php if ((string) $interview->series_link != '') { ?>
-                                                    <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
-                                                <?php } else {
-                                                    ?>
-                                                    <?php echo $interview->series; ?>
-                                                <?php }
-                                                ?>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="audio-panel">
-                                    <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
-                                </div>
-
-                                <div class="bottom-details">
-
-                                    <div id="custom-tabs-left">
-                                        <ul>
-                                            <li><a href="#about-tab-1">About</a></li>
-                                            <li><a href="#search-tab-1">Search</a></li>
-                                            <li><a href="#index-tab-1">Index <span class="count">4</span></a></li>
-                                            <li><a href="#transcript-tab-1">Transcript <span class="count">8</span></a></li>
-
-                                            <!-- These will be moved into dropdown via JS -->
-                                            <li class="dropdown-tab"><a href="#wordcloud-tab-1">Word Cloud</a></li>
-                                            <li class="dropdown-tab"><a href="#map-tab-1">Map</a></li>
-                                            <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
-                                            <li class="dropdown-tab"><a href="#browser-tab-1">Browser</a></li>
-                                        </ul>
-
-                                        <div id="about-tab-1">
-                                            <div class="about-panel">
-                                                <strong>Interview Summary</strong>
-
-                                                <p>Fawn Weaver, the CEO of Uncle Nearest Premium Whiskey,
-                                                discusses her background and path to entering the whiskey
-                                                industry. Weaver talks about her research into the history of Jack
-                                                Daniel and Nathan "Nearest" Green, and her personal experiences
-                                                with whiskey. She describes the challenges she's faced running
-                                                the business, what qualities she values in leaders, and her work
-                                                as an author.</p>
-
-
-                                                <strong>Interview Accession</strong>
-                                                <p>
-                                                    <?php
-                                                    if (trim($interview->interviewer) && trim($interview->accession)) {
-                                                        
-                                                    }
-                                                    ?>
-                                                    <?php echo $interview->accession; ?>
-                                                </p>
-
-                                                <strong>Interviewer Name</strong>
-
-                                                <p>
-                                                    <?php echo $interview->repository; ?>
-                                                </p>
-
-                                                <strong>Interviewee Name</strong>
-
-                                                <p><?php
-                                                if (trim($interview->interviewer)) {
-                                                    echo "{$interview->interviewer}";
-                                                }
-                                                ?></p>
-                                            </div>
-                                        </div>
-                                        <div id="search-tab-1">
-                                            <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
-                                        </div>
-                                        <div id="index-tab-1">
-                                            <div id="index-panel" class="index-panel">
-                                                <?php echo $interview->index; ?>
-                                            </div>
-                                        </div>
-                                        <div id="transcript-tab-1">
-                                            <div id="transcript-panel" class="transcript-panel">
-                                                <div class="data-layers">
-                                                    <div class="custom-checkbox">
-                                                        <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
-                                                        <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
-                                                    </div>
-                                                    <ul class="data-layers-list">
-                                                        <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
-                                                        <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
-                                                        <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
-                                                        <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
-                                                        <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
-                                                    </ul>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In, totam assumenda consequatur iusto aut vero enim incidunt aspernatur, ipsa perspiciatis velit explicabo esse nemo autem consequuntur! Repellat minima sint omnis.</p>
-                                                <?php echo $interview->transcript; ?>
-                                            </div>
-                                        </div>
-                                        <div id="wordcloud-tab-1">
-                                            <!-- <div id='wordcloud'></div> -->
-                                             WordCloud
-                                        </div>
-                                        <div id="map-tab-1">
-                                            <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
-                                        </div>
-                                        <div id="timeline-tab-1">
-                                            <div class="timeline">
-                                                <div class="container left">
-                                                    <div class="content">
-                                                    <strong>2017</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="container right">
-                                                    <div class="content">
-                                                    <strong>2016</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="container left">
-                                                    <div class="content">
-                                                    <strong>2015</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="container right">
-                                                    <div class="content">
-                                                    <strong>2012</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="container left">
-                                                    <div class="content">
-                                                    <strong>2011</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="container right">
-                                                    <div class="content">
-                                                    <strong>2007</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="browser-tab-1">
-                                            Browser Info
-                                        </div>
+                                                <?php echo $interview->series; ?>
+                                            <?php }
+                                            ?>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
+                            <div id="audio-panel">
+                                <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+                            </div>
+
+                            <div class="bottom-details">
+                                <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+                                <div id="custom-tabs-left">
+                                    <ul>
+                                        <li><a href="#about-tab-1">About</a></li>
+                                        <li><a href="#index-tab-1">Index <span class="count">4</span></a></li>
+                                        <li><a href="#transcript-tab-1">Transcript <span class="count">8</span></a></li>
+
+                                        <!-- These will be moved into dropdown via JS -->
+                                        <li class="dropdown-tab"><a href="#wordcloud-tab-1">Word Cloud</a></li>
+                                        <li class="dropdown-tab"><a href="#map-tab-1">Map</a></li>
+                                        <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
+                                        <li class="dropdown-tab"><a href="#browser-tab-1">Browser</a></li>
+                                    </ul>
+
+                                    <div id="about-tab-1">
+                                        <div class="about-panel">
+                                            <strong>Interview Summary</strong>
+
+                                            <p>Fawn Weaver, the CEO of Uncle Nearest Premium Whiskey,
+                                            discusses her background and path to entering the whiskey
+                                            industry. Weaver talks about her research into the history of Jack
+                                            Daniel and Nathan "Nearest" Green, and her personal experiences
+                                            with whiskey. She describes the challenges she's faced running
+                                            the business, what qualities she values in leaders, and her work
+                                            as an author.</p>
+
+
+                                            <strong>Interview Accession</strong>
+                                            <p>
+                                                <?php
+                                                if (trim($interview->interviewer) && trim($interview->accession)) {
+                                                    
+                                                }
+                                                ?>
+                                                <?php echo $interview->accession; ?>
+                                            </p>
+
+                                            <strong>Interviewer Name</strong>
+
+                                            <p>
+                                                <?php echo $interview->repository; ?>
+                                            </p>
+
+                                            <strong>Interviewee Name</strong>
+
+                                            <p><?php
+                                            if (trim($interview->interviewer)) {
+                                                echo "{$interview->interviewer}";
+                                            }
+                                            ?></p>
+                                        </div>
+                                    </div>
+                                    <div id="index-tab-1">
+                                        <div id="index-panel" class="index-panel">
+                                            <?php echo $interview->index; ?>
+                                        </div>
+                                    </div>
+                                    <div id="transcript-tab-1">
+                                        <div id="transcript-panel" class="transcript-panel">
+                                            <div class="data-layers">
+                                                <div class="custom-checkbox">
+                                                    <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
+                                                    <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
+                                                </div>
+                                                <ul class="data-layers-list">
+                                                    <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
+                                                    <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
+                                                    <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
+                                                    <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
+                                                    <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
+                                                </ul>
+                                            </div>
+                                            <p>Lorem <span class="bdg-event bdg-text" id="popoverBtn">ipsum</span> dolor sit amet <span class="bdg-person bdg-text">consectetur</span> adipisicing elit. In, totam assumenda <span class="bdg-place bdg-text">consequatur</span> iusto aut vero enim incidunt aspernatur, <span class="bdg-date bdg-text">ipsa</span> perspiciatis velit <span class="bdg-org bdg-text">explicabo</span> esse nemo autem consequuntur! Repellat minima sint omnis.</p>
+                                            <?php echo $interview->transcript; ?>
+                                        </div>
+                                    </div>
+                                    <div id="wordcloud-tab-1">
+                                        <!-- <div id='wordcloud'></div> -->
+                                            WordCloud
+                                    </div>
+                                    <div id="map-tab-1">
+                                        <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
+                                    </div>
+                                    <div id="timeline-tab-1">
+                                        <div class="timeline">
+                                            <div class="container left">
+                                                <div class="content">
+                                                <strong>2017</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                </div>
+                                            </div>
+                                            <div class="container right">
+                                                <div class="content">
+                                                <strong>2016</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                </div>
+                                            </div>
+                                            <div class="container left">
+                                                <div class="content">
+                                                <strong>2015</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                </div>
+                                            </div>
+                                            <div class="container right">
+                                                <div class="content">
+                                                <strong>2012</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                </div>
+                                            </div>
+                                            <div class="container left">
+                                                <div class="content">
+                                                <strong>2011</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                </div>
+                                            </div>
+                                            <div class="container right">
+                                                <div class="content">
+                                                <strong>2007</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="browser-tab-1">
+                                        Browser Info
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="right-side">
-                        <div class="toolbar-right">
-                            <?php if ($interview->translate == '1'): ?>
-                            <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
-                                
-                                <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->language ?>"
-                                data-translate="<?php $interview->transcript_alt_lang; ?>"
-                                data-toggleAvailable="<?php echo $toggleAvailable;?>"
-                                data-linkto="<?php echo $interview->transcript_alt_lang ?>" data-default="<?php echo $interview->language ?>">
-                                    <?php echo $interview->transcript_alt_lang ?></a>
-                                <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->transcript_alt_lang ?>"
-                                data-translate="<?php $interview->language; ?>"
-                                data-toggleAvailable="<?php echo $toggleAvailable;?>"
-                                data-linkto="<?php echo $interview->language ?>" data-default="<?php echo $interview->language ?>">
-                                    <?php echo $interview->language ?></a>
+                        <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
+                        <div class="right-side-inner">
+                            <div class="toolbar-right">
+                                <?php if ($interview->translate == '1'): ?>
+                                <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
+                                    
+                                    <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->language ?>"
+                                    data-translate="<?php $interview->transcript_alt_lang; ?>"
+                                    data-toggleAvailable="<?php echo $toggleAvailable;?>"
+                                    data-linkto="<?php echo $interview->transcript_alt_lang ?>" data-default="<?php echo $interview->language ?>">
+                                        <?php echo $interview->transcript_alt_lang ?></a>
+                                    <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->transcript_alt_lang ?>"
+                                    data-translate="<?php $interview->language; ?>"
+                                    data-toggleAvailable="<?php echo $toggleAvailable;?>"
+                                    data-linkto="<?php echo $interview->language ?>" data-default="<?php echo $interview->language ?>">
+                                        <?php echo $interview->language ?></a>
+                                </div>
+                            <?php
+                            endif;
+                            ?>
+                            <a href="#" class="refreshPage"></a>
+                                <?php if ($printMode) {
+                                        ?> 
+                                        <a href="#" class="printCustom" ></a>
+                                    <?php } ?>
                             </div>
-                        <?php
-                        endif;
-                        ?>
-                        <a href="#" class="refreshPage"></a>
-                            <?php if ($printMode) {
-                                    ?> 
-                                    <a href="#" class="printCustom" ></a>
-                                <?php } ?>
-                        </div>
-                        <?php if ($printMode) { ?>
-                            <a href="#" class="printCustomMobile" ></a>
-                        <?php } if (!empty($userNotes)): ?>
-                            <div class="user_notes"><?php echo $interview->user_notes ?>
-                                <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
-                            </div>
-                        <?php endif; ?>
-                        <div id="custom-tabs-right">
-                            <ul>
-                                <li><a href="#index-tab-2">Index <span class="count">4</span></a></li>
-                                <li><a href="#transcript-tab-2">Transcript <span class="count">8</span></a></li>
+                            <?php if ($printMode) { ?>
+                                <a href="#" class="printCustomMobile" ></a>
+                            <?php } if (!empty($userNotes)): ?>
+                                <div class="user_notes"><?php echo $interview->user_notes ?>
+                                    <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
+                                </div>
+                            <?php endif; ?>
+                            <div id="custom-tabs-right">
+                                <ul>
+                                    <li><a href="#index-tab-2">Index <span class="count">4</span></a></li>
+                                    <li><a href="#transcript-tab-2">Transcript <span class="count">8</span></a></li>
 
-                                <!-- These will be moved into dropdown via JS -->
-                                <li class="dropdown-tab"><a href="#wordcloud-tab-2">Word Cloud</a></li>
-                                <li class="dropdown-tab"><a href="#map-tab-2">Map</a></li>
-                                <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
-                                <li class="dropdown-tab"><a href="#browser-tab-2">Browser</a></li>
-                            </ul>
+                                    <!-- These will be moved into dropdown via JS -->
+                                    <li class="dropdown-tab"><a href="#wordcloud-tab-2">Word Cloud</a></li>
+                                    <li class="dropdown-tab"><a href="#map-tab-2">Map</a></li>
+                                    <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
+                                    <li class="dropdown-tab"><a href="#browser-tab-2">Browser</a></li>
+                                </ul>
 
-                            <div id="index-tab-2">
-                                <div id="index-panel" class="index-panel">
-                                    <?php echo $interview->index; ?>
-                                </div>
-                            </div>
-                            <div id="transcript-tab-2">
-                                <div id="transcript-panel" class="transcript-panel">
-                                    <div class="data-layers">
-                                        <div class="custom-checkbox">
-                                            <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
-                                            <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
-                                        </div>
-                                        <ul class="data-layers-list">
-                                            <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
-                                            <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
-                                            <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
-                                            <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
-                                            <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
-                                        </ul>
-                                    </div>
-                                    <?php echo $interview->transcript; ?>
-                                </div>
-                            </div>
-                            <div id="wordcloud-tab-2">
-                                <div id='wordcloud'></div>
-                            </div>
-                            <div id="map-tab-2">
-                                <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
-                            </div>
-                            <div id="timeline-tab-2">
-                                <div class="timeline">
-                                    <div class="container left">
-                                        <div class="content">
-                                        <strong>2017</strong>
-                                        <div class="org">ORG: Org Name</div>
-                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                        </div>
-                                    </div>
-                                    <div class="container right">
-                                        <div class="content">
-                                        <strong>2016</strong>
-                                        <div class="org">ORG: Org Name</div>
-                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                        </div>
-                                    </div>
-                                    <div class="container left">
-                                        <div class="content">
-                                        <strong>2015</strong>
-                                        <div class="org">ORG: Org Name</div>
-                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                        </div>
-                                    </div>
-                                    <div class="container right">
-                                        <div class="content">
-                                        <strong>2012</strong>
-                                        <div class="org">ORG: Org Name</div>
-                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                        </div>
-                                    </div>
-                                    <div class="container left">
-                                        <div class="content">
-                                        <strong>2011</strong>
-                                        <div class="org">ORG: Org Name</div>
-                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                        </div>
-                                    </div>
-                                    <div class="container right">
-                                        <div class="content">
-                                        <strong>2007</strong>
-                                        <div class="org">ORG: Org Name</div>
-                                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                        </div>
+                                <div id="index-tab-2">
+                                    <div id="index-panel" class="index-panel">
+                                        <?php echo $interview->index; ?>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="browser-tab-2">
-                                Browser Info
+                                <div id="transcript-tab-2">
+                                    <div id="transcript-panel" class="transcript-panel">
+                                        <div class="data-layers">
+                                            <div class="custom-checkbox">
+                                                <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
+                                                <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
+                                            </div>
+                                            <ul class="data-layers-list">
+                                                <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
+                                                <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
+                                                <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
+                                                <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
+                                                <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
+                                            </ul>
+                                        </div>
+                                        <p>Lorem <span class="bdg-event bdg-text">ipsum</span> dolor sit amet <span class="bdg-person bdg-text">consectetur</span> adipisicing elit. In, totam assumenda <span class="bdg-place bdg-text">consequatur</span> iusto aut vero enim incidunt aspernatur, <span class="bdg-date bdg-text">ipsa</span> perspiciatis velit <span class="bdg-org bdg-text">explicabo</span> esse nemo autem consequuntur! Repellat minima sint omnis.</p>
+                                        <?php echo $interview->transcript; ?>
+                                    </div>
+                                </div>
+                                <div id="wordcloud-tab-2">
+                                    <div id='wordcloud'></div>
+                                </div>
+                                <div id="map-tab-2">
+                                    <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
+                                </div>
+                                <div id="timeline-tab-2">
+                                    <div class="timeline">
+                                        <div class="container left">
+                                            <div class="content">
+                                            <strong>2017</strong>
+                                            <div class="org">ORG: Org Name</div>
+                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                            </div>
+                                        </div>
+                                        <div class="container right">
+                                            <div class="content">
+                                            <strong>2016</strong>
+                                            <div class="org">ORG: Org Name</div>
+                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                            </div>
+                                        </div>
+                                        <div class="container left">
+                                            <div class="content">
+                                            <strong>2015</strong>
+                                            <div class="org">ORG: Org Name</div>
+                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                            </div>
+                                        </div>
+                                        <div class="container right">
+                                            <div class="content">
+                                            <strong>2012</strong>
+                                            <div class="org">ORG: Org Name</div>
+                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                            </div>
+                                        </div>
+                                        <div class="container left">
+                                            <div class="content">
+                                            <strong>2011</strong>
+                                            <div class="org">ORG: Org Name</div>
+                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                            </div>
+                                        </div>
+                                        <div class="container right">
+                                            <div class="content">
+                                            <strong>2007</strong>
+                                            <div class="org">ORG: Org Name</div>
+                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="browser-tab-2">
+                                    Browser Info
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
                 </div>
             </div>
 
@@ -549,6 +548,27 @@ endif;
                     <img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
                 </div>
                 <br clear="both"/>
+            </div>
+
+            <div id="customPopover" class="popover">
+                <div class="popover-body">
+                    <div><strong>Person:</strong> Lorem Ispum Corp.</div>
+                    <div>Wiki Description text running onto 2 rows with elipses cutting it offelipses cutting it off</div>
+                    <div><a href="#">Wikipedia</a></div>
+                    <div id="paginate" class="simple-pagination">
+                        <ul>
+                            <li class="disabled">
+                                <span class="current prev"><img src="/imgs/arrow-square.webp" alt="Previous"></span>
+                            </li>
+                            <li>
+                                <span id="paginate_info">Showing 1 - 5 of 8</span>
+                            </li>
+                            <li>
+                                <a href="#page-2" class="page-link next"><img src="/imgs/arrow-square.webp" alt="Next"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
 
@@ -1164,6 +1184,27 @@ switch ($interview->playername) {
                         chart.setOption(option);
 
                         window.onresize = chart.resize;
+
+
+
+                        const popoverBtn = document.getElementById('popoverBtn');
+                        const popover = document.getElementById('customPopover');
+
+                        popoverBtn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // prevent immediate close
+                        popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
+                        const rect = popoverBtn.getBoundingClientRect();
+                        popover.style.top = rect.bottom + 12 + window.scrollY + 'px';
+                        popover.style.left = rect.left - 15 + window.scrollX + 'px';
+                        });
+
+                        // Close when clicking outside
+                        document.addEventListener('click', (e) => {
+                        if (!popover.contains(e.target) && e.target !== popoverBtn) {
+                            popover.style.display = 'none';
+                        }
+                        });
+
             </script>
 
     </body> 
