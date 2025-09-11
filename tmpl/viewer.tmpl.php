@@ -344,7 +344,79 @@ endif;
                                         </div>
                                     </div>
                                     <div id="browser-tab-1">
-                                        Browser Info
+                                        <div class="browser-filter">
+                                            <div class="custom-toggle-icon">
+                                                <span class="icon list active">List</span>
+                                                <span class="icon grid">Grid</span>
+                                            </div>
+
+                                            <select class="browser-type">
+                                                <option value="all">Type</option>
+                                                <option value="one">One</option>
+                                                <option value="two">Two</option>
+                                                <option value="three">Three</option>
+                                            </select>
+                                            <select class="browser-sort">
+                                                <option value="all">Sort</option>
+                                                <option value="one">One</option>
+                                            </select>
+                                            <div class="browser-search">
+                                                <input type="text" class="browser-search" placeholder="Search">
+                                                <button class="by-voice">Voice</button>
+                                            </div>
+                                        </div>
+                                        <div class="list-section">
+                                            <table class="browser-table">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Type</th>
+                                                <th>Text/Entity Name</th>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>PERSON</td>
+                                                <td>consectetur</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>PLACE</td>
+                                                <td>pelletesque ornare</td>
+                                            </tr>
+                                            <tr>
+                                                <td>7</td>
+                                                <td>PERSON</td>
+                                                <td>Douglas A. Boyd</td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>ORG</td>
+                                                <td>congue et ex</td>
+                                            </tr>
+                                        </table>
+                                        </div>
+                                        <div class="grid-section">
+                                            <div class="grid-container">
+                                                <div class="grid-item bdg-person">
+                                                    <img src="[IMAGE_URL]" alt="Thumbnail">
+                                                    <div class="caption">Caption Text</div>
+                                                </div>
+
+                                                <div class="grid-item bdg-date">
+                                                    <img src="[IMAGE_URL]" alt="Thumbnail">
+                                                    <div class="caption">Another Caption</div>
+                                                </div>
+
+                                                <div class="grid-item bdg-org">
+                                                    <img src="[IMAGE_URL]" alt="Thumbnail">
+                                                    <div class="caption">Yet Another (1)</div>
+                                                </div>
+                                                
+                                                <div class="grid-item bdg-place">
+                                                    <div class="caption no-image">Caption Only</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -847,15 +919,15 @@ switch ($interview->playername) {
                 var cachefile = '<?php echo $interview->cachefile; ?>';
                 
                 $(function () {
+
+                    // Custom function to setup dropdown tabs
                     function setupDropdownTabs(containerSelector, dropdownLabel = "Visualization ▼") {
                         const $tabs = $(containerSelector).tabs();
 
-                        // Step 1: Select the dropdown tab items
                         const $dropdownTabs = $(`${containerSelector} .ui-tabs-nav li.dropdown-tab`);
 
-                        if ($dropdownTabs.length === 0) return; // No dropdown tabs, skip setup
+                        if ($dropdownTabs.length === 0) return;
 
-                        // Step 2: Create the dropdown structure
                         const $dropdownContainer = $(`
                             <li class="dropdown-toggle-tab">
                                 <div class="dropdown-toggle">${dropdownLabel}</div>
@@ -863,31 +935,25 @@ switch ($interview->playername) {
                             </li>
                         `);
 
-                        // Step 3: Move the dropdown tabs into the dropdown menu
                         $dropdownTabs.each(function () {
                             $(this).appendTo($dropdownContainer.find(".dropdown-menu"));
                         });
 
-                        // Step 4: Append the dropdown container to the tab list
                         $(`${containerSelector} .ui-tabs-nav`).append($dropdownContainer);
 
-                        // Step 5: Toggle dropdown menu
                         $(`${containerSelector} .dropdown-toggle`).on("click", function (e) {
                             e.stopPropagation();
                             $(this).siblings(".dropdown-menu").toggle();
                         });
 
-                        // Step 6: Hide dropdown when clicking outside
                         $(document).on("click", function () {
                             $(`${containerSelector} .dropdown-menu`).hide();
                         });
 
-                        // Remove active from toggle when other tab is clicked
                         $(`${containerSelector} .ui-tabs-nav li a`).on("click", function () {
                             $(`${containerSelector} .dropdown-toggle`).removeClass('active');
                         });
 
-                        // Optional: Hide dropdown after tab click
                         $(`${containerSelector} .dropdown-menu a`).on("click", function () {
                             const $li = $(this).parent();
                             $li.removeClass("ui-tabs-selected ui-state-active");
@@ -905,7 +971,7 @@ switch ($interview->playername) {
                         return urlParams.get('translate') === '1';
                     }
 
-                    // Add a class to <body> or any element you want
+                    // Set active language tab
                     if (hasTranslateParam()) {
                         $('a[data-lang="<?php echo $interview->language; ?>"]').addClass('active');
                     } else {
@@ -914,7 +980,7 @@ switch ($interview->playername) {
 
                 });
 
-                
+                // Data Layers Toggle Functionality
                 $('.data-layers-list').hide();
                 $('.toggle-layers').change(function() {
                     if ($(this).is(':checked')) {
@@ -923,7 +989,6 @@ switch ($interview->playername) {
                         $('.data-layers-list').hide();
                     }
                 });
-
                 $('.data-layers-list').on('click', '.fa-eye, .fa-eye-slash', function(e) {
                     e.stopPropagation();
                     const $icon = $(this);
@@ -937,10 +1002,12 @@ switch ($interview->playername) {
                         $icon.removeClass('fa-eye-slash').addClass('fa-eye');
                     }
                 });
+
+                // Initialize ECharts instance
                 var chart = echarts.init(document.getElementById('wordcloud'));
                 const colorPalette = ['#dea590', '#9aa6c1', '#e1be90', '#ced1ab', '#c6a5ac'];
 
-            var option = {
+                var option = {
                 tooltip: {},
                 series: [ {
                     type: 'wordCloud',
@@ -1186,7 +1253,7 @@ switch ($interview->playername) {
                         window.onresize = chart.resize;
 
 
-
+                        // Custom Popover Functionality
                         const popoverBtn = document.getElementById('popoverBtn');
                         const popover = document.getElementById('customPopover');
 
@@ -1198,12 +1265,27 @@ switch ($interview->playername) {
                         popover.style.left = rect.left - 15 + window.scrollX + 'px';
                         });
 
-                        // Close when clicking outside
                         document.addEventListener('click', (e) => {
                         if (!popover.contains(e.target) && e.target !== popoverBtn) {
                             popover.style.display = 'none';
                         }
                         });
+
+                        // View Toggle Functionality
+                        $('.grid-section').hide();
+                        $('.custom-toggle-icon .icon').on('click', function() {
+                            $(this).siblings('span').removeClass('active');
+                            $(this).addClass('active');
+                            if($(this).hasClass('list')) {
+                                $('.grid-section').hide();
+                                $('.list-section').show();
+                            } else {
+                                $('.list-section').hide();
+                                $('.grid-section').show();
+                            }
+                        });
+
+
 
             </script>
 
