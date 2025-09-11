@@ -25,6 +25,20 @@
   font-family: var(--font-family);
 }
 
+#kaltura_player_embed,
+div.video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+#kaltura_player_embed iframe,
+div.video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .custom-checkbox {
   font-size: 14px;
 }
@@ -238,7 +252,7 @@
   gap: 15px;
   z-index: 99;
   justify-content: flex-end;
-  margin-bottom: -32px;
+  margin-bottom: -44px;
   position: relative;
   z-index: 99;
   max-width: 500px;
@@ -488,22 +502,32 @@
   background: none;
   padding: 0;
   margin-bottom: 10px;
+  display: flex;
+}
+.main-box #custom-tabs-right {
+  text-align: left;
+}
+.main-box #custom-tabs-right .ui-widget-header {
+  display: inline-block;
+  margin-top: 4px;
 }
 .main-box #custom-tabs-left .ui-tabs-nav li,
 .main-box #custom-tabs-right .ui-tabs-nav li {
   margin: 0;
   border: 1px solid var(--tab-active-color) !important;
   border-radius: 0;
+  flex: 1;
 }
 .main-box #custom-tabs-left .ui-tabs-nav li a,
 .main-box #custom-tabs-right .ui-tabs-nav li a {  
   background: var(--tab-inactive-color);
   border-color: var(--tab-inactive-color);
   color: var(--line-color);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   padding: 8px 10px;
-  min-height: 35px;
+  min-height: 38px;
+  width: 100%;
 }
 .main-box #custom-tabs-left .ui-tabs-nav .count,
 .main-box #custom-tabs-right .ui-tabs-nav .count {
@@ -512,7 +536,9 @@
   background: var(--line-color);
   width: 15px;
   height: 15px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
   padding: 2px;
   border-radius: 10px;
@@ -539,10 +565,10 @@
   background: var(--tab-inactive-color);
   border-color: var(--tab-inactive-color);
   color: var(--line-color);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   padding: 8px 15px;
-  min-height: 35px;
+  min-height: 38px;
 }
 .dropdown-toggle-tab .dropdown-toggle.active {
   background: var(--tab-active-color);
@@ -864,6 +890,12 @@
   padding: 20px;
 }
 @media screen and (max-width: 1366px) {
+  .main-box .right-side #translate-toggle a {
+    font-size: 14px;
+  }
+  .toolbar-right {
+    margin-bottom: 0;
+  }
   .main-box .left-side {
     flex: 0 0 40%;
   }
@@ -876,6 +908,7 @@
   .dropdown-toggle-tab .dropdown-toggle {
     font-size: 13px;
     padding: 8px;
+    min-height: 35px;
   }
   .printCustom,
   .refreshPage {
@@ -920,7 +953,12 @@
   }
 }
 @media screen and (max-width: 600px) {
-  
+  .browser-filter {
+    flex-wrap: wrap;
+  }
+  .browser-filter .browser-search {
+    flex: 0 0 100%;
+  }
   .custom-toggle-icon .icon.active {
     background-position: center;
   }

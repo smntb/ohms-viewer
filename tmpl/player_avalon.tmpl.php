@@ -27,11 +27,10 @@ if (isset($_GET['time']) && is_numeric($_GET['time'])) {
     $playScript = '';
     $extraScript = '';
 }
-$height = ($interview->clip_format == 'audio' ? 40 : 279);
+// $height = ($interview->clip_format == 'audio' ? 40 : 279);
 
 echo <<<AVALON
-<div class="video embed-responsive embed-responsive-16by9" style="width: 500px; height: {$height}px;margin-left: auto; margin-right: auto;">
-  <p>&nbsp;</p>
+<div class="video">
   {$embedcode}
   <script>
     var widget = null;

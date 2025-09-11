@@ -27,7 +27,7 @@ if ($src_nodes->length > 0) {
     }
     ?>
     <div id="youtubePlayer">
-        <div id="kaltura_player_embed" style="width: 500px; height: <?php echo $height; ?>px;" class="embed-responsive embed-responsive-16by9"></div>
+        <div id="kaltura_player_embed"></div>
     </div>
     <script type="text/javascript" src="<?php echo $kalturaJS ?>"></script>
     <script type="text/javascript">

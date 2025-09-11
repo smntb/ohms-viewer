@@ -46,7 +46,7 @@ if (str_contains($embedcode, 'embedPlaykitJs')) { // new kaltura embed code foun
     $kalturaJS = "$kalturaHost/p/$partner_id/sp/{$partner_id}00/embedIframeJs/uiconf_id/$uiconf_id/partner_id/$partner_id";
     echo <<<KALTURA
 <div id="youtubePlayer">
-    <div id="kaltura_player_embed" style="width: 500px; height: {$height}px;" class="embed-responsive embed-responsive-16by9"></div>
+    <div id="kaltura_player_embed"></div>
 </div>
 <script src="{$kalturaJS}"></script>
 <script type="text/javascript">
