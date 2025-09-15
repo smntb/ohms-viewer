@@ -560,11 +560,15 @@ Responsive Web Design
 }
 
 h2, #secondaryMetaData {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.4;
     padding: 0 0 8px;
     font-weight: normal;
     border-bottom: 0px solid #3c3c3c;
+}
+
+.detail-metadata a {
+    color: #000;
 }
 
 #main {
@@ -744,9 +748,6 @@ input {
         display: inline-block
     }
 
-    .detail-metadata {
-        display: none;
-    }
 
     div.jp-video-270p {
         width: 100% !important;

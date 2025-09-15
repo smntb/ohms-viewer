@@ -41,10 +41,11 @@ class Version3 {
         } else {
             throw new \Exception("Initialization requires valid Version3CacheFile.");
         }
-
+//        echo '<pre>';print_r($ohfile);exit;
         $this->data = array(
             'cachefile' => $cachefile,
             'title' => (string) $ohfile->record->title,
+            'description' => (string) $ohfile->record->description,
             'accession' => (string) $ohfile->record->accession,
             'chunks' => (string) $ohfile->record->sync,
             'chunks_alt' => (string) $ohfile->record->sync_alt,

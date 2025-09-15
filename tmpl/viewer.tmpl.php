@@ -74,7 +74,7 @@ endif;
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
         <title><?php echo $interview->title; ?></title>
-        <link rel="stylesheet" href="css/viewer.css?v1.4.9" type="text/css"/>
+        <link rel="stylesheet" href="css/viewer.css?v1.4.0" type="text/css"/>
         <?php if (isset($extraCss)) { ?>
             <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
         <?php }
@@ -131,81 +131,70 @@ endif;
             }
         </script>
 
+
+    <!-- <div id="main" class="<?php echo $heightAdjustmentClass; ?>">
         
-            <!-- <div id="main" class="<?php echo $heightAdjustmentClass; ?>">
-                
-                <div id="main-panels">
-                    <div id="content-panel">
-                        <div id="holder-panel"></div>
-                        <?php
-                        $indexDisplay = 'display:none';
-                        $transcriptDisplay = 'display:block';
-                        if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($panel) || $panel != '0'))) {
-                            $indexDisplay = 'display:block';
-                            $transcriptDisplay = 'display:none';
-                        }
-                        ?>
-                        <div id="index-panel" class="index-panel" style="<?php echo $indexDisplay; ?>">
-                            <?php echo $interview->index; ?>
-                        </div>
-                        <div id="transcript-panel" class="transcript-panel" style="<?php echo $transcriptDisplay; ?>">
-                            <?php echo $interview->transcript; ?>
-                        </div>
-
-                    </div>
-
+        <div id="main-panels">
+            <div id="content-panel">
+                <div id="holder-panel"></div>
+        <?php
+        $indexDisplay = 'display:none';
+        $transcriptDisplay = 'display:block';
+        if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($panel) || $panel != '0'))) {
+            $indexDisplay = 'display:block';
+            $transcriptDisplay = 'display:none';
+        }
+        ?>
+                <div id="index-panel" class="index-panel" style="<?php echo $indexDisplay; ?>">
+        <?php echo $interview->index; ?>
                 </div>
-            </div> -->
+                <div id="transcript-panel" class="transcript-panel" style="<?php echo $transcriptDisplay; ?>">
+        <?php echo $interview->transcript; ?>
+                </div>
+
+            </div>
+
+        </div>
+    </div> -->
 
 
 
-            <div class="main-box-holder">
-                <div class="main-box">
-                    <div class="left-side">
-                        <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
+        <div class="main-box-holder">
+            <div class="main-box">
+                <div class="left-side">
+                    <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
                         <div id="header">
                         <?php } else {
                             ?>
                             <div id="headervid">  
-                            <div class="top-details">
-                                <?php
-                            }
-                            if ($printMode) {
-                                ?> 
-                                <a href="#" class="printCustom" ></a>
-                            <?php } if (isset($repoConfig)): ?>
-                                <img id="headerimg"
-                                    src="<?php echo $repoConfig['footerimg']; ?>"
-                                    alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
-                                <?php endif;
-                                ?>
+                                <div class="top-details">
+                                    <?php
+                                }
+                                if ($printMode) {
+                                    ?> 
+                                    <a href="#" class="printCustom" ></a>
+                                <?php } if (isset($repoConfig)): ?>
+                                    <img id="headerimg"
+                                         src="<?php echo $repoConfig['footerimg']; ?>"
+                                         alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
+                                     <?php endif;
+                                     ?>
                                 <h1><?php echo $interview->title; ?></h1>
 
                                 <div id="secondaryMetaData">
                                     <div>
-                                        <span class="show-info"><i class="fa fa-lg fa-caret-right"></i></span>
-                                        <span class="hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
-                                        <span class="detail-metadata">
-                                            <?php if ((string) $interview->collection_link != '') { ?>
-                                                <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
-                                            <?php } else {
-                                                ?>
-                                                <?php echo $interview->collection; ?>
-                                            <?php }
-                                            ?>
+                                        <div class="detail-metadata">
                                             <?php
+                                            echo $interview->collection;
                                             if (trim($interview->collection) && trim($interview->series)) {
                                                 echo " | ";
                                             }
+                                            echo $interview->series;
                                             ?>
-                                            <?php if ((string) $interview->series_link != '') { ?>
-                                                <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
-                                            <?php } else {
-                                                ?>
-                                                <?php echo $interview->series; ?>
-                                            <?php }
-                                            ?>
-                                        </span>
+
+
+                                        </div>
+                                        <div class="detail-metadata"><?php echo $interview->repository; ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -232,13 +221,7 @@ endif;
                                         <div class="about-panel">
                                             <strong>Interview Summary</strong>
 
-                                            <p>Fawn Weaver, the CEO of Uncle Nearest Premium Whiskey,
-                                            discusses her background and path to entering the whiskey
-                                            industry. Weaver talks about her research into the history of Jack
-                                            Daniel and Nathan "Nearest" Green, and her personal experiences
-                                            with whiskey. She describes the challenges she's faced running
-                                            the business, what qualities she values in leaders, and her work
-                                            as an author.</p>
+                                            <p><?php echo $interview->description; ?></p>
 
 
                                             <strong>Interview Accession</strong>
@@ -260,10 +243,10 @@ endif;
                                             <strong>Interviewee Name</strong>
 
                                             <p><?php
-                                            if (trim($interview->interviewer)) {
-                                                echo "{$interview->interviewer}";
-                                            }
-                                            ?></p>
+                                                if (trim($interview->interviewer)) {
+                                                    echo "{$interview->interviewer}";
+                                                }
+                                                ?></p>
                                         </div>
                                     </div>
                                     <div id="index-tab-1">
@@ -292,7 +275,7 @@ endif;
                                     </div>
                                     <div id="wordcloud-tab-1">
                                         <!-- <div id='wordcloud'></div> -->
-                                            WordCloud
+                                        WordCloud
                                     </div>
                                     <div id="map-tab-1">
                                         <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
@@ -301,44 +284,44 @@ endif;
                                         <div class="timeline">
                                             <div class="container left">
                                                 <div class="content">
-                                                <strong>2017</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    <strong>2017</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                                 </div>
                                             </div>
                                             <div class="container right">
                                                 <div class="content">
-                                                <strong>2016</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    <strong>2016</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                                 </div>
                                             </div>
                                             <div class="container left">
                                                 <div class="content">
-                                                <strong>2015</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    <strong>2015</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                                 </div>
                                             </div>
                                             <div class="container right">
                                                 <div class="content">
-                                                <strong>2012</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    <strong>2012</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                                 </div>
                                             </div>
                                             <div class="container left">
                                                 <div class="content">
-                                                <strong>2011</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    <strong>2011</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                                 </div>
                                             </div>
                                             <div class="container right">
                                                 <div class="content">
-                                                <strong>2007</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                    <strong>2007</strong>
+                                                    <div class="org">ORG: Org Name</div>
+                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -367,32 +350,32 @@ endif;
                                         </div>
                                         <div class="list-section">
                                             <table class="browser-table">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Type</th>
-                                                <th>Text/Entity Name</th>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>PERSON</td>
-                                                <td>consectetur</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>PLACE</td>
-                                                <td>pelletesque ornare</td>
-                                            </tr>
-                                            <tr>
-                                                <td>7</td>
-                                                <td>PERSON</td>
-                                                <td>Douglas A. Boyd</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>ORG</td>
-                                                <td>congue et ex</td>
-                                            </tr>
-                                        </table>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Type</th>
+                                                    <th>Text/Entity Name</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>PERSON</td>
+                                                    <td>consectetur</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>PLACE</td>
+                                                    <td>pelletesque ornare</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>7</td>
+                                                    <td>PERSON</td>
+                                                    <td>Douglas A. Boyd</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>ORG</td>
+                                                    <td>congue et ex</td>
+                                                </tr>
+                                            </table>
                                         </div>
                                         <div class="grid-section">
                                             <div class="grid-container">
@@ -410,7 +393,7 @@ endif;
                                                     <img src="[IMAGE_URL]" alt="Thumbnail">
                                                     <div class="caption">Yet Another (1)</div>
                                                 </div>
-                                                
+
                                                 <div class="grid-item bdg-place">
                                                     <div class="caption no-image">Caption Only</div>
                                                 </div>
@@ -427,27 +410,27 @@ endif;
                         <div class="right-side-inner">
                             <div class="toolbar-right">
                                 <?php if ($interview->translate == '1'): ?>
-                                <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
-                                    
-                                    <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->language ?>"
-                                    data-translate="<?php $interview->transcript_alt_lang; ?>"
-                                    data-toggleAvailable="<?php echo $toggleAvailable;?>"
-                                    data-linkto="<?php echo $interview->transcript_alt_lang ?>" data-default="<?php echo $interview->language ?>">
-                                        <?php echo $interview->transcript_alt_lang ?></a>
-                                    <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->transcript_alt_lang ?>"
-                                    data-translate="<?php $interview->language; ?>"
-                                    data-toggleAvailable="<?php echo $toggleAvailable;?>"
-                                    data-linkto="<?php echo $interview->language ?>" data-default="<?php echo $interview->language ?>">
-                                        <?php echo $interview->language ?></a>
-                                </div>
-                            <?php
-                            endif;
-                            ?>
-                            <a href="#" class="refreshPage"></a>
+                                    <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
+
+                                        <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->language ?>"
+                                           data-translate="<?php $interview->transcript_alt_lang; ?>"
+                                           data-toggleAvailable="<?php echo $toggleAvailable; ?>"
+                                           data-linkto="<?php echo $interview->transcript_alt_lang ?>" data-default="<?php echo $interview->language ?>">
+                                            <?php echo $interview->transcript_alt_lang ?></a>
+                                        <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->transcript_alt_lang ?>"
+                                           data-translate="<?php $interview->language; ?>"
+                                           data-toggleAvailable="<?php echo $toggleAvailable; ?>"
+                                           data-linkto="<?php echo $interview->language ?>" data-default="<?php echo $interview->language ?>">
+                                            <?php echo $interview->language ?></a>
+                                    </div>
+                                    <?php
+                                endif;
+                                ?>
+                                <a href="#" class="refreshPage"></a>
                                 <?php if ($printMode) {
-                                        ?> 
-                                        <a href="#" class="printCustom" ></a>
-                                    <?php } ?>
+                                    ?> 
+                                    <a href="#" class="printCustom" ></a>
+                                <?php } ?>
                             </div>
                             <?php if ($printMode) { ?>
                                 <a href="#" class="printCustomMobile" ></a>
@@ -502,44 +485,44 @@ endif;
                                     <div class="timeline">
                                         <div class="container left">
                                             <div class="content">
-                                            <strong>2017</strong>
-                                            <div class="org">ORG: Org Name</div>
-                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                <strong>2017</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                             </div>
                                         </div>
                                         <div class="container right">
                                             <div class="content">
-                                            <strong>2016</strong>
-                                            <div class="org">ORG: Org Name</div>
-                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                <strong>2016</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                             </div>
                                         </div>
                                         <div class="container left">
                                             <div class="content">
-                                            <strong>2015</strong>
-                                            <div class="org">ORG: Org Name</div>
-                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                <strong>2015</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                             </div>
                                         </div>
                                         <div class="container right">
                                             <div class="content">
-                                            <strong>2012</strong>
-                                            <div class="org">ORG: Org Name</div>
-                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                <strong>2012</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                             </div>
                                         </div>
                                         <div class="container left">
                                             <div class="content">
-                                            <strong>2011</strong>
-                                            <div class="org">ORG: Org Name</div>
-                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                <strong>2011</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                             </div>
                                         </div>
                                         <div class="container right">
                                             <div class="content">
-                                            <strong>2007</strong>
-                                            <div class="org">ORG: Org Name</div>
-                                            <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                                                <strong>2007</strong>
+                                                <div class="org">ORG: Org Name</div>
+                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -663,631 +646,610 @@ endif;
             <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
             <script src="js/popper.js"></script>
             <script src="js/tooltip.js"></script>
-        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
-        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
+            <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
+            <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
             <script>
-                            var allToolTipInstances = {};
-                            $(document).ready(function () {
-                            let url = new URL(window.location.href);
-                                    let external = '';
-                                    if (url.searchParams.has('external')) {
-                            external = '&external=true'
-                            }
-                            $(".printCustom").click(function(){
-                            window.location.href = "viewer.php?action=pdf&cachefile=" + cachefile + external + "";
-                            });
-                                    $(".printCustomMobile").click(function(){
-                            window.open("viewer.php?action=pdf&cachefile=" + cachefile + external + "", '_blank');
-                            });
-                                    $(".transcript-line").each(function(){
-                            var jumplinkElm = $(this).find('.jumpLink');
-                                    var numberOfIntervalsInLine = jumplinkElm.length;
-                                    var isNestedElm = $(this).find('.transcript-line');
-                                    if (numberOfIntervalsInLine > 1 && isNestedElm.length < 1){
-                            var marginToAdd = 13;
-                                    var totalMargin = 13 * numberOfIntervalsInLine;
-                                    jumplinkElm.each(function(index){
-                                    var currentMargin = totalMargin - (marginToAdd * (index + 1));
-                                            $(this).css('margin-top', currentMargin);
-                                    });
-                            }
-                            });
-                                    setTimeout(function(){
-                                    var htmlTranscript = $('#transcript-panel').html().trim();
-                                            var htmlIndex = $('#index-panel').html().trim();
-                                            var isTranslate = $('#is_translate').val().trim();
-                                            if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
-                                    $('.alpha-circle').hide();
-                                            $('#toggle_switch').attr("disabled", "disabled");
-                                            $('.slider.round').css("background-color", "#ccc");
-                                    } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
-                                    $('.alpha-circle').hide();
-                                            $('#toggle_switch').attr("disabled", "disabled");
-                                            $('.slider.round').css("background-color", "#ccc");
-                                    } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
-                                    $('.alpha-circle').hide();
-                                            $('#toggle_switch').attr("disabled", "disabled");
-                                            $('.slider.round').css("background-color", "#ccc");
-                                    } else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
-                                    $('.alpha-circle').hide();
-                                    }
-                                    }, 300);
-                                    $('.footnoteTooltip').each(function(index, element){
-                            footnoteID = $(element).data('index');
-                                    footnoteAttrId = $(element).attr("id");
-                                    footnoteHtml = $('#' + footnoteID).parent().children('span').html();
-                                    $(element).attr("data-tooltip", footnoteHtml);
-                                    activatePopper(footnoteAttrId);
-                            });
-                                    $('.info-circle').each(function(index, element){
-                            activatePopperIndexTranscript(element.id, 'i');
-                            });
-                                    footnoteHover("bind");
-                                    jQuery('a.indexSegmentLink').on('click', function (e) {
-                            var linkContainer = '#segmentLink' + jQuery(this).data('timestamp');
-                                    e.preventDefault();
-                                    if (jQuery(linkContainer).css("display") == "none") {
-                            jQuery(linkContainer).fadeIn(1000);
-                            } else {
-                            jQuery(linkContainer).fadeOut();
-                            }
-                            return false;
-                            });
-                                    jQuery('.segmentLinkTextBox').on('click', function () {
-                            jQuery(this).select();
-                            });
-                                    jQuery('.copyButtonViewer').on('click', function () {
-                            var text = jQuery(this).prev().val();
-                                    copyToClipboard(text);
-                            });
-                                    if (jumpToTime !== null) {
-                            jQuery('div.point').each(function (index) {
-                            if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
-                            jumpLink = jQuery(this).find('a.indexJumpLink');
-                                    jQuery('#accordionHolder').accordion({active: index});
-                                    jQuery('#accordionHolder-alt').accordion({active: index});
-                                    var interval = setInterval(function () {
+                                        var allToolTipInstances = {};
+                                        $(document).ready(function () {
+                                        let url = new URL(window.location.href);
+                                                let external = '';
+                                                if (url.searchParams.has('external')) {
+                                        external = '&external=true'
+                                        }
+                                        $(".printCustom").click(function(){
+                                        window.location.href = "viewer.php?action=pdf&cachefile=" + cachefile + external + "";
+                                        });
+                                                $(".printCustomMobile").click(function(){
+                                        window.open("viewer.php?action=pdf&cachefile=" + cachefile + external + "", '_blank');
+                                        });
+                                                $(".transcript-line").each(function(){
+                                        var jumplinkElm = $(this).find('.jumpLink');
+                                                var numberOfIntervalsInLine = jumplinkElm.length;
+                                                var isNestedElm = $(this).find('.transcript-line');
+                                                if (numberOfIntervalsInLine > 1 && isNestedElm.length < 1){
+                                        var marginToAdd = 13;
+                                                var totalMargin = 13 * numberOfIntervalsInLine;
+                                                jumplinkElm.each(function(index){
+                                                var currentMargin = totalMargin - (marginToAdd * (index + 1));
+                                                        $(this).css('margin-top', currentMargin);
+                                                });
+                                        }
+                                        });
+                                                setTimeout(function(){
+                                                var htmlTranscript = $('#transcript-panel').html().trim();
+                                                        var htmlIndex = $('#index-panel').html().trim();
+                                                        var isTranslate = $('#is_translate').val().trim();
+                                                        if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
+                                                $('.alpha-circle').hide();
+                                                        $('#toggle_switch').attr("disabled", "disabled");
+                                                        $('.slider.round').css("background-color", "#ccc");
+                                                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
+                                                $('.alpha-circle').hide();
+                                                        $('#toggle_switch').attr("disabled", "disabled");
+                                                        $('.slider.round').css("background-color", "#ccc");
+                                                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
+                                                $('.alpha-circle').hide();
+                                                        $('#toggle_switch').attr("disabled", "disabled");
+                                                        $('.slider.round').css("background-color", "#ccc");
+                                                } else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
+                                                $('.alpha-circle').hide();
+                                                }
+                                                }, 300);
+                                                $('.footnoteTooltip').each(function(index, element){
+                                        footnoteID = $(element).data('index');
+                                                footnoteAttrId = $(element).attr("id");
+                                                footnoteHtml = $('#' + footnoteID).parent().children('span').html();
+                                                $(element).attr("data-tooltip", footnoteHtml);
+                                                activatePopper(footnoteAttrId);
+                                        });
+                                                $('.info-circle').each(function(index, element){
+                                        activatePopperIndexTranscript(element.id, 'i');
+                                        });
+                                                footnoteHover("bind");
+                                                jQuery('a.indexSegmentLink').on('click', function (e) {
+                                        var linkContainer = '#segmentLink' + jQuery(this).data('timestamp');
+                                                e.preventDefault();
+                                                if (jQuery(linkContainer).css("display") == "none") {
+                                        jQuery(linkContainer).fadeIn(1000);
+                                        } else {
+                                        jQuery(linkContainer).fadeOut();
+                                        }
+                                        return false;
+                                        });
+                                                jQuery('.segmentLinkTextBox').on('click', function () {
+                                        jQuery(this).select();
+                                        });
+                                                jQuery('.copyButtonViewer').on('click', function () {
+                                        var text = jQuery(this).prev().val();
+                                                copyToClipboard(text);
+                                        });
+                                                if (jumpToTime !== null) {
+                                        jQuery('div.point').each(function (index) {
+                                        if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
+                                        jumpLink = jQuery(this).find('a.indexJumpLink');
+                                                jQuery('#accordionHolder').accordion({active: index});
+                                                jQuery('#accordionHolder-alt').accordion({active: index});
+                                                var interval = setInterval(function () {
 <?php
 switch ($interview->playername) {
     case 'youtube':
         ?>
-                                            if (player !== undefined &&
-                                                    player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
+                                                        if (player !== undefined &&
+                                                                player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
         <?php
         break;
     case 'brightcove':
         ?>
-                                            if (modVP !== undefined &&
-                                                    modVP.getVideoPosition !== undefined &&
-                                                    Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
+                                                        if (modVP !== undefined &&
+                                                                modVP.getVideoPosition !== undefined &&
+                                                                Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
         <?php
         break;
     case 'kaltura':
         ?>
-                                            if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
+                                                        if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
         <?php
         break;
     default:
         ?>
-                                            if (Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime) {
+                                                        if (Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime) {
         <?php
         break;
 }
 ?>
-                                    clearInterval(interval);
-                                    } else {
-                                    jumpLink.click();
-                                    }
-                                    }
-                                    ,
-                                            500
-                                            );
-                                            jQuery(this).find('a.indexJumpLink').click();
-                                    }
-                                    });
-                                    }
-                                    $(".fancybox").fancybox();
-                                            $(".various").fancybox({
-                                    maxWidth: 800,
-                                            maxHeight: 600,
-                                            fitToView: false,
-                                            width: '70%',
-                                            height: '70%',
-                                            autoSize: false,
-                                            closeClick: false,
-                                            openEffect: 'none',
-                                            closeEffect: 'none'
-                                    });
-                                            $('.fancybox-media').fancybox({
-                                    openEffect: 'none',
-                                            closeEffect: 'none',
-                                            width: '80%',
-                                            height: '80%',
-                                            fitToView: true,
-                                            helpers: {
-                                            media: {}
-                                            }
-                                    });
-                                            $(".fancybox-button").fancybox({
-                                    prevEffect: 'none',
-                                            nextEffect: 'none',
-                                            closeBtn: false,
-                                            helpers: {
-                                            title: {type: 'inside'},
-                                                    buttons: {}
-                                            }
-                                    });
-                                            jQuery('#lnkRights').click(function () {
-                                    jQuery('#rightsStatement').fadeToggle(400);
-                                            return false;
-                                    });
-                                            jQuery('#lnkUsage').click(function () {
-                                    jQuery('#usageStatement').fadeToggle(400);
-                                            return false;
-                                    });
-                                            jQuery('#lnkFunding').click(function () {
-                                    jQuery('#fundingStatement').fadeToggle(400);
-                                            return false;
-                                    });
-                                    });
-                                    function footnoteHover(state){
-                                    if (state == "bind"){
-                                    $(".footnote-ref").bind("hover",
-                                            function() {
-                                            var footnoteHtmlLength = $(this).find('.footnoteTooltip').attr("data-tooltip").length;
-                                                    width = footnoteHtmlLength * 50 / 100;
-                                                    if (footnoteHtmlLength > 130){
-                                            $('head').append("<style>.tooltip{ width: " + width + "px }</style>");
-                                            } else{
-                                            $('head').append("<style>.tooltip{ width: 130px; }</style>");
-                                            }
-                                            }
-                                    );
-                                    } else if (state == "unbind"){
-                                    $(".footnote-ref").unbind("hover");
-                                    }
-                                    }
-                            function activatePopper(element) {
-                            var footnoteHtml = $("#" + element).data("tooltip");
-                                    allToolTipInstances[footnoteAttrId] = new Tooltip($("#" + element), {
-                            title: footnoteHtml,
-                                    trigger: "hover",
-                                    placement: "bottom",
-                                    html: true,
-                                    eventsEnabled: true,
-                                    modifiers: {
-                                    flip: {
-                                    behavior: ['left', 'right', 'top']
-                                    },
-                                            preventOverflow: {
-                                            boundariesElement: $('#transcript-panel'),
-                                            },
-                                    },
-                            });
-                            }
+                                                clearInterval(interval);
+                                                } else {
+                                                jumpLink.click();
+                                                }
+                                                }
+                                                ,
+                                                        500
+                                                        );
+                                                        jQuery(this).find('a.indexJumpLink').click();
+                                                }
+                                                });
+                                                }
+                                                $(".fancybox").fancybox();
+                                                        $(".various").fancybox({
+                                                maxWidth: 800,
+                                                        maxHeight: 600,
+                                                        fitToView: false,
+                                                        width: '70%',
+                                                        height: '70%',
+                                                        autoSize: false,
+                                                        closeClick: false,
+                                                        openEffect: 'none',
+                                                        closeEffect: 'none'
+                                                });
+                                                        $('.fancybox-media').fancybox({
+                                                openEffect: 'none',
+                                                        closeEffect: 'none',
+                                                        width: '80%',
+                                                        height: '80%',
+                                                        fitToView: true,
+                                                        helpers: {
+                                                        media: {}
+                                                        }
+                                                });
+                                                        $(".fancybox-button").fancybox({
+                                                prevEffect: 'none',
+                                                        nextEffect: 'none',
+                                                        closeBtn: false,
+                                                        helpers: {
+                                                        title: {type: 'inside'},
+                                                                buttons: {}
+                                                        }
+                                                });
+                                                        jQuery('#lnkRights').click(function () {
+                                                jQuery('#rightsStatement').fadeToggle(400);
+                                                        return false;
+                                                });
+                                                        jQuery('#lnkUsage').click(function () {
+                                                jQuery('#usageStatement').fadeToggle(400);
+                                                        return false;
+                                                });
+                                                        jQuery('#lnkFunding').click(function () {
+                                                jQuery('#fundingStatement').fadeToggle(400);
+                                                        return false;
+                                                });
+                                                });
+                                                function footnoteHover(state){
+                                                if (state == "bind"){
+                                                $(".footnote-ref").bind("hover",
+                                                        function() {
+                                                        var footnoteHtmlLength = $(this).find('.footnoteTooltip').attr("data-tooltip").length;
+                                                                width = footnoteHtmlLength * 50 / 100;
+                                                                if (footnoteHtmlLength > 130){
+                                                        $('head').append("<style>.tooltip{ width: " + width + "px }</style>");
+                                                        } else{
+                                                        $('head').append("<style>.tooltip{ width: 130px; }</style>");
+                                                        }
+                                                        }
+                                                );
+                                                } else if (state == "unbind"){
+                                                $(".footnote-ref").unbind("hover");
+                                                }
+                                                }
+                                        function activatePopper(element) {
+                                        var footnoteHtml = $("#" + element).data("tooltip");
+                                                allToolTipInstances[footnoteAttrId] = new Tooltip($("#" + element), {
+                                        title: footnoteHtml,
+                                                trigger: "hover",
+                                                placement: "bottom",
+                                                html: true,
+                                                eventsEnabled: true,
+                                                modifiers: {
+                                                flip: {
+                                                behavior: ['left', 'right', 'top']
+                                                },
+                                                        preventOverflow: {
+                                                        boundariesElement: $('#transcript-panel'),
+                                                        },
+                                                },
+                                        });
+                                        }
 
-                            function activatePopperIndexTranscript(element, type) {
-                            if (type == 'i'){
-                            var timePoint = $("#" + element).data("time-point");
-                                    var id = $("#" + element).data("marker-counter");
-                                    var indexTitle = $("#" + element).data("index-title");
-                                    var anchorHtml = "<div class='info-toggle' onclick=\"toggleRedirectTranscriptIndex(" + id + ",'transcript-to-index')\" >Segment: <b>" + indexTitle + "</b> " + timePoint + " </div>";
-                                    Tipped.create('#' + element, anchorHtml, {
-                                    size: 'large',
-                                            radius: true,
-                                            position: 'right'
-                                    });
-                            }
-                            }
-                            function toggleRedirectTranscriptIndex(id, type){
-                            if (type == 'transcript-to-index'){
-                            $('#toggle_switch').trigger('click');
-                                    setTimeout(function(){
-                                            $('.tpd-tooltip').hide();
-                                            $('#transcript-panel').hide();
-                                            $('#index-panel').show();
-                                            var currentIndex = $('#accordionHolder').accordion('option', 'active');
-                                            if (currentIndex != id || currentIndex === false){
-                                    jQuery('#accordionHolder').accordion({active: id});
-                                            jQuery('#accordionHolder-alt').accordion({active: id});
-                                    }
-                                    }, 250);
-                            } else if (type == 'index-to-transcript'){
-                            $('#toggle_switch').trigger('click');
-                                    setTimeout(function(){
-                                    $('.tpd-tooltip').hide();
-                                            $('#index-panel').hide();
-                                            $('#transcript-panel').show();
-                                            var container = $('#transcript-panel'),
-                                            scrollTo = $("#info_trans_" + id);
-                                            container.animate({
-                                            scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-                                            });
-                                    }, 250);
-                            }
-                            }
-                            function copyToClipboard(val){
-                            var dummy = document.createElement("textarea");
-                                    document.body.appendChild(dummy);
-                                    dummy.value = val;
-                                    dummy.select();
-                                    document.execCommand("copy");
-                                    document.body.removeChild(dummy);
-                            }
+                                        function activatePopperIndexTranscript(element, type) {
+                                        if (type == 'i'){
+                                        var timePoint = $("#" + element).data("time-point");
+                                                var id = $("#" + element).data("marker-counter");
+                                                var indexTitle = $("#" + element).data("index-title");
+                                                var anchorHtml = "<div class='info-toggle' onclick=\"toggleRedirectTranscriptIndex(" + id + ",'transcript-to-index')\" >Segment: <b>" + indexTitle + "</b> " + timePoint + " </div>";
+                                                Tipped.create('#' + element, anchorHtml, {
+                                                size: 'large',
+                                                        radius: true,
+                                                        position: 'right'
+                                                });
+                                        }
+                                        }
+                                        function toggleRedirectTranscriptIndex(id, type){
+                                        if (type == 'transcript-to-index'){
+                                        $('#toggle_switch').trigger('click');
+                                                setTimeout(function(){
+                                                $('.tpd-tooltip').hide();
+                                                        $('#transcript-panel').hide();
+                                                        $('#index-panel').show();
+                                                        var currentIndex = $('#accordionHolder').accordion('option', 'active');
+                                                        if (currentIndex != id || currentIndex === false){
+                                                jQuery('#accordionHolder').accordion({active: id});
+                                                        jQuery('#accordionHolder-alt').accordion({active: id});
+                                                }
+                                                }, 250);
+                                        } else if (type == 'index-to-transcript'){
+                                        $('#toggle_switch').trigger('click');
+                                                setTimeout(function(){
+                                                $('.tpd-tooltip').hide();
+                                                        $('#index-panel').hide();
+                                                        $('#transcript-panel').show();
+                                                        var container = $('#transcript-panel'),
+                                                        scrollTo = $("#info_trans_" + id);
+                                                        container.animate({
+                                                        scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                                                        });
+                                                }, 250);
+                                        }
+                                        }
+                                        function copyToClipboard(val){
+                                        var dummy = document.createElement("textarea");
+                                                document.body.appendChild(dummy);
+                                                dummy.value = val;
+                                                dummy.select();
+                                                document.execCommand("copy");
+                                                document.body.removeChild(dummy);
+                                        }
             </script>
             <script>
                 var cachefile = '<?php echo $interview->cachefile; ?>';
-                
-                $(function () {
+                        $(function () {
 
-                    // Custom function to setup dropdown tabs
-                    function setupDropdownTabs(containerSelector, dropdownLabel = "Visualization ▼") {
+                        // Custom function to setup dropdown tabs
+                        function setupDropdownTabs(containerSelector, dropdownLabel = "Visualization ▼") {
                         const $tabs = $(containerSelector).tabs();
-
-                        const $dropdownTabs = $(`${containerSelector} .ui-tabs-nav li.dropdown-tab`);
-
-                        if ($dropdownTabs.length === 0) return;
-
-                        const $dropdownContainer = $(`
+                                const $dropdownTabs = $(`${containerSelector} .ui-tabs-nav li.dropdown-tab`);
+                                if ($dropdownTabs.length === 0) return;
+                                const $dropdownContainer = $(`
                             <li class="dropdown-toggle-tab">
                                 <div class="dropdown-toggle">${dropdownLabel}</div>
                                 <ul class="dropdown-menu" style="display: none;"></ul>
                             </li>
                         `);
-
-                        $dropdownTabs.each(function () {
-                            $(this).appendTo($dropdownContainer.find(".dropdown-menu"));
+                                $dropdownTabs.each(function () {
+                                $(this).appendTo($dropdownContainer.find(".dropdown-menu"));
+                                });
+                                $(`${containerSelector} .ui-tabs-nav`).append($dropdownContainer);
+                                $(`${containerSelector} .dropdown-toggle`).on("click", function (e) {
+                        e.stopPropagation();
+                                $(this).siblings(".dropdown-menu").toggle();
                         });
-
-                        $(`${containerSelector} .ui-tabs-nav`).append($dropdownContainer);
-
-                        $(`${containerSelector} .dropdown-toggle`).on("click", function (e) {
-                            e.stopPropagation();
-                            $(this).siblings(".dropdown-menu").toggle();
+                                $(document).on("click", function () {
+                        $(`${containerSelector} .dropdown-menu`).hide();
                         });
-
-                        $(document).on("click", function () {
-                            $(`${containerSelector} .dropdown-menu`).hide();
+                                $(`${containerSelector} .ui-tabs-nav li a`).on("click", function () {
+                        $(`${containerSelector} .dropdown-toggle`).removeClass('active');
                         });
-
-                        $(`${containerSelector} .ui-tabs-nav li a`).on("click", function () {
-                            $(`${containerSelector} .dropdown-toggle`).removeClass('active');
+                                $(`${containerSelector} .dropdown-menu a`).on("click", function () {
+                        const $li = $(this).parent();
+                                $li.removeClass("ui-tabs-selected ui-state-active");
+                                $li.parent().prev().addClass('active');
+                                $li.parent().hide();
                         });
+                        }
 
-                        $(`${containerSelector} .dropdown-menu a`).on("click", function () {
-                            const $li = $(this).parent();
-                            $li.removeClass("ui-tabs-selected ui-state-active");
-                            $li.parent().prev().addClass('active');
-                            $li.parent().hide();
-                        });
-                    }
+                        // Apply to both tab containers
+                        setupDropdownTabs("#custom-tabs-left");
+                                setupDropdownTabs("#custom-tabs-right");
+                                function hasTranslateParam() {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                        return urlParams.get('translate') === '1';
+                                }
 
-                    // Apply to both tab containers
-                    setupDropdownTabs("#custom-tabs-left");
-                    setupDropdownTabs("#custom-tabs-right");
-
-                    function hasTranslateParam() {
-                        const urlParams = new URLSearchParams(window.location.search);
-                        return urlParams.get('translate') === '1';
-                    }
-
-                    // Set active language tab
-                    if (hasTranslateParam()) {
+                        // Set active language tab
+                        if (hasTranslateParam()) {
                         $('a[data-lang="<?php echo $interview->language; ?>"]').addClass('active');
-                    } else {
+                        } else {
                         $('a[data-lang="<?php echo $interview->transcript_alt_lang; ?>"]').addClass('active');
-                    }
+                        }
 
-                });
-
-                // Data Layers Toggle Functionality
-                $('.data-layers-list').hide();
-                $('.toggle-layers').change(function() {
-                    if ($(this).is(':checked')) {
-                        $('.data-layers-list').show();
-                    } else {
+                        });
+                        // Data Layers Toggle Functionality
                         $('.data-layers-list').hide();
-                    }
+                        $('.toggle-layers').change(function() {
+                if ($(this).is(':checked')) {
+                $('.data-layers-list').show();
+                } else {
+                $('.data-layers-list').hide();
+                }
                 });
-                $('.data-layers-list').on('click', '.fa-eye, .fa-eye-slash', function(e) {
-                    e.stopPropagation();
-                    const $icon = $(this);
-                    const $span = $icon.closest('span');
-
-                    $span.toggleClass('active-layer');
-
-                    if ($icon.hasClass('fa-eye')) {
-                        $icon.removeClass('fa-eye').addClass('fa-eye-slash');
-                    } else {
-                        $icon.removeClass('fa-eye-slash').addClass('fa-eye');
-                    }
+                        $('.data-layers-list').on('click', '.fa-eye, .fa-eye-slash', function(e) {
+                e.stopPropagation();
+                        const $icon = $(this);
+                        const $span = $icon.closest('span');
+                        $span.toggleClass('active-layer');
+                        if ($icon.hasClass('fa-eye')) {
+                $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                }
                 });
-
-                // Initialize ECharts instance
-                var chart = echarts.init(document.getElementById('wordcloud'));
-                const colorPalette = ['#dea590', '#9aa6c1', '#e1be90', '#ced1ab', '#c6a5ac'];
-
-                var option = {
-                tooltip: {},
-                series: [ {
-                    type: 'wordCloud',
-                    gridSize: 2,
-                    sizeRange: [12, 50],
-                    rotationRange: [-90, 90],
-                    // The shape of the "cloud" to draw. Can be any polar equation represented as a
-                    // callback function, or a keyword present. Available presents are circle (default),
-                    // cardioid (apple or heart shape curve, the most known polar equation), diamond (
-                    // alias of square), triangle-forward, triangle, (alias of triangle-upright, pentagon, and star.
-                    // Shapes: pentagon, star, random-light, random-dark, circle, cardioid, diamond, triangle-forward, triangle, triangle-upright, apple, heart shape curve
-                                shape: 'circle',
-                                width: 400,
-                                height: 400,
-                                drawOutOfBound: true,
-                                textStyle: {
-                                    normal: {
-                                        color: function (params) {
-                                            const index = params.dataIndex || 0;
-                                            return colorPalette[index % colorPalette.length];
-                                        }
-                                    },
-                                    emphasis: {
-                                        shadowBlur: 10,
-                                        shadowColor: '#333'
-                                    }
-                                },
-                                data: [
-                                    {
-                                        name: 'Machine Learning',
-                                        value: 10000,
+                        // Initialize ECharts instance
+                        var chart = echarts.init(document.getElementById('wordcloud'));
+                        const colorPalette = ['#dea590', '#9aa6c1', '#e1be90', '#ced1ab', '#c6a5ac'];
+                        var option = {
+                        tooltip: {},
+                                series: [ {
+                                type: 'wordCloud',
+                                        gridSize: 2,
+                                        sizeRange: [12, 50],
+                                        rotationRange: [ - 90, 90],
+                                        // The shape of the "cloud" to draw. Can be any polar equation represented as a
+                                        // callback function, or a keyword present. Available presents are circle (default),
+                                        // cardioid (apple or heart shape curve, the most known polar equation), diamond (
+                                        // alias of square), triangle-forward, triangle, (alias of triangle-upright, pentagon, and star.
+                                        // Shapes: pentagon, star, random-light, random-dark, circle, cardioid, diamond, triangle-forward, triangle, triangle-upright, apple, heart shape curve
+                                        shape: 'circle',
+                                        width: 400,
+                                        height: 400,
+                                        drawOutOfBound: true,
                                         textStyle: {
-                                            normal: {
-                                                color: 'black'
-                                            },
-                                            emphasis: {
-                                                color: 'red'
-                                            }
+                                        normal: {
+                                        color: function (params) {
+                                        const index = params.dataIndex || 0;
+                                                return colorPalette[index % colorPalette.length];
                                         }
-                                    },
-                                    {
+                                        },
+                                                emphasis: {
+                                                shadowBlur: 10,
+                                                        shadowColor: '#333'
+                                                }
+                                        },
+                                        data: [
+                                        {
+                                        name: 'Machine Learning',
+                                                value: 10000,
+                                                textStyle: {
+                                                normal: {
+                                                color: 'black'
+                                                },
+                                                        emphasis: {
+                                                        color: 'red'
+                                                        }
+                                                }
+                                        },
+                                        {
                                         name: 'Deep Learning',
-                                        value: 6181
-                                    },
-                                    {
+                                                value: 6181
+                                        },
+                                        {
                                         name: 'Computer Vision',
-                                        value: 4386
-                                    },
-                                    {
+                                                value: 4386
+                                        },
+                                        {
                                         name: 'Artificial Intelligence',
-                                        value: 4055
-                                    },
-                                    {
+                                                value: 4055
+                                        },
+                                        {
                                         name: 'Neural Network',
-                                        value: 3500
-                                    },
-                                    {
+                                                value: 3500
+                                        },
+                                        {
                                         name: 'Algorithm',
-                                        value: 3333
-                                    },
-                                    {
+                                                value: 3333
+                                        },
+                                        {
                                         name: 'Model',
-                                        value: 2700
-                                    },
-                                    {
+                                                value: 2700
+                                        },
+                                        {
                                         name: 'Supervised',
-                                        value: 2500
-                                    },
-                                    {
+                                                value: 2500
+                                        },
+                                        {
                                         name: 'Unsupervised',
-                                        value: 2333
-                                    },
-                                    {
+                                                value: 2333
+                                        },
+                                        {
                                         name: 'Natural Language Processing',
-                                        value: 1900
-                                    },
-                                    {
+                                                value: 1900
+                                        },
+                                        {
                                         name: 'Chatbot',
-                                        value: 1800
-                                    },
-                                    {
+                                                value: 1800
+                                        },
+                                        {
                                         name: 'Virtual Assistant',
-                                        value: 1500
-                                    },
-                                    {
+                                                value: 1500
+                                        },
+                                        {
                                         name: 'Speech Recognition',
-                                        value: 1400
-                                    },
-                                    {
+                                                value: 1400
+                                        },
+                                        {
                                         name: 'Convolutional Neural Network',
-                                        value: 1325
-                                    },
-                                    {
+                                                value: 1325
+                                        },
+                                        {
                                         name: 'Reinforcement Learning',
-                                        value: 1300
-                                    },
-                                    {
+                                                value: 1300
+                                        },
+                                        {
                                         name: 'Training Data',
-                                        value: 1250
-                                    },
-                                    {
+                                                value: 1250
+                                        },
+                                        {
                                         name: 'Classification',
-                                        value: 1233
-                                    },
-                                    {
+                                                value: 1233
+                                        },
+                                        {
                                         name: 'Regression',
-                                        value: 1000
-                                    },
-                                    {
+                                                value: 1000
+                                        },
+                                        {
                                         name: 'Decision Tree',
-                                        value: 900
-                                    },
-                                    {
+                                                value: 900
+                                        },
+                                        {
                                         name: 'K-Means',
-                                        value: 875
-                                    },
-                                    {
+                                                value: 875
+                                        },
+                                        {
                                         name: 'N-Gram Analysis',
-                                        value: 850
-                                    },
-                                    {
+                                                value: 850
+                                        },
+                                        {
                                         name: 'Microservices',
-                                        value: 833
-                                    },
-                                    {
+                                                value: 833
+                                        },
+                                        {
                                         name: 'Pattern Recognition',
-                                        value: 790
-                                    },
-                                    {
+                                                value: 790
+                                        },
+                                        {
                                         name: 'APIs',
-                                        value: 775
-                                    },
-                                    {
+                                                value: 775
+                                        },
+                                        {
                                         name: 'Feature Engineering',
-                                        value: 700
-                                    },
-                                    {
+                                                value: 700
+                                        },
+                                        {
                                         name: 'Random Forest',
-                                        value: 650
-                                    },
-                                    {
+                                                value: 650
+                                        },
+                                        {
                                         name: 'Bagging',
-                                        value: 600
-                                    },
-                                    {
+                                                value: 600
+                                        },
+                                        {
                                         name: 'Anomaly Detection',
-                                        value: 575
-                                    },
-                                    {
+                                                value: 575
+                                        },
+                                        {
                                         name: 'Naive Bayes',
-                                        value: 500
-                                    },
-                                    {
+                                                value: 500
+                                        },
+                                        {
                                         name: 'Autoencoder',
-                                        value: 400
-                                    },
-                                    {
+                                                value: 400
+                                        },
+                                        {
                                         name: 'Backpropagation',
-                                        value: 300
-                                    },
-                                    {
+                                                value: 300
+                                        },
+                                        {
                                         name: 'TensorFlow',
-                                        value: 290
-                                    },
-                                    {
+                                                value: 290
+                                        },
+                                        {
                                         name: 'word2vec',
-                                        value: 280
-                                    },
-                                    {
+                                                value: 280
+                                        },
+                                        {
                                         name: 'Object Recognition',
-                                        value: 250
-                                    },
-                                    {
+                                                value: 250
+                                        },
+                                        {
                                         name: 'Python',
-                                        value: 235
-                                    },
-                                    {
+                                                value: 235
+                                        },
+                                        {
                                         name: 'Predictive Analytics',
-                                        value: 225
-                                    },
-                                    {
+                                                value: 225
+                                        },
+                                        {
                                         name: 'Predictive Modeling',
-                                        value: 215
-                                    },
-                                    {
+                                                value: 215
+                                        },
+                                        {
                                         name: 'Optical Character Recognition',
-                                        value: 200
-                                    },
-                                    {
+                                                value: 200
+                                        },
+                                        {
                                         name: 'Overfitting',
-                                        value: 190
-                                    },
-                                    {
+                                                value: 190
+                                        },
+                                        {
                                         name: 'JavaScript',
-                                        value: 185
-                                    },
-                                    {
+                                                value: 185
+                                        },
+                                        {
                                         name: 'Text Analytics',
-                                        value: 180
-                                    },
-                                    {
+                                                value: 180
+                                        },
+                                        {
                                         name: 'Cognitive Computing',
-                                        value: 175
-                                    },
-                                    {
+                                                value: 175
+                                        },
+                                        {
                                         name: 'Augmented Intelligence',
-                                        value: 160
-                                    },
-                                    {
+                                                value: 160
+                                        },
+                                        {
                                         name: 'Statistical Models',
-                                        value: 155
-                                    },
-                                    {
+                                                value: 155
+                                        },
+                                        {
                                         name: 'Clustering',
-                                        value: 150
-                                    },
-                                    {
+                                                value: 150
+                                        },
+                                        {
                                         name: 'Topic Modeling',
-                                        value: 145
-                                    },
-                                    {
+                                                value: 145
+                                        },
+                                        {
                                         name: 'Data Mining',
-                                        value: 140
-                                    },
-                                    {
+                                                value: 140
+                                        },
+                                        {
                                         name: 'Data Science',
-                                        value: 138
-                                    },
-                                    {
+                                                value: 138
+                                        },
+                                        {
                                         name: 'Semi-Supervised Learning',
-                                        value: 137
-                                    },
-                                    {
+                                                value: 137
+                                        },
+                                        {
                                         name: 'Artificial Neural Networks',
-                                        value: 125
-                                    }
-                                ]
-                            } ]
+                                                value: 125
+                                        }
+                                        ]
+                                } ]
                         };
-
                         chart.setOption(option);
-
                         window.onresize = chart.resize;
-
-
                         // Custom Popover Functionality
                         const popoverBtn = document.getElementById('popoverBtn');
                         const popover = document.getElementById('customPopover');
-
                         popoverBtn.addEventListener('click', (e) => {
                         e.stopPropagation(); // prevent immediate close
-                        popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
-                        const rect = popoverBtn.getBoundingClientRect();
-                        popover.style.top = rect.bottom + 12 + window.scrollY + 'px';
-                        popover.style.left = rect.left - 15 + window.scrollX + 'px';
+                                popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
+                                const rect = popoverBtn.getBoundingClientRect();
+                                popover.style.top = rect.bottom + 12 + window.scrollY + 'px';
+                                popover.style.left = rect.left - 15 + window.scrollX + 'px';
                         });
-
                         document.addEventListener('click', (e) => {
                         if (!popover.contains(e.target) && e.target !== popoverBtn) {
-                            popover.style.display = 'none';
+                        popover.style.display = 'none';
                         }
                         });
-
                         // View Toggle Functionality
                         $('.grid-section').hide();
                         $('.custom-toggle-icon .icon').on('click', function() {
-                            $(this).siblings('span').removeClass('active');
-                            $(this).addClass('active');
-                            if($(this).hasClass('list')) {
-                                $('.grid-section').hide();
-                                $('.list-section').show();
-                            } else {
-                                $('.list-section').hide();
-                                $('.grid-section').show();
-                            }
-                        });
-
-
-
+                $(this).siblings('span').removeClass('active');
+                        $(this).addClass('active');
+                        if ($(this).hasClass('list')) {
+                $('.grid-section').hide();
+                        $('.list-section').show();
+                } else {
+                $('.list-section').hide();
+                        $('.grid-section').show();
+                }
+                });
             </script>
-
+            <script type="text/javascript">
+                        $('.refreshPage').click(function(){
+                $('a[href="#about-tab-1"]').trigger("click");
+                        $('a[href="#index-tab-2"]').trigger("click");
+                });
+            </script>
     </body> 
 </html>
