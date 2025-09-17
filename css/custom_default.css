@@ -925,6 +925,7 @@ div.video iframe {
       top: 0;
   }
 }
+
 @media screen and (max-width: 1366px) {
   .main-box .right-side #translate-toggle a {
     font-size: 14px;
