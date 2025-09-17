@@ -179,11 +179,11 @@ endif;
                                          alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
                                      <?php endif;
                                      ?>
-                                <h1><?php echo $interview->title; ?></h1>
+                                <h1 class="truncate"><?php echo $interview->title; ?></h1>
 
                                 <div id="secondaryMetaData">
                                     <div>
-                                        <div class="detail-metadata">
+                                        <div class="detail-metadata truncate">
                                             <?php
                                             echo $interview->collection;
                                             if (trim($interview->collection) && trim($interview->series)) {
@@ -971,6 +971,53 @@ switch ($interview->playername) {
                 $icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
                 });
+                        // Custom Title Tooltip
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'custom-title-tooltip';
+                        document.body.appendChild(tooltip);
+
+                        function applyCharLimitWithTooltip(selector, charLimit) {
+                        document.querySelectorAll(selector).forEach(el => {
+                            const fullText = el.textContent.trim();
+
+                            if (fullText.length > charLimit) {
+                            const truncated = fullText.slice(0, charLimit).trim() + '…';
+                            el.textContent = truncated;
+                            // store full text for tooltip
+                            el.dataset.full = fullText;
+
+                            el.addEventListener('mouseenter', e => {
+                                tooltip.textContent = fullText;
+                                tooltip.style.display = 'block';
+                                positionTooltip(e);
+                            });
+
+                            el.addEventListener('mousemove', e => {
+                                positionTooltip(e);
+                            });
+
+                            el.addEventListener('mouseleave', () => {
+                                tooltip.style.display = 'none';
+                            });
+                            }
+                        });
+                        }
+
+                        function positionTooltip(e) {
+                        const offset = 10;
+                        tooltip.style.left = e.pageX + offset + 'px';
+                        tooltip.style.top = e.pageY + offset + 'px';
+                        }
+
+                        document.addEventListener('DOMContentLoaded', () => {
+                        // only run if viewport width >= 1024px (you can adjust)
+                        if (window.innerWidth >= 992) {
+                            applyCharLimitWithTooltip('.truncate', 80);
+                        }
+                        });
+
+
+                        
                         // Initialize ECharts instance
                         var chart = echarts.init(document.getElementById('wordcloud'));
                         const colorPalette = ['#dea590', '#9aa6c1', '#e1be90', '#ced1ab', '#c6a5ac'];
