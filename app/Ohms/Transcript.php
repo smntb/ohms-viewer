@@ -177,7 +177,7 @@ class Transcript {
 <div class="point">
   <p style="margin-bottom:1.2em;">
    <a class="indexJumpLink" href="#" data-timestamp="{$point->time}">Play segment</a>
-   <div class="options"><span title="View transcript" id="info_index_{$time}" data-index-time="{$time}" onclick="toggleRedirectTranscriptIndex({$time}, 'index-to-transcript');" class="alpha-circle index-circle"></span>
+   <div class="options"><span title="View transcript" id="info_index_{$time}" data-index-time="{$time}" data-id="{$time}" data-type="index-to-transcript" class="mapIndexTranscript alpha-circle index-circle"></span>
    <a title="Share Segment" class="indexSegmentLink" href="javascript:void(0);" data-timestamp="{$point->time}"><span class="segm-circle segment-circle"></span></a></div>
    <br clear="both" />
   </p>
@@ -208,13 +208,14 @@ POINT;
                 $indexMarkerTitle = (string) $singlePoint->title;
                 // Generate marker HTML
                 $markerHtml = sprintf(
-                        '<span id="info_trans_%s" data-time-point="%s" data-marker-counter="%d" data-marker-id="%s" data-index-title="%s" onclick="toggleRedirectTranscriptIndex(%s, \'transcript-to-index\');" class="alpha-circle info-circle"></span>',
+                        '<span id="info_trans_%s" data-time-point="%s" data-marker-counter="%d" data-marker-id="%s" data-index-title="%s" data-id="%s" data-type="transcript-to-index" class="alpha-circle info-circle info_trans_%s"></span>',
                         $time,
                         $display_time,
                         $counter,
                         $time,
                         htmlspecialchars($indexMarkerTitle, ENT_QUOTES),
-                        $counter
+                        $counter,
+                        $time
                 );
                 $counter++;
                 break;
@@ -419,7 +420,7 @@ ANCHOR;
                     $wordsToMove = 0;
 
                     $timePoint = $this->formatTimePoint($currentMarkerTimeSecs);
-                    $markerHtml = '<span id="info_trans_' . $currentMarkerTimeSecs . '" data-time-point="' . $timePoint . '" data-marker-counter="' . $markerCounter . '" data-marker-id="' . $currentMarkerTimeSecs . '" data-index-title="' . $currentMarkerTitle . '" onclick="toggleRedirectTranscriptIndex(' . $markerCounter . ', \'transcript-to-index\');" class="alpha-circle info-circle"></span>';
+                    $markerHtml = '<span id="info_trans_' . $currentMarkerTimeSecs . '" data-time-point="' . $timePoint . '" data-marker-counter="' . $markerCounter . '" data-marker-id="' . $currentMarkerTimeSecs . '" data-index-title="' . $currentMarkerTitle . '" onclick="toggleRedirectTranscriptIndex(' . $markerCounter . ', \'transcript-to-index\');" class="alpha-circle info-circle info_trans_' . $currentMarkerTimeSecs . '"></span>';
                     $markerCounter++;
                 }
             }

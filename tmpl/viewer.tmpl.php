@@ -74,9 +74,9 @@ endif;
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
         <title><?php echo $interview->title; ?></title>
-        <link rel="stylesheet" href="css/viewer.css?v1.4.0" type="text/css"/>
+        <link rel="stylesheet" href="css/viewer.css?v1.4.1" type="text/css"/>
         <?php if (isset($extraCss)) { ?>
-            <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
+            <link rel="stylesheet" href="css/<?php echo $extraCss ?>?v1.0" type="text/css"/>
         <?php }
         ?>
         <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css"/>
@@ -145,11 +145,11 @@ endif;
             $transcriptDisplay = 'display:none';
         }
         ?>
-                <div id="index-panel" class="index-panel" style="<?php echo $indexDisplay; ?>">
-        <?php echo $interview->index; ?>
+                <div id="index-panel" class="index-panel" style="<?php //echo $indexDisplay;  ?>">
+        <?php //echo $interview->index; ?>
                 </div>
-                <div id="transcript-panel" class="transcript-panel" style="<?php echo $transcriptDisplay; ?>">
-        <?php echo $interview->transcript; ?>
+                <div id="transcript-panel" class="transcript-panel" style="<?php //echo $transcriptDisplay;  ?>">
+        <?php //echo $interview->transcript; ?>
                 </div>
 
             </div>
@@ -646,6 +646,7 @@ endif;
             <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
             <script src="js/popper.js"></script>
             <script src="js/tooltip.js"></script>
+            <script src="js/custom.js"></script>
             <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
             <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
             <script>
@@ -706,23 +707,6 @@ endif;
                                         activatePopperIndexTranscript(element.id, 'i');
                                         });
                                                 footnoteHover("bind");
-                                                jQuery('a.indexSegmentLink').on('click', function (e) {
-                                        var linkContainer = '#segmentLink' + jQuery(this).data('timestamp');
-                                                e.preventDefault();
-                                                if (jQuery(linkContainer).css("display") == "none") {
-                                        jQuery(linkContainer).fadeIn(1000);
-                                        } else {
-                                        jQuery(linkContainer).fadeOut();
-                                        }
-                                        return false;
-                                        });
-                                                jQuery('.segmentLinkTextBox').on('click', function () {
-                                        jQuery(this).select();
-                                        });
-                                                jQuery('.copyButtonViewer').on('click', function () {
-                                        var text = jQuery(this).prev().val();
-                                                copyToClipboard(text);
-                                        });
                                                 if (jumpToTime !== null) {
                                         jQuery('div.point').each(function (index) {
                                         if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
@@ -862,41 +846,8 @@ switch ($interview->playername) {
                                                 });
                                         }
                                         }
-                                        function toggleRedirectTranscriptIndex(id, type){
-                                        if (type == 'transcript-to-index'){
-                                        $('#toggle_switch').trigger('click');
-                                                setTimeout(function(){
-                                                $('.tpd-tooltip').hide();
-                                                        $('#transcript-panel').hide();
-                                                        $('#index-panel').show();
-                                                        var currentIndex = $('#accordionHolder').accordion('option', 'active');
-                                                        if (currentIndex != id || currentIndex === false){
-                                                jQuery('#accordionHolder').accordion({active: id});
-                                                        jQuery('#accordionHolder-alt').accordion({active: id});
-                                                }
-                                                }, 250);
-                                        } else if (type == 'index-to-transcript'){
-                                        $('#toggle_switch').trigger('click');
-                                                setTimeout(function(){
-                                                $('.tpd-tooltip').hide();
-                                                        $('#index-panel').hide();
-                                                        $('#transcript-panel').show();
-                                                        var container = $('#transcript-panel'),
-                                                        scrollTo = $("#info_trans_" + id);
-                                                        container.animate({
-                                                        scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-                                                        });
-                                                }, 250);
-                                        }
-                                        }
-                                        function copyToClipboard(val){
-                                        var dummy = document.createElement("textarea");
-                                                document.body.appendChild(dummy);
-                                                dummy.value = val;
-                                                dummy.select();
-                                                document.execCommand("copy");
-                                                document.body.removeChild(dummy);
-                                        }
+                                        
+                                        
             </script>
             <script>
                 var cachefile = '<?php echo $interview->cachefile; ?>';
@@ -1293,10 +1244,8 @@ switch ($interview->playername) {
                 });
             </script>
             <script type="text/javascript">
-                        $('.refreshPage').click(function(){
-                $('a[href="#about-tab-1"]').trigger("click");
-                        $('a[href="#index-tab-2"]').trigger("click");
-                });
+                        let viewer = new Viewer();
+                        viewer.initialize();
             </script>
     </body> 
 </html>
