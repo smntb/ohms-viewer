@@ -179,25 +179,12 @@ endif;
                                          alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
                                      <?php endif;
                                      ?>
-                                <h1 class="truncate"><?php echo $interview->title; ?><?php echo $interview->title; ?><?php echo $interview->title; ?></h1>
+                                <h1 class="truncate"><?php echo $interview->title; ?></h1>
 
                                 <div id="secondaryMetaData">
                                     <div>
                                         <div class="detail-metadata truncate-collection">
                                             <?php
-                                            echo $interview->collection;
-                                            if (trim($interview->collection) && trim($interview->series)) {
-                                                echo " | ";
-                                            }
-                                            echo $interview->series;
-                                            ?>
-<?php
-                                            echo $interview->collection;
-                                            if (trim($interview->collection) && trim($interview->series)) {
-                                                echo " | ";
-                                            }
-                                            echo $interview->series;
-                                            ?><?php
                                             echo $interview->collection;
                                             if (trim($interview->collection) && trim($interview->series)) {
                                                 echo " | ";
@@ -941,19 +928,17 @@ switch ($interview->playername) {
 
                         function applyCharLimitWithTooltip(selector, charLimit, isDesktop = true) {
                         document.querySelectorAll(selector).forEach(el => {
-
-                            const anchor = el.querySelector('a');
-                            if (anchor) {
-                                el.dataset.link = anchor.href;
-                                // Create a new anchor element next to the div
-                                const newAnchor = document.createElement('a');
-                                newAnchor.href = anchor.href;
-                                newAnchor.textContent = ' Link';
-                                newAnchor.classList.add('link');
-                                newAnchor.style.marginLeft = '5px';
-                                el.insertAdjacentElement('afterend', newAnchor);
-                            }
-
+                            // const anchor = el.querySelector('a');
+                            // if (anchor) {
+                            //     el.dataset.link = anchor.href;
+                            //     // Create a new anchor element next to the div
+                            //     const newAnchor = document.createElement('a');
+                            //     newAnchor.href = anchor.href;
+                            //     newAnchor.textContent = ' Link';
+                            //     newAnchor.classList.add('link');
+                            //     newAnchor.style.marginLeft = '5px';
+                            //     el.insertAdjacentElement('afterend', newAnchor);
+                            // }
                             const fullText = el.textContent.trim();
                             if (fullText.length > charLimit) {
                             const truncated = fullText.slice(0, charLimit).trim() + '…';
@@ -1005,7 +990,7 @@ switch ($interview->playername) {
                         if (window.innerWidth >= 992) {
                             
                             applyCharLimitWithTooltip('.truncate', 120, true);
-                            applyCharLimitWithTooltip('.truncate-collection', 50, true);
+                            applyCharLimitWithTooltip('.truncate-collection', 90, true);
                         } else {
                             
                             applyCharLimitWithTooltip('.truncate', 120, false);
