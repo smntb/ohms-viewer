@@ -179,7 +179,7 @@ endif;
                                          alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
                                      <?php endif;
                                      ?>
-                                <h1 class="truncate"><?php echo $interview->title; ?> <?php echo $interview->title; ?> <?php echo $interview->title; ?></h1>
+                                <h1 class="truncate"><?php echo $interview->title; ?><?php echo $interview->title; ?><?php echo $interview->title; ?></h1>
 
                                 <div id="secondaryMetaData">
                                     <div>
@@ -191,7 +191,19 @@ endif;
                                             }
                                             echo $interview->series;
                                             ?>
-
+<?php
+                                            echo $interview->collection;
+                                            if (trim($interview->collection) && trim($interview->series)) {
+                                                echo " | ";
+                                            }
+                                            echo $interview->series;
+                                            ?><?php
+                                            echo $interview->collection;
+                                            if (trim($interview->collection) && trim($interview->series)) {
+                                                echo " | ";
+                                            }
+                                            echo $interview->series;
+                                            ?>
 
                                         </div>
                                         <div class="detail-metadata truncate"><?php echo $interview->repository; ?></div>
@@ -927,46 +939,80 @@ switch ($interview->playername) {
                         tooltip.className = 'custom-title-tooltip';
                         document.body.appendChild(tooltip);
 
-                        function applyCharLimitWithTooltip(selector, charLimit) {
+                        function applyCharLimitWithTooltip(selector, charLimit, isDesktop = true) {
                         document.querySelectorAll(selector).forEach(el => {
-                            const fullText = el.textContent.trim();
 
+                            const anchor = el.querySelector('a');
+                            if (anchor) {
+                                el.dataset.link = anchor.href;
+                                // Create a new anchor element next to the div
+                                const newAnchor = document.createElement('a');
+                                newAnchor.href = anchor.href;
+                                newAnchor.textContent = ' Link';
+                                newAnchor.classList.add('link');
+                                newAnchor.style.marginLeft = '5px';
+                                el.insertAdjacentElement('afterend', newAnchor);
+                            }
+
+                            const fullText = el.textContent.trim();
                             if (fullText.length > charLimit) {
                             const truncated = fullText.slice(0, charLimit).trim() + '…';
                             el.textContent = truncated;
-                            // store full text for tooltip
                             el.dataset.full = fullText;
 
-                            el.addEventListener('mouseenter', e => {
+
+                            if (isDesktop) {
+                                // desktop = hover
+                                el.addEventListener('mouseenter', e => {
                                 tooltip.textContent = fullText;
                                 tooltip.style.display = 'block';
                                 positionTooltip(e);
-                            });
+                                });
 
-                            el.addEventListener('mousemove', e => {
+                                el.addEventListener('mousemove', e => {
                                 positionTooltip(e);
-                            });
+                                });
 
-                            el.addEventListener('mouseleave', () => {
+                                el.addEventListener('mouseleave', () => {
                                 tooltip.style.display = 'none';
-                            });
+                                });
+                            } else {
+                                // mobile = click/tap
+                                el.addEventListener('click', e => {
+                                e.stopPropagation();
+                                tooltip.textContent = fullText;
+                                tooltip.style.display = 'block';
+                                positionTooltip(e);
+                                });
+                            }
                             }
                         });
                         }
 
+                        // Position tooltip near mouse or tap location
                         function positionTooltip(e) {
                         const offset = 10;
                         tooltip.style.left = e.pageX + offset + 'px';
                         tooltip.style.top = e.pageY + offset + 'px';
                         }
 
+                        // Hide tooltip on click anywhere else (for mobile)
+                        document.addEventListener('click', () => {
+                        tooltip.style.display = 'none';
+                        });
+
                         document.addEventListener('DOMContentLoaded', () => {
-                        // only run if viewport width >= 1024px (you can adjust)
                         if (window.innerWidth >= 992) {
-                            applyCharLimitWithTooltip('.truncate', 100);
-                            applyCharLimitWithTooltip('.truncate-collection', 60);
+                            
+                            applyCharLimitWithTooltip('.truncate', 120, true);
+                            applyCharLimitWithTooltip('.truncate-collection', 50, true);
+                        } else {
+                            
+                            applyCharLimitWithTooltip('.truncate', 120, false);
+                            applyCharLimitWithTooltip('.truncate-collection', 60, false);
                         }
                         });
+
 
 
                         

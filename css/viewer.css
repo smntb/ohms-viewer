@@ -566,6 +566,14 @@ h2, #secondaryMetaData {
     font-weight: normal;
     border-bottom: 0px solid #3c3c3c;
 }
+#secondaryMetaData {
+    position: relative;
+}
+#secondaryMetaData .link {
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
 
 .detail-metadata a {
     color: #000;
