@@ -52,20 +52,13 @@ div.video iframe {
 }
 
 /* Title Tooltip container */
-.custom-title-tooltip {
+.tooltip {
   position: absolute;
   background: #333;
   color: #fff;
-  padding: 10px 14px;
-  border-radius: 4px;
   font-size: 14px;
   line-height: 1.2;
-  pointer-events: none;
-  z-index: 9999;
-  white-space: normal;
-  max-width: 280px;
   text-align: left;
-  display: none;
 }
 
 .custom-checkbox {

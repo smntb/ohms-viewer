@@ -922,81 +922,30 @@ switch ($interview->playername) {
                 $icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
                 });
-                        // Custom Title Tooltip
-                        const tooltip = document.createElement('div');
-                        tooltip.className = 'custom-title-tooltip';
-                        document.body.appendChild(tooltip);
-
-                        function applyCharLimitWithTooltip(selector, charLimit, isDesktop = true) {
-                        document.querySelectorAll(selector).forEach(el => {
-                            // const anchor = el.querySelector('a');
-                            // if (anchor) {
-                            //     el.dataset.link = anchor.href;
-                            //     // Create a new anchor element next to the div
-                            //     const newAnchor = document.createElement('a');
-                            //     newAnchor.href = anchor.href;
-                            //     newAnchor.textContent = ' Link';
-                            //     newAnchor.classList.add('link');
-                            //     newAnchor.style.marginLeft = '5px';
-                            //     el.insertAdjacentElement('afterend', newAnchor);
-                            // }
-                            const fullText = el.textContent.trim();
-                            if (fullText.length > charLimit) {
-                            const truncated = fullText.slice(0, charLimit).trim() + '…';
-                            el.textContent = truncated;
-                            el.dataset.full = fullText;
-
-
-                            if (isDesktop) {
-                                // desktop = hover
-                                el.addEventListener('mouseenter', e => {
-                                tooltip.textContent = fullText;
-                                tooltip.style.display = 'block';
-                                positionTooltip(e);
-                                });
-
-                                el.addEventListener('mousemove', e => {
-                                positionTooltip(e);
-                                });
-
-                                el.addEventListener('mouseleave', () => {
-                                tooltip.style.display = 'none';
-                                });
-                            } else {
-                                // mobile = click/tap
-                                el.addEventListener('click', e => {
-                                e.stopPropagation();
-                                tooltip.textContent = fullText;
-                                tooltip.style.display = 'block';
-                                positionTooltip(e);
+                
+                        document.querySelectorAll('.truncate').forEach(el => {
+                            
+                            if (el.scrollHeight > el.clientHeight) {
+                                new Tooltip(el, {
+                                    title: el.textContent.trim(),
+                                    placement: 'top',
+                                    trigger: 'hover',
+                                    html: false,
+                                    offset: 10
                                 });
                             }
+                        });
+                        document.querySelectorAll('.truncate-collection').forEach(el => {
+
+                            if (el.scrollHeight > el.clientHeight) {
+                                new Tooltip(el, {
+                                    title: el.textContent.trim(), 
+                                    placement: 'top',
+                                    trigger: 'hover',
+                                    html: false,
+                                    offset: 10
+                                });
                             }
-                        });
-                        }
-
-                        // Position tooltip near mouse or tap location
-                        function positionTooltip(e) {
-                        const offset = 10;
-                        tooltip.style.left = e.pageX + offset + 'px';
-                        tooltip.style.top = e.pageY + offset + 'px';
-                        }
-
-                        // Hide tooltip on click anywhere else (for mobile)
-                        document.addEventListener('click', () => {
-                        tooltip.style.display = 'none';
-                        });
-
-                        document.addEventListener('DOMContentLoaded', () => {
-                        if (window.innerWidth >= 992) {
-                            
-                            applyCharLimitWithTooltip('.truncate', 120, true);
-                            applyCharLimitWithTooltip('.truncate-collection', 90, true);
-                        } else {
-                            
-                            applyCharLimitWithTooltip('.truncate', 120, false);
-                            applyCharLimitWithTooltip('.truncate-collection', 60, false);
-                        }
                         });
 
 
