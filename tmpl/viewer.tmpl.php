@@ -179,11 +179,11 @@ endif;
                                          alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
                                      <?php endif;
                                      ?>
-                                <h1 class="truncate"><?php echo $interview->title; ?></h1>
+                                <h1 class="truncate"><?php echo $interview->title; ?> <?php echo $interview->title; ?> <?php echo $interview->title; ?></h1>
 
                                 <div id="secondaryMetaData">
                                     <div>
-                                        <div class="detail-metadata truncate">
+                                        <div class="detail-metadata truncate-collection">
                                             <?php
                                             echo $interview->collection;
                                             if (trim($interview->collection) && trim($interview->series)) {
@@ -194,7 +194,7 @@ endif;
 
 
                                         </div>
-                                        <div class="detail-metadata"><?php echo $interview->repository; ?></div>
+                                        <div class="detail-metadata truncate"><?php echo $interview->repository; ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -1012,7 +1012,8 @@ switch ($interview->playername) {
                         document.addEventListener('DOMContentLoaded', () => {
                         // only run if viewport width >= 1024px (you can adjust)
                         if (window.innerWidth >= 992) {
-                            applyCharLimitWithTooltip('.truncate', 80);
+                            applyCharLimitWithTooltip('.truncate', 100);
+                            applyCharLimitWithTooltip('.truncate-collection', 60);
                         }
                         });
 

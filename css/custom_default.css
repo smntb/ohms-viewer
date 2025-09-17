@@ -38,7 +38,8 @@ div.video iframe {
   height: 100%;
   border: 0;
 }
-.truncate {
+.truncate,
+.truncate-collection {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: default;
