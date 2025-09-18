@@ -5,8 +5,36 @@ function Viewer() {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
         });
+        activateTruncateText();
         let indexJS = new IndexJS();
+
         indexJS.initialize();
+    };
+    const activateTruncateText = function () {
+        document.querySelectorAll('.truncate').forEach(el => {
+
+            if (el.scrollHeight > el.clientHeight) {
+                new Tooltip(el, {
+                    title: el.textContent.trim(),
+                    placement: 'top',
+                    trigger: 'hover',
+                    html: false,
+                    offset: 10
+                });
+            }
+        });
+        document.querySelectorAll('.truncate-collection').forEach(el => {
+
+            if (el.scrollHeight > el.clientHeight) {
+                new Tooltip(el, {
+                    title: el.textContent.trim(),
+                    placement: 'top',
+                    trigger: 'hover',
+                    html: false,
+                    offset: 10
+                });
+            }
+        });
     };
 }
 
@@ -45,9 +73,14 @@ function IndexJS() {
             let id = $(this).data('id');
             let container;
             let transcriptTab;
-            if ($('.right-side').is(':visible')) {
+            if ($(this).closest('.right-side').length) {
+                container = $('.left-side');
+                transcriptTab = '#transcript-tab-1';
+
+            } else if ($('.right-side').is(':visible')) {
                 transcriptTab = '#transcript-tab-2';
                 container = $('.right-side-inner');
+
             } else {
                 container = $('.left-side');
                 transcriptTab = '#transcript-tab-1';
@@ -63,7 +96,7 @@ function IndexJS() {
         });
     };
     const switchTranscriptToIndex = function () {
-        
+
     };
     const  toggleRedirectTranscriptIndex = function () {
         let type = $(this).data('type');
@@ -80,20 +113,6 @@ function IndexJS() {
                     jQuery('#accordionHolder-alt').accordion({active: id});
                 }
             }, 250);
-        } else if (type === 'index-to-transcript') {
-            console.log(id);
-            console.log(type);
-//            $('#toggle_switch').trigger('click');
-//            setTimeout(function () {
-//                $('.tpd-tooltip').hide();
-//                $('#index-panel').hide();
-//                $('#transcript-panel').show();
-//                var container = $('#transcript-panel'),
-//                        scrollTo = $("#info_trans_" + id);
-//                container.animate({
-//                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-//                });
-//            }, 250);
         }
     }
 }

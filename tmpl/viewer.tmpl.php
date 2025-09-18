@@ -923,30 +923,7 @@ switch ($interview->playername) {
                 }
                 });
                 
-                        document.querySelectorAll('.truncate').forEach(el => {
-                            
-                            if (el.scrollHeight > el.clientHeight) {
-                                new Tooltip(el, {
-                                    title: el.textContent.trim(),
-                                    placement: 'top',
-                                    trigger: 'hover',
-                                    html: false,
-                                    offset: 10
-                                });
-                            }
-                        });
-                        document.querySelectorAll('.truncate-collection').forEach(el => {
-
-                            if (el.scrollHeight > el.clientHeight) {
-                                new Tooltip(el, {
-                                    title: el.textContent.trim(), 
-                                    placement: 'top',
-                                    trigger: 'hover',
-                                    html: false,
-                                    offset: 10
-                                });
-                            }
-                        });
+                       
 
 
 
