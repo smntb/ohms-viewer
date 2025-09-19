@@ -628,6 +628,9 @@ h2, #secondaryMetaData {
     text-align: left;
     padding-bottom: 30px;
 }
+#transcript-panel .info-circle:first-of-type, #transcript-panel-alt .info-circle:first-of-type {
+    margin-top: 0 !important;
+}
 
 #searchbox-panel {
     width: 100%;
@@ -1347,7 +1350,7 @@ p.bold {
     margin-top: -3px !important;
 }
 .info-toggle{
-    font-size: 17px;
+    font-size: 15px;
     cursor: pointer !important;
 }
 .index-circle{

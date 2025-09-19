@@ -56,8 +56,14 @@ function IndexJS() {
         $('.copyButtonViewer').on('click', function () {
             var text = $(this).prev().val();
             copyToClipboard(text);
+            $(this).attr('value', 'Copied');
+            var button = $(this);
+            setTimeout(function(){
+                button.attr('value', 'Copy');
+            }, 1500);
         });
         switchIndexToTranscript();
+
     };
     const  copyToClipboard = function (val) {
         var dummy = document.createElement("textarea");
