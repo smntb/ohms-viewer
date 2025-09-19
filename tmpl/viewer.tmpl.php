@@ -70,7 +70,7 @@ endif;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="loading">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
         <title><?php echo $interview->title; ?></title>
@@ -652,6 +652,9 @@ endif;
             <script>
                                         var allToolTipInstances = {};
                                         $(document).ready(function () {
+                                            setTimeout(() => {
+                                                $('html').removeClass('loading')
+                                            }, 500);
                                         let url = new URL(window.location.href);
                                                 let external = '';
                                                 if (url.searchParams.has('external')) {
