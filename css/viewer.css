@@ -488,16 +488,6 @@ Responsive Web Design
     width: 480px;
 }
 
-#youtubePlayer {
-}
-
-#kaltura_player_embed {
-    width: 500px;
-    height: 279px;
-    overflow: hidden;
-    margin-left: auto;
-    margin-right: auto;
-}
 /* 
 #header {
     width: 82%;
