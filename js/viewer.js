@@ -147,25 +147,7 @@ jQuery(document).ready(function ($) {
 
     });
 
-    $(".jp-next").bind('click', function () {
-        var currentProgress = Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime);
-        var futureProgress = currentProgress + 15;
-        if (futureProgress <= 0) {
-            $("#subjectPlayer").jPlayer("pause", 0);
-        } else {
-            jQuery('#subjectPlayer').jPlayer("play", futureProgress);
-        }
-    });
-    $(".jp-previous").bind('click', function () {
-        var currentProgress = Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime);
-        var futureProgress = currentProgress - 15;
-        if (futureProgress <= 0) {
-            $("#subjectPlayer").jPlayer("pause", 0);
-        } else {
-            $("#subjectPlayer").jPlayer("play", futureProgress);
-        }
-    });
-
+   
     $('#print-pdf').click(function () {
 
         var to_print = '';
