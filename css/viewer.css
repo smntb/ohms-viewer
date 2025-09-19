@@ -462,9 +462,13 @@ div.point {
 }
 
 .segmentLink {
-    border: #000000 1px solid;
+    border: #bdb9a9 1px solid;
     padding: 5px;
     display: none;
+    border-radius: 5px;
+    background: rgb(255 255 255 / 41%);
+    padding: 8px 10px;
+    margin-bottom: 8px;
 }
 
 .segmentLink input {
@@ -1397,8 +1401,19 @@ p.bold {
     font-weight: bold;
 }
 .copyButtonViewer{
-    margin-left: 8px;
-    max-width: 58px;
+    margin-left: 10px;
+    max-width: 48px;
+    background: var(--tab-active-color);
+    color: #fff;
+    border: none;
+    padding: 4px;
+    border: none;
+    font-size: 12px !important;
+    font-weight: 600;
+    cursor: pointer;
+}
+.copyButtonViewer:hover {
+    opacity: 0.7;
 }
 .bbold{
    font-weight: bold; 
