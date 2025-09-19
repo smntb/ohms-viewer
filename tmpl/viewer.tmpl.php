@@ -145,10 +145,10 @@ endif;
             $transcriptDisplay = 'display:none';
         }
         ?>
-                <div id="index-panel" class="index-panel" style="<?php //echo $indexDisplay;  ?>">
+                <div id="index-panel" class="index-panel" style="<?php //echo $indexDisplay;      ?>">
         <?php //echo $interview->index; ?>
                 </div>
-                <div id="transcript-panel" class="transcript-panel" style="<?php //echo $transcriptDisplay;  ?>">
+                <div id="transcript-panel" class="transcript-panel" style="<?php //echo $transcriptDisplay;      ?>">
         <?php //echo $interview->transcript; ?>
                 </div>
 
@@ -157,7 +157,7 @@ endif;
         </div>
     </div> -->
 
-    
+
 
 
         <div class="main-box-holder">
@@ -629,13 +629,13 @@ endif;
 
 
 
-
-            <script src="js/jquery.jplayer.min.js"></script>
+            <script src="js/video.min.js"></script>
+            <link rel="stylesheet" href="css/video-js.css" type="text/css" media="screen"/>
             <script src="js/jquery.easing.1.4.js"></script>
             <script src="js/jquery.scrollTo-min.js"></script>
             <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.12"></script>
             <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
-            <link rel="stylesheet" href="skin/skin-dark/jplayer.dark.css" type="text/css" media="screen"/>
+
             <script src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
             <link rel="stylesheet"
                   href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen"/>
@@ -736,7 +736,7 @@ switch ($interview->playername) {
         break;
     default:
         ?>
-                                                        if (Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime) {
+                                                        if (Math.floor(player.currentTime) == jumpToTime) {
         <?php
         break;
 }
@@ -846,8 +846,8 @@ switch ($interview->playername) {
                                                 });
                                         }
                                         }
-                                        
-                                        
+
+
             </script>
             <script>
                 var cachefile = '<?php echo $interview->cachefile; ?>';
@@ -922,12 +922,6 @@ switch ($interview->playername) {
                 $icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
                 });
-                
-                       
-
-
-
-                        
                         // Initialize ECharts instance
                         var chart = echarts.init(document.getElementById('wordcloud'));
                         const colorPalette = ['#dea590', '#9aa6c1', '#e1be90', '#ced1ab', '#c6a5ac'];

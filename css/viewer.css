@@ -1433,3 +1433,20 @@ p.bold {
 .adjust_height{
     height: 620px !important ;
 }
+
+.audio-player .video-js.vjs-audio .vjs-big-play-button {
+    display: none;
+}
+
+/* Audio: Make the controlbar visible by default */
+.audio-player .video-js.vjs-audio .vjs-control-bar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+/* Make player height minimum to the controls height so when we hide video/poster area the controls are displayed correctly. */
+.audio-player .video-js.vjs-audio {
+    min-height: 3em;
+}
