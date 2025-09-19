@@ -221,7 +221,7 @@ div.video iframe {
   z-index: 2;
 }
 .preview-search-form {
-  margin-top: 5px;
+  margin-top: 0;
 }
 .main-box {
   font-family: var(--font-family);
@@ -510,7 +510,7 @@ div.video iframe {
 }
 .main-box .left-side #audio-panel {
   padding: 20px;
-  max-width: 80%;
+  max-width: 85%;
   margin: auto;
 }
 
@@ -979,6 +979,7 @@ div.video iframe {
   }
   #searchbox-panel {
     padding: 0;
+    margin-top: 0;
   }
   .main-box .left-side .bottom-details {
     padding: 0;
@@ -987,10 +988,7 @@ div.video iframe {
   .dropdown-toggle-tab .dropdown-toggle {
     font-size: 14px;
   }
-  .main-box .left-side #audio-panel {
-    background: #f3f3f3;
-    padding: 0;
-  }
+  
   #headerimg {
     right: 0;
     height: auto;
@@ -1000,7 +998,7 @@ div.video iframe {
       font-size: 12px;
   }
   .main-box .left-side #audio-panel {
-    max-width: 100%;
+    max-width: 95%;
   }
 
 }
