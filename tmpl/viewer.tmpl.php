@@ -652,50 +652,40 @@ endif;
             <script>
                                         var allToolTipInstances = {};
                                         $(document).ready(function () {
-                                        let url = new URL(window.location.href);
-                                                let external = '';
-                                                if (url.searchParams.has('external')) {
-                                        external = '&external=true'
-                                        }
-                                        $(".printCustom").click(function(){
-                                        window.location.href = "viewer.php?action=pdf&cachefile=" + cachefile + external + "";
-                                        });
-                                                $(".printCustomMobile").click(function(){
-                                        window.open("viewer.php?action=pdf&cachefile=" + cachefile + external + "", '_blank');
-                                        });
-                                                $(".transcript-line").each(function(){
-                                        var jumplinkElm = $(this).find('.jumpLink');
-                                                var numberOfIntervalsInLine = jumplinkElm.length;
-                                                var isNestedElm = $(this).find('.transcript-line');
-                                                if (numberOfIntervalsInLine > 1 && isNestedElm.length < 1){
-                                        var marginToAdd = 13;
-                                                var totalMargin = 13 * numberOfIntervalsInLine;
-                                                jumplinkElm.each(function(index){
-                                                var currentMargin = totalMargin - (marginToAdd * (index + 1));
-                                                        $(this).css('margin-top', currentMargin);
-                                                });
-                                        }
-                                        });
-                                                setTimeout(function(){
-                                                var htmlTranscript = $('#transcript-panel').html().trim();
-                                                        var htmlIndex = $('#index-panel').html().trim();
-                                                        var isTranslate = $('#is_translate').val().trim();
-                                                        if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
-                                                $('.alpha-circle').hide();
-                                                        $('#toggle_switch').attr("disabled", "disabled");
-                                                        $('.slider.round').css("background-color", "#ccc");
-                                                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
-                                                $('.alpha-circle').hide();
-                                                        $('#toggle_switch').attr("disabled", "disabled");
-                                                        $('.slider.round').css("background-color", "#ccc");
-                                                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
-                                                $('.alpha-circle').hide();
-                                                        $('#toggle_switch').attr("disabled", "disabled");
-                                                        $('.slider.round').css("background-color", "#ccc");
-                                                } else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
-                                                $('.alpha-circle').hide();
-                                                }
-                                                }, 300);
+                                        
+//                                                $(".transcript-line").each(function(){
+//                                        var jumplinkElm = $(this).find('.jumpLink');
+//                                                var numberOfIntervalsInLine = jumplinkElm.length;
+//                                                var isNestedElm = $(this).find('.transcript-line');
+//                                                if (numberOfIntervalsInLine > 1 && isNestedElm.length < 1){
+//                                        var marginToAdd = 13;
+//                                                var totalMargin = 13 * numberOfIntervalsInLine;
+//                                                jumplinkElm.each(function(index){
+//                                                var currentMargin = totalMargin - (marginToAdd * (index + 1));
+//                                                        $(this).css('margin-top', currentMargin);
+//                                                });
+//                                        }
+//                                        });
+//                                                setTimeout(function(){
+//                                                var htmlTranscript = $('#transcript-panel').html().trim();
+//                                                        var htmlIndex = $('#index-panel').html().trim();
+//                                                        var isTranslate = $('#is_translate').val().trim();
+//                                                        if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
+//                                                $('.alpha-circle').hide();
+//                                                        $('#toggle_switch').attr("disabled", "disabled");
+//                                                        $('.slider.round').css("background-color", "#ccc");
+//                                                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
+//                                                $('.alpha-circle').hide();
+//                                                        $('#toggle_switch').attr("disabled", "disabled");
+//                                                        $('.slider.round').css("background-color", "#ccc");
+//                                                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
+//                                                $('.alpha-circle').hide();
+//                                                        $('#toggle_switch').attr("disabled", "disabled");
+//                                                        $('.slider.round').css("background-color", "#ccc");
+//                                                } else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
+//                                                $('.alpha-circle').hide();
+//                                                }
+//                                                }, 300);
                                                 $('.footnoteTooltip').each(function(index, element){
                                         footnoteID = $(element).data('index');
                                                 footnoteAttrId = $(element).attr("id");
@@ -1198,7 +1188,7 @@ switch ($interview->playername) {
             </script>
             <script type="text/javascript">
                         let viewer = new Viewer();
-                        viewer.initialize();
+                        viewer.initialize('<?php echo $interview->cachefile; ?>');
             </script>
     </body> 
 </html>

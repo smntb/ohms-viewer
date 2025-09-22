@@ -1,9 +1,21 @@
 
 function Viewer() {
-    this.initialize = function () {
+    this.initialize = function (cachefile) {
         $('.refreshPage').click(function () {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
+        });
+
+        let url = new URL(window.location.href);
+        let external = '';
+        if (url.searchParams.has('external')) {
+            external = '&external=true';
+        }
+        $(".printCustom").click(function () {
+            window.location.href = "viewer.php?action=pdf&cachefile=" + cachefile + external + "";
+        });
+        $(".printCustomMobile").click(function () {
+            window.open("viewer.php?action=pdf&cachefile=" + cachefile + external + "", '_blank');
         });
         activateTruncateText();
         let indexJS = new IndexJS();
@@ -58,7 +70,7 @@ function IndexJS() {
             copyToClipboard(text);
             $(this).attr('value', 'Copied');
             var button = $(this);
-            setTimeout(function(){
+            setTimeout(function () {
                 button.attr('value', 'Copy');
             }, 1500);
         });

@@ -9,4 +9,6 @@ cachefiles/*
 */.DS_store
 .DS_Store
 nbproject
+pdfs/*
+tmp/*
 imgs/avpreserve.png
