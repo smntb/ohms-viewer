@@ -108,6 +108,8 @@ class Version3 {
             $this->Transcript = new Transcript($transcript_vtt, '', $ohfile->record->index, $translate, $this->data['language'], true);
         }
         $this->data['transcript'] = $this->Transcript->getTranscriptHTML();
+        $this->data['annotations'] = $this->Transcript->getAnnotatedTerms();
+        
         $this->data['index'] = $this->Transcript->getIndexHTML();
         $this->data['index_points'] = $ohfile->record->index;
 

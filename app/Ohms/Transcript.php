@@ -9,6 +9,7 @@ class Transcript {
     private $transcript;
     private $chunks;
     private $transcriptHTML;
+    private $annotatedTerms = array();
     private $index;
     private $indexHTML;
     private $language;
@@ -224,76 +225,212 @@ POINT;
         return [$markerHtml, $counter];
     }
 
-    private function formatTranscriptVtt() {
-        $transcription = Transcription::load($this->transcript);
-        $foot_notes_text = '';
-        $line_key = 0;
-        $counter = 0;
-        foreach ($transcription->lines() as $line) {
-            $line_key += 1;
-            $time_data = $this->split_and_convert_time($line->timestamp->__toString());
-            $search_field_pattern = "/<v(?: (.*?))?>|<v(?: (.*?))?>((?:.*?)<\/v>)/";
+   /** Optional getter */
+public function getAnnotatedTerms(): array
+{
+    return $this->annotatedTerms;
+}
 
-            [$markerHtml, $counter] = $this->mapIndexSegmentWithTranscript($time_data, $counter);
-            $to_minutes = $time_data['start_time_seconds'] / 60;
-            $display_time = $this->formatTimePoint($time_data['start_time_seconds']);
+/**
+ * Parse <annotation ...>...</annotation> blocks into an index keyed by ref.
+ * Returns: [ '12' => ['ref'=>'12','number'=>'12','time'=>'410.84', ... , '_inner'=>'COVID'], ... ]
+ */
+private function buildAnnotationIndex(string $footNotesText): array
+{
+    $index = [];
 
-            $html = $markerHtml . '<span class="transcript-line"><p>';
-            $html .= "<a href=\"#\" data-timestamp=\"{$to_minutes}\" data-chunksize=\"1\" class=\"jumpLink nblu\">{$display_time}</a>";
-            if (preg_match($search_field_pattern, $line->body, $m)) {
-                $html .= "<span class=\"speaker\">{$m[1]}: </span>";
+    // Match <annotation ref="12" ...>INNER</annotation>
+    $pattern = '/<annotation\s+([^>]*\bref="(\d+)"[^>]*)>(.*?)<\/annotation>/s';
+
+    if (preg_match_all($pattern, $footNotesText, $all, PREG_SET_ORDER)) {
+        foreach ($all as $m) {
+            $attrsStr = $m[1];   // full attributes string
+            $ref      = $m[2];   // captured ref
+            $inner    = $m[3];   // inner text (keep as-is)
+
+            // Extract all key="value" pairs from attributes
+            $attrs = [];
+            if (preg_match_all('/(\w[\w\-]*)="(.*?)"/', $attrsStr, $pairs, PREG_SET_ORDER)) {
+                foreach ($pairs as $p) {
+                    $attrs[$p[1]] = $p[2];
+                }
             }
 
-            $body = $line->body;
-            if (str_contains($body, 'NOTE TRANSCRIPTION END')) {
-                $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body);
-                $body = str_replace('NOTE TRANSCRIPTION END', '', $last_point[0]);
-                $foot_notes_text = @str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
-            }
+            // Ensure ref present and store inner as special key
+            $attrs['ref']    = $ref;
+            $attrs['_inner'] = $inner;
 
-            $body = preg_replace($search_field_pattern, '', $body);
-            $body = preg_replace(
-                    '/<c\.(\d+)>(.*?)<\/c>/', '$2<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $body
-            );
-            $html .= "<span id='line_{$line_key}'>{$body}</span>";
-
-            $html .= "</p></span>";
-            $this->transcriptHTML .= $html;
-        }
-
-        if (!empty($foot_notes_text)) {
-            $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
-            $pattern = '/<annotation ref="(\d+)">(.*?)<\/annotation>/';
-            $replacement = '<div><a name="footnote$1" id="footnote$1"></a>
-                    <a class="footnoteLink nblu" href="#sup$1">$1.</a> <span class="content">$2<p></p><p></p></span></div>';
-
-            $foot_notes .= preg_replace_callback(
-                    $pattern,
-                    function ($matches) use (&$line_key) {
-
-                        $footnote_number = $matches[1];
-                        $line_number = $line_key; // Increment the captured number
-                        $line_key += 1;
-                        $pattern = '/(.*?)\[\[link\]\](.*?)\[\[\/link\]\]/';
-                        if (preg_match($pattern, $matches[2], $matches1)) {
-                            $output = '<a href="' . $matches1[2] . '">' . $matches1[1] . '</a>';
-                        } else {
-                            $output = $matches[2];
-                        }
-
-
-                        return '<div><a name="footnote' . $footnote_number . '" id="footnote' . $footnote_number . '"></a> 
-                <a class="footnoteLink nblu" href="#sup' . $footnote_number . '">' . $footnote_number . '.</a> 
-                <span class="content" id="line_' . $line_key . '">' . $output . '<p></p><p></p></span></div>';
-                    },
-                    $foot_notes_text
-            );
-
-//            $foot_notes .= preg_replace($pattern, $replacement, $foot_notes_text);
-            $foot_notes .= '</div>';
-            $this->transcriptHTML .= $foot_notes;
+            $index[$ref] = $attrs;
         }
     }
+
+    return $index;
+}
+
+/** Escape attribute values safely for HTML attributes */
+private function escapeAttr(string $v): string
+{
+    return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/** Convert camelCase / PascalCase / snake_case to kebab-case for data-* keys */
+private function toKebab(string $k): string
+{
+    $k = preg_replace('/([a-z0-9])([A-Z])/', '$1-$2', $k);
+    $k = preg_replace('/[\s_]+/', '-', $k);
+    return strtolower($k);
+}
+
+/**
+ * Convert a flat array of attributes to data-* attributes.
+ * Example: ['time' => '410.84', 'startOffset' => '20'] =>
+ *   data-time="410.84" data-start-offset="20"
+ * Skips the special key "_inner".
+ */
+private function toDataAttributes(array $attrs): string
+{
+    $parts = [];
+    foreach ($attrs as $k => $v) {
+        if ($k === '_inner') continue;
+        $dk = 'data-' . $this->toKebab($k);
+        $parts[] = $dk . '="' . $this->escapeAttr((string)$v) . '"';
+    }
+    return implode(' ', $parts);
+}
+
+/**
+ * FINAL: Two-pass formatter
+ * 1) Build transcript HTML and collect all notes (keep <c.N> intact)
+ * 2) Build annotation index from combined notes
+ * 3) Post-process transcriptHTML: replace <c.N>…</c> with span+footnote
+ * 4) Render footnotes block
+ */
+private function formatTranscriptVtt()
+{
+    $transcription = Transcription::load($this->transcript);
+
+    $notesBuffer = '';  // collect all NOTE ANNOTATIONS content across lines
+    $this->annotatedTerms = [];
+    $this->transcriptHTML = '';
+
+    $line_key = 0;
+    $counter  = 0;
+
+    // Regex for <v speaker>inner</v>
+    $vPattern = '/<v\s*([^>]*)>(.*?)<\/v>/s';
+
+    // ---------- PASS 1: render lines, collect notes, keep <c.N> unchanged ----------
+    foreach ($transcription->lines() as $line) {
+        $line_key += 1;
+
+        $time_data = $this->split_and_convert_time($line->timestamp->__toString());
+
+        [$markerHtml, $counter] = $this->mapIndexSegmentWithTranscript($time_data, $counter);
+        $to_minutes   = $time_data['start_time_seconds'] / 60;
+        $display_time = $this->formatTimePoint($time_data['start_time_seconds']);
+
+        $html = $markerHtml . '<span class="transcript-line"><p>';
+        $html .= "<a href=\"#\" data-timestamp=\"{$to_minutes}\" data-chunksize=\"1\" class=\"jumpLink nblu\">{$display_time}</a>";
+
+        // Speaker (safe)
+        if (preg_match($vPattern, $line->body, $m)) {
+            $speaker = htmlspecialchars($m[1] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            if ($speaker !== '') {
+                $html .= "<span class=\"speaker\">{$speaker}: </span>";
+            }
+        }
+
+        // Extract notes if present; DO NOT replace <c.N> yet
+        $body = $line->body;
+        if (str_contains($body, 'NOTE TRANSCRIPTION END')) {
+            $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body, 2);
+            $body = str_replace('NOTE TRANSCRIPTION END', '', $last_point[0]);
+            if (isset($last_point[1])) {
+                // accumulate notes
+                $notesBuffer .= str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
+            }
+        }
+
+        // Remove <v> wrapper but keep inner content
+        $body = preg_replace($vPattern, '$2', $body);
+
+        // Keep original <c.N> tokens for Pass 2
+        $html .= "<span id='line_{$line_key}'>{$body}</span>";
+        $html .= "</p></span>";
+
+        $this->transcriptHTML .= $html;
+    }
+
+    // ---------- PASS 2: build index and replace <c.N> with span + footnote ----------
+    $annotationIndex = $this->buildAnnotationIndex($notesBuffer);
+
+    $this->transcriptHTML = preg_replace_callback(
+        '/<c\.(\d+)>(.*?)<\/c>/s',
+        function ($m) use ($annotationIndex) {
+            $ref  = $m[1];
+            $word = $m[2];
+
+            // Find attributes for this ref; fall back to minimal set
+            $attrs = $annotationIndex[$ref] ?? ['ref' => $ref, 'text' => $word];
+
+            // Visible text: prefer annotation text, else the captured word
+            $visible = $attrs['text'] ?? $word;
+
+            // Classes: bdg-text + bdg-{wiki_label lower}
+            $wikiLabel = strtolower((string)($attrs['wiki_label'] ?? ''));
+            $cls = 'bdg-text' . ($wikiLabel ? ' bdg-' . preg_replace('/[^a-z0-9\-]+/', '-', $wikiLabel) : '');
+
+            // Build data-* attributes for all annotation attributes
+            $dataAttrs = $this->toDataAttributes($attrs);
+
+            // Collect term (line/time are unknown in post-pass; set nulls)
+            $this->annotatedTerms[] = [
+                'ref'          => (string)($attrs['ref'] ?? $ref),
+                'text'         => strip_tags($visible),
+                'line'         => null,
+                'start_time_s' => null,
+                'meta'         => array_diff_key($attrs, array_flip(['ref', '_inner'])),
+            ];
+
+            // Footnote link (kept exactly as before)
+            $footnoteHtml =
+                '<span class="footnote-ref">' .
+                    '<a name="sup' . $this->escapeAttr($ref) . '"></a>' .
+                    '<a href="#footnote' . $this->escapeAttr($ref) . '" data-index="footnote' . $this->escapeAttr($ref) . '" id="footnote_' . $this->escapeAttr($ref) . '" class="footnoteLink footnoteTooltip nblu bbold">[' . $this->escapeAttr($ref) . ']</a>' .
+                    '<span></span>' .
+                '</span>';
+
+            // Final replacement: span token + footnote link
+            return
+                '<span class="' . $this->escapeAttr($cls) . '" data-ref="' . $this->escapeAttr($ref) . '" ' . $dataAttrs . '>' .
+                    htmlspecialchars($visible, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') .
+                '</span>';// .
+//                $footnoteHtml;
+        },
+        $this->transcriptHTML
+    );
+
+    // ---------- PASS 3: render footnotes block ----------
+//    if ($notesBuffer !== '') {
+//        $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
+//
+//        foreach ($annotationIndex as $ref => $attrs) {
+//            $num   = $attrs['number'] ?? $ref;
+//            $inner = $attrs['_inner'] ?? ($attrs['text'] ?? '');
+//
+//            // Convert [[link]]x[[/link]] to <a>
+//            $inner = preg_replace('/\[\[link\]\](.*?)\[\[\/link\]\]/', '<a href="$1">$1</a>', $inner);
+//
+//            $foot_notes .=
+//                '<div><a name="footnote' . $this->escapeAttr($ref) . '" id="footnote' . $this->escapeAttr($ref) . '"></a> ' .
+//                '<a class="footnoteLink nblu" href="#sup' . $this->escapeAttr($ref) . '">' . $this->escapeAttr((string)$num) . '.</a> ' .
+//                '<span class="content" id="line_' . $this->escapeAttr((string)$ref) . '">' . $inner . '<p></p><p></p></span></div>';
+//        }
+//
+//        $foot_notes .= '</div>';
+//        $this->transcriptHTML .= $foot_notes;
+//    }
+}
 
     private function formatTranscript() {
         // iconv("UTF-8", "ASCII//IGNORE", $this->transcript);

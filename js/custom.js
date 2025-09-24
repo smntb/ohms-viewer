@@ -21,6 +21,7 @@ function Viewer() {
         let indexJS = new IndexJS();
 
         indexJS.initialize();
+        
     };
     const activateTruncateText = function () {
         document.querySelectorAll('.truncate').forEach(el => {
@@ -134,8 +135,4 @@ function IndexJS() {
         }
     }
 }
-
-
-
-
-            
+        

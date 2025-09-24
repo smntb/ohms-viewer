@@ -352,7 +352,7 @@ div.video iframe {
 .main-box .left-side .bottom-details {
   padding: 0 20px;
 }
-#wordcloud {
+#wordcloud-1, #wordcloud-2 {
   width: 100%;
   height: 500px;
 }

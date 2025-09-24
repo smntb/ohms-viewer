@@ -131,35 +131,6 @@ endif;
             }
         </script>
 
-
-    <!-- <div id="main" class="<?php echo $heightAdjustmentClass; ?>">
-        
-        <div id="main-panels">
-            <div id="content-panel">
-                <div id="holder-panel"></div>
-        <?php
-        $indexDisplay = 'display:none';
-        $transcriptDisplay = 'display:block';
-        if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($panel) || $panel != '0'))) {
-            $indexDisplay = 'display:block';
-            $transcriptDisplay = 'display:none';
-        }
-        ?>
-                <div id="index-panel" class="index-panel" style="<?php //echo $indexDisplay;      ?>">
-        <?php //echo $interview->index; ?>
-                </div>
-                <div id="transcript-panel" class="transcript-panel" style="<?php //echo $transcriptDisplay;      ?>">
-        <?php //echo $interview->transcript; ?>
-                </div>
-
-            </div>
-
-        </div>
-    </div> -->
-
-
-
-
         <div class="main-box-holder">
             <div class="main-box">
                 <div class="left-side">
@@ -209,44 +180,24 @@ endif;
                                         <li><a href="#about-tab-1">About</a></li>
                                         <li><a href="#index-tab-1">Index <span class="count">4</span></a></li>
                                         <li><a href="#transcript-tab-1">Transcript <span class="count">8</span></a></li>
-
-                                        <!-- These will be moved into dropdown via JS -->
-                                        <li class="dropdown-tab"><a href="#wordcloud-tab-1">Word Cloud</a></li>
-                                        <li class="dropdown-tab"><a href="#map-tab-1">Map</a></li>
-                                        <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
-                                        <li class="dropdown-tab"><a href="#browser-tab-1">Browser</a></li>
+                                        <?php if (count($interview->annotations) > 0): ?>
+                                            <!-- These will be moved into dropdown via JS -->
+                                            <li class="dropdown-tab"><a href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
+                                            <li class="dropdown-tab"><a href="#map-tab-1">Map</a></li>
+                                            <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
+                                            <li class="dropdown-tab"><a href="#browser-tab-1">Browser</a></li>
+                                        <?php endif; ?>
                                     </ul>
-
                                     <div id="about-tab-1">
                                         <div class="about-panel">
                                             <strong>Interview Summary</strong>
-
                                             <p><?php echo $interview->description; ?></p>
-
-
                                             <strong>Interview Accession</strong>
-                                            <p>
-                                                <?php
-                                                if (trim($interview->interviewer) && trim($interview->accession)) {
-                                                    
-                                                }
-                                                ?>
-                                                <?php echo $interview->accession; ?>
-                                            </p>
-
+                                            <p><?php echo $interview->accession; ?></p>
                                             <strong>Interviewer Name</strong>
-
-                                            <p>
-                                                <?php echo $interview->repository; ?>
-                                            </p>
-
+                                            <p><?php echo $interview->interviewer; ?></p>
                                             <strong>Interviewee Name</strong>
-
-                                            <p><?php
-                                                if (trim($interview->interviewer)) {
-                                                    echo "{$interview->interviewer}";
-                                                }
-                                                ?></p>
+                                            <p><?php echo "{$interview->interviewee}"; ?></p>
                                         </div>
                                     </div>
                                     <div id="index-tab-1">
@@ -258,8 +209,8 @@ endif;
                                         <div id="transcript-panel" class="transcript-panel">
                                             <div class="data-layers">
                                                 <div class="custom-checkbox">
-                                                    <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
-                                                    <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
+                                                    <input type="checkbox" id="toggle-layers-1" class="toggle-layers" name="toggle-layers">
+                                                    <label for="toggle-layers-1" class="toggle-layers-label">View Data Layers</label>
                                                 </div>
                                                 <ul class="data-layers-list">
                                                     <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
@@ -273,134 +224,12 @@ endif;
                                             <?php echo $interview->transcript; ?>
                                         </div>
                                     </div>
-                                    <div id="wordcloud-tab-1">
-                                        <!-- <div id='wordcloud'></div> -->
-                                        WordCloud
-                                    </div>
-                                    <div id="map-tab-1">
-                                        <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
-                                    </div>
-                                    <div id="timeline-tab-1">
-                                        <div class="timeline">
-                                            <div class="container left">
-                                                <div class="content">
-                                                    <strong>2017</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                </div>
-                                            </div>
-                                            <div class="container right">
-                                                <div class="content">
-                                                    <strong>2016</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                </div>
-                                            </div>
-                                            <div class="container left">
-                                                <div class="content">
-                                                    <strong>2015</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                </div>
-                                            </div>
-                                            <div class="container right">
-                                                <div class="content">
-                                                    <strong>2012</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                </div>
-                                            </div>
-                                            <div class="container left">
-                                                <div class="content">
-                                                    <strong>2011</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                </div>
-                                            </div>
-                                            <div class="container right">
-                                                <div class="content">
-                                                    <strong>2007</strong>
-                                                    <div class="org">ORG: Org Name</div>
-                                                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="browser-tab-1">
-                                        <div class="browser-filter">
-                                            <div class="custom-toggle-icon">
-                                                <span class="icon list active">List</span>
-                                                <span class="icon grid">Grid</span>
-                                            </div>
-
-                                            <select class="browser-type">
-                                                <option value="all">Type</option>
-                                                <option value="one">One</option>
-                                                <option value="two">Two</option>
-                                                <option value="three">Three</option>
-                                            </select>
-                                            <select class="browser-sort">
-                                                <option value="all">Sort</option>
-                                                <option value="one">One</option>
-                                            </select>
-                                            <div class="browser-search">
-                                                <input type="text" class="browser-search" placeholder="Search">
-                                                <button class="by-voice">Voice</button>
-                                            </div>
-                                        </div>
-                                        <div class="list-section">
-                                            <table class="browser-table">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Type</th>
-                                                    <th>Text/Entity Name</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>PERSON</td>
-                                                    <td>consectetur</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>PLACE</td>
-                                                    <td>pelletesque ornare</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>7</td>
-                                                    <td>PERSON</td>
-                                                    <td>Douglas A. Boyd</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>ORG</td>
-                                                    <td>congue et ex</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="grid-section">
-                                            <div class="grid-container">
-                                                <div class="grid-item bdg-person">
-                                                    <img src="[IMAGE_URL]" alt="Thumbnail">
-                                                    <div class="caption">Caption Text</div>
-                                                </div>
-
-                                                <div class="grid-item bdg-date">
-                                                    <img src="[IMAGE_URL]" alt="Thumbnail">
-                                                    <div class="caption">Another Caption</div>
-                                                </div>
-
-                                                <div class="grid-item bdg-org">
-                                                    <img src="[IMAGE_URL]" alt="Thumbnail">
-                                                    <div class="caption">Yet Another (1)</div>
-                                                </div>
-
-                                                <div class="grid-item bdg-place">
-                                                    <div class="caption no-image">Caption Only</div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                    <?php
+                                    if (count($interview->annotations) > 0):
+                                        $tab_tag = '1';
+                                        include 'tmpl/visualization.tmpl.php';
+                                    endif;
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -411,7 +240,6 @@ endif;
                             <div class="toolbar-right">
                                 <?php if ($interview->translate == '1'): ?>
                                     <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
-
                                         <a href="#" class="translate-link" id="translate-link" data-lang="<?php echo $interview->language ?>"
                                            data-translate="<?php $interview->transcript_alt_lang; ?>"
                                            data-toggleAvailable="<?php echo $toggleAvailable; ?>"
@@ -443,12 +271,13 @@ endif;
                                 <ul>
                                     <li><a href="#index-tab-2">Index <span class="count">4</span></a></li>
                                     <li><a href="#transcript-tab-2">Transcript <span class="count">8</span></a></li>
-
-                                    <!-- These will be moved into dropdown via JS -->
-                                    <li class="dropdown-tab"><a href="#wordcloud-tab-2">Word Cloud</a></li>
-                                    <li class="dropdown-tab"><a href="#map-tab-2">Map</a></li>
-                                    <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
-                                    <li class="dropdown-tab"><a href="#browser-tab-2">Browser</a></li>
+                                    <?php if (count($interview->annotations) > 0): ?>
+                                        <!-- These will be moved into dropdown via JS -->
+                                        <li class="dropdown-tab"><a href="#wordcloud-tab-2" id="wordcloud-tab-2-head">Word Cloud</a></li>
+                                        <li class="dropdown-tab"><a href="#map-tab-2">Map</a></li>
+                                        <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
+                                        <li class="dropdown-tab"><a href="#browser-tab-2">Browser</a></li>
+                                    <?php endif; ?>
                                 </ul>
 
                                 <div id="index-tab-2">
@@ -460,8 +289,8 @@ endif;
                                     <div id="transcript-panel" class="transcript-panel">
                                         <div class="data-layers">
                                             <div class="custom-checkbox">
-                                                <input type="checkbox" id="toggle-layers" class="toggle-layers" name="toggle-layers">
-                                                <label for="toggle-layers" class="toggle-layers-label">View Data Layers</label>
+                                                <input type="checkbox" id="toggle-layers-2" class="toggle-layers" name="toggle-layers">
+                                                <label for="toggle-layers-2" class="toggle-layers-label">View Data Layers</label>
                                             </div>
                                             <ul class="data-layers-list">
                                                 <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
@@ -475,61 +304,13 @@ endif;
                                         <?php echo $interview->transcript; ?>
                                     </div>
                                 </div>
-                                <div id="wordcloud-tab-2">
-                                    <div id='wordcloud'></div>
-                                </div>
-                                <div id="map-tab-2">
-                                    <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
-                                </div>
-                                <div id="timeline-tab-2">
-                                    <div class="timeline">
-                                        <div class="container left">
-                                            <div class="content">
-                                                <strong>2017</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                            </div>
-                                        </div>
-                                        <div class="container right">
-                                            <div class="content">
-                                                <strong>2016</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                            </div>
-                                        </div>
-                                        <div class="container left">
-                                            <div class="content">
-                                                <strong>2015</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                            </div>
-                                        </div>
-                                        <div class="container right">
-                                            <div class="content">
-                                                <strong>2012</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                            </div>
-                                        </div>
-                                        <div class="container left">
-                                            <div class="content">
-                                                <strong>2011</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                            </div>
-                                        </div>
-                                        <div class="container right">
-                                            <div class="content">
-                                                <strong>2007</strong>
-                                                <div class="org">ORG: Org Name</div>
-                                                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="browser-tab-2">
-                                    Browser Info
-                                </div>
+
+                                <?php
+                                if (count($interview->annotations) > 0):
+                                    $tab_tag = '2';
+                                    include 'tmpl/visualization.tmpl.php';
+                                endif;
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -652,10 +433,9 @@ endif;
             <script>
                                         var allToolTipInstances = {};
                                         $(document).ready(function () {
-                                            setTimeout(() => {
-                                                $('html').removeClass('loading')
-                                            }, 500);
-                                        
+                                        setTimeout(() => {
+                                        $('html').removeClass('loading')
+                                        }, 500);
                                                 $(".transcript-line").each(function(){
                                         var jumplinkElm = $(this).find('.jumpLink');
                                                 var numberOfIntervalsInLine = jumplinkElm.length;
@@ -842,50 +622,20 @@ switch ($interview->playername) {
 
 
             </script>
+
             <script>
                 var cachefile = '<?php echo $interview->cachefile; ?>';
                         $(function () {
 
-                        // Custom function to setup dropdown tabs
-                        function setupDropdownTabs(containerSelector, dropdownLabel = "Visualization ▼") {
-                        const $tabs = $(containerSelector).tabs();
-                                const $dropdownTabs = $(`${containerSelector} .ui-tabs-nav li.dropdown-tab`);
-                                if ($dropdownTabs.length === 0) return;
-                                const $dropdownContainer = $(`
-                            <li class="dropdown-toggle-tab">
-                                <div class="dropdown-toggle">${dropdownLabel}</div>
-                                <ul class="dropdown-menu" style="display: none;"></ul>
-                            </li>
-                        `);
-                                $dropdownTabs.each(function () {
-                                $(this).appendTo($dropdownContainer.find(".dropdown-menu"));
-                                });
-                                $(`${containerSelector} .ui-tabs-nav`).append($dropdownContainer);
-                                $(`${containerSelector} .dropdown-toggle`).on("click", function (e) {
-                        e.stopPropagation();
-                                $(this).siblings(".dropdown-menu").toggle();
-                        });
-                                $(document).on("click", function () {
-                        $(`${containerSelector} .dropdown-menu`).hide();
-                        });
-                                $(`${containerSelector} .ui-tabs-nav li a`).on("click", function () {
-                        $(`${containerSelector} .dropdown-toggle`).removeClass('active');
-                        });
-                                $(`${containerSelector} .dropdown-menu a`).on("click", function () {
-                        const $li = $(this).parent();
-                                $li.removeClass("ui-tabs-selected ui-state-active");
-                                $li.parent().prev().addClass('active');
-                                $li.parent().hide();
-                        });
-                        }
 
-                        // Apply to both tab containers
-                        setupDropdownTabs("#custom-tabs-left");
-                                setupDropdownTabs("#custom-tabs-right");
-                                function hasTranslateParam() {
-                                const urlParams = new URLSearchParams(window.location.search);
-                                        return urlParams.get('translate') === '1';
-                                }
+
+
+
+
+                        function hasTranslateParam() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                                return urlParams.get('translate') === '1';
+                        }
 
                         // Set active language tab
                         if (hasTranslateParam()) {
@@ -915,251 +665,6 @@ switch ($interview->playername) {
                 $icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
                 });
-                        // Initialize ECharts instance
-                        var chart = echarts.init(document.getElementById('wordcloud'));
-                        const colorPalette = ['#dea590', '#9aa6c1', '#e1be90', '#ced1ab', '#c6a5ac'];
-                        var option = {
-                        tooltip: {},
-                                series: [ {
-                                type: 'wordCloud',
-                                        gridSize: 2,
-                                        sizeRange: [12, 50],
-                                        rotationRange: [ - 90, 90],
-                                        // The shape of the "cloud" to draw. Can be any polar equation represented as a
-                                        // callback function, or a keyword present. Available presents are circle (default),
-                                        // cardioid (apple or heart shape curve, the most known polar equation), diamond (
-                                        // alias of square), triangle-forward, triangle, (alias of triangle-upright, pentagon, and star.
-                                        // Shapes: pentagon, star, random-light, random-dark, circle, cardioid, diamond, triangle-forward, triangle, triangle-upright, apple, heart shape curve
-                                        shape: 'circle',
-                                        width: 400,
-                                        height: 400,
-                                        drawOutOfBound: true,
-                                        textStyle: {
-                                        normal: {
-                                        color: function (params) {
-                                        const index = params.dataIndex || 0;
-                                                return colorPalette[index % colorPalette.length];
-                                        }
-                                        },
-                                                emphasis: {
-                                                shadowBlur: 10,
-                                                        shadowColor: '#333'
-                                                }
-                                        },
-                                        data: [
-                                        {
-                                        name: 'Machine Learning',
-                                                value: 10000,
-                                                textStyle: {
-                                                normal: {
-                                                color: 'black'
-                                                },
-                                                        emphasis: {
-                                                        color: 'red'
-                                                        }
-                                                }
-                                        },
-                                        {
-                                        name: 'Deep Learning',
-                                                value: 6181
-                                        },
-                                        {
-                                        name: 'Computer Vision',
-                                                value: 4386
-                                        },
-                                        {
-                                        name: 'Artificial Intelligence',
-                                                value: 4055
-                                        },
-                                        {
-                                        name: 'Neural Network',
-                                                value: 3500
-                                        },
-                                        {
-                                        name: 'Algorithm',
-                                                value: 3333
-                                        },
-                                        {
-                                        name: 'Model',
-                                                value: 2700
-                                        },
-                                        {
-                                        name: 'Supervised',
-                                                value: 2500
-                                        },
-                                        {
-                                        name: 'Unsupervised',
-                                                value: 2333
-                                        },
-                                        {
-                                        name: 'Natural Language Processing',
-                                                value: 1900
-                                        },
-                                        {
-                                        name: 'Chatbot',
-                                                value: 1800
-                                        },
-                                        {
-                                        name: 'Virtual Assistant',
-                                                value: 1500
-                                        },
-                                        {
-                                        name: 'Speech Recognition',
-                                                value: 1400
-                                        },
-                                        {
-                                        name: 'Convolutional Neural Network',
-                                                value: 1325
-                                        },
-                                        {
-                                        name: 'Reinforcement Learning',
-                                                value: 1300
-                                        },
-                                        {
-                                        name: 'Training Data',
-                                                value: 1250
-                                        },
-                                        {
-                                        name: 'Classification',
-                                                value: 1233
-                                        },
-                                        {
-                                        name: 'Regression',
-                                                value: 1000
-                                        },
-                                        {
-                                        name: 'Decision Tree',
-                                                value: 900
-                                        },
-                                        {
-                                        name: 'K-Means',
-                                                value: 875
-                                        },
-                                        {
-                                        name: 'N-Gram Analysis',
-                                                value: 850
-                                        },
-                                        {
-                                        name: 'Microservices',
-                                                value: 833
-                                        },
-                                        {
-                                        name: 'Pattern Recognition',
-                                                value: 790
-                                        },
-                                        {
-                                        name: 'APIs',
-                                                value: 775
-                                        },
-                                        {
-                                        name: 'Feature Engineering',
-                                                value: 700
-                                        },
-                                        {
-                                        name: 'Random Forest',
-                                                value: 650
-                                        },
-                                        {
-                                        name: 'Bagging',
-                                                value: 600
-                                        },
-                                        {
-                                        name: 'Anomaly Detection',
-                                                value: 575
-                                        },
-                                        {
-                                        name: 'Naive Bayes',
-                                                value: 500
-                                        },
-                                        {
-                                        name: 'Autoencoder',
-                                                value: 400
-                                        },
-                                        {
-                                        name: 'Backpropagation',
-                                                value: 300
-                                        },
-                                        {
-                                        name: 'TensorFlow',
-                                                value: 290
-                                        },
-                                        {
-                                        name: 'word2vec',
-                                                value: 280
-                                        },
-                                        {
-                                        name: 'Object Recognition',
-                                                value: 250
-                                        },
-                                        {
-                                        name: 'Python',
-                                                value: 235
-                                        },
-                                        {
-                                        name: 'Predictive Analytics',
-                                                value: 225
-                                        },
-                                        {
-                                        name: 'Predictive Modeling',
-                                                value: 215
-                                        },
-                                        {
-                                        name: 'Optical Character Recognition',
-                                                value: 200
-                                        },
-                                        {
-                                        name: 'Overfitting',
-                                                value: 190
-                                        },
-                                        {
-                                        name: 'JavaScript',
-                                                value: 185
-                                        },
-                                        {
-                                        name: 'Text Analytics',
-                                                value: 180
-                                        },
-                                        {
-                                        name: 'Cognitive Computing',
-                                                value: 175
-                                        },
-                                        {
-                                        name: 'Augmented Intelligence',
-                                                value: 160
-                                        },
-                                        {
-                                        name: 'Statistical Models',
-                                                value: 155
-                                        },
-                                        {
-                                        name: 'Clustering',
-                                                value: 150
-                                        },
-                                        {
-                                        name: 'Topic Modeling',
-                                                value: 145
-                                        },
-                                        {
-                                        name: 'Data Mining',
-                                                value: 140
-                                        },
-                                        {
-                                        name: 'Data Science',
-                                                value: 138
-                                        },
-                                        {
-                                        name: 'Semi-Supervised Learning',
-                                                value: 137
-                                        },
-                                        {
-                                        name: 'Artificial Neural Networks',
-                                                value: 125
-                                        }
-                                        ]
-                                } ]
-                        };
-                        chart.setOption(option);
-                        window.onresize = chart.resize;
                         // Custom Popover Functionality
                         const popoverBtn = document.getElementById('popoverBtn');
                         const popover = document.getElementById('customPopover');
@@ -1175,23 +680,14 @@ switch ($interview->playername) {
                         popover.style.display = 'none';
                         }
                         });
-                        // View Toggle Functionality
-                        $('.grid-section').hide();
-                        $('.custom-toggle-icon .icon').on('click', function() {
-                $(this).siblings('span').removeClass('active');
-                        $(this).addClass('active');
-                        if ($(this).hasClass('list')) {
-                $('.grid-section').hide();
-                        $('.list-section').show();
-                } else {
-                $('.list-section').hide();
-                        $('.grid-section').show();
-                }
-                });
             </script>
+            <script src="js/visualization.js"></script>
             <script type="text/javascript">
                         let viewer = new Viewer();
                         viewer.initialize();
+                        const visualization = new VisualizationJS();
+                        visualization.initialize(<?php echo json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>);
             </script>
+
     </body> 
 </html>
