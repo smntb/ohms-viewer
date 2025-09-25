@@ -9,12 +9,8 @@ function VisualizationJS() {
         entityData = entityRows;
         wordCloudTab();
 
-        activateWordCloud();
-
-
-
     };
-    const activateWordCloud = function () {
+    const resizeWordCloud = function () {
         $('#wordcloud-tab-1-head').click(function () {
             chart1.resize();
         });
@@ -67,32 +63,45 @@ function VisualizationJS() {
         chart2.setOption(option);
         window.onresize = chart1.resize
         window.onresize = chart2.resize
+        resizeWordCloud();
 
-// Initialize ECharts instance
+        chart1.on('click', function (params) {
+            const word = params.name;
+            const ref = params.data.ref;
+            const label = params.data.labelType;
+            let container;
+            let transcriptTab;
+            if ($('.right-side').is(':visible')) {
+                transcriptTab = '#transcript-tab-2';
+                container = $('.right-side-inner');
 
+            } else {
+                container = $('.left-side');
+                transcriptTab = '#transcript-tab-1';
+            }
+            scrollToTranscript(container, transcriptTab, ref)
 
+        });
+        chart2.on('click', function (params) {
+            const word = params.name;
+            const ref = params.data.ref;
+            const label = params.data.labelType;
+            let container = $('.left-side');
+            let transcriptTab = '#transcript-tab-1';
+            scrollToTranscript(container, transcriptTab, ref)
 
-//        chart.setOption(option);
-//        window.onresize = chart.resize;
-//        chart.on('click', function (params) {
-//    // params.name => word
-//    // params.value => weight
-//    // params.data.ref / params.data.labelType => your custom fields
-//    const word = params.name;
-//    const ref  = params.data.ref;
-//    const label = params.data.labelType;
-//
-//    console.log('Clicked:', { word, ref, label });
-//
-//    // Example actions:
-//    // 1) Scroll to a table row with the same ref
-////    const row = document.getElementById(`row-ref-${ref}`);
-////    if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-//
-//    // 2) Or trigger your own function / modal / filter
-//    // openAnnotationDetail({ word, ref, label });
-//  });
+        });
 
+    };
+    const scrollToTranscript = function (container, transcriptTab, ref) {
+        $('a[href="' + transcriptTab + '"]').trigger("click");
+        $('html, body').animate({scrollTop: 0}, 100);
+        setTimeout(function () {
+            let scrollTo = $(transcriptTab + ">.transcript-panel .ref_" + ref);
+            container.animate({
+                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+            });
+        }, 250);
     };
     const browserTab = function () {
         $('.grid-section').hide();

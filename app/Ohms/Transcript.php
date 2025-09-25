@@ -402,7 +402,7 @@ private function formatTranscriptVtt()
 
             // Final replacement: span token + footnote link
             return
-                '<span class="' . $this->escapeAttr($cls) . '" data-ref="' . $this->escapeAttr($ref) . '" ' . $dataAttrs . '>' .
+                '<span class="' . $this->escapeAttr($cls) . ' ref_' . $this->escapeAttr($ref) . '" data-ref="' . $this->escapeAttr($ref) . '" ' . $dataAttrs . '>' .
                     htmlspecialchars($visible, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') .
                 '</span>';// .
 //                $footnoteHtml;
