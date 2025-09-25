@@ -104,6 +104,24 @@ function VisualizationJS() {
         }, 250);
     };
     const browserTab = function () {
+        $('.anno-row').click(function () {
+            let container;
+            let transcriptTab;
+            if ($(this).closest('.right-side').length) {
+                container = $('.left-side');
+                transcriptTab = '#transcript-tab-1';
+
+            } else if ($('.right-side').is(':visible')) {
+                transcriptTab = '#transcript-tab-2';
+                container = $('.right-side-inner');
+
+            } else {
+                container = $('.left-side');
+                transcriptTab = '#transcript-tab-1';
+            }
+            scrollToTranscript(container,transcriptTab,$(this).data('ref'));
+        });
+
         $('.grid-section').hide();
         $('.custom-toggle-icon .icon').on('click', function () {
             $(this).siblings('span').removeClass('active');
