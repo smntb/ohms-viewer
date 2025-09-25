@@ -106,6 +106,22 @@ function VisualizationJS() {
             });
         }, 250);
     };
+
+    const applyFilters = function () {
+        let id = $(this).data('id');
+        const searchText = $('#browser_search' + id).val().toLowerCase();
+        const selectedType = $('#type_filter' + id).val().toLowerCase();
+
+        $('#entityTable' + id + ' tbody tr').each(function () {
+            const rowText = $(this).text().toLowerCase();
+            const rowType = $(this).children('td').eq(1).text().toLowerCase();
+
+            const matchesSearch = rowText.indexOf(searchText) > -1;
+            const matchesType = !selectedType || rowType === selectedType;
+
+            $(this).toggle(matchesSearch && matchesType);
+        });
+    };
     const browserTab = function () {
         $('.anno-row').click(function () {
             let container;
@@ -124,7 +140,47 @@ function VisualizationJS() {
             }
             scrollToTranscript(container, transcriptTab, $(this).data('ref'));
         });
+        $('#browser_search1, #browser_search2').on('keyup', applyFilters);
+        $('#type_filter1, #type_filter2').on('change', applyFilters);
 
+        $('#sortDropdown1, #sortDropdown2 ').on('change', function () {
+
+            const value = $(this).val();
+            if (!value)
+                return;
+
+            const [col, dir] = value.split('-'); // e.g. "id-asc" → ["id", "asc"]
+
+            let colIndex = 0;
+            if (col === 'type')
+                colIndex = 1;
+            if (col === 'name')
+                colIndex = 2;
+
+            const $tbody = $('#entityTable' + $(this).data('id') + ' tbody');
+            const $rows = $tbody.find('tr').get();
+
+            $rows.sort(function (rowA, rowB) {
+                let aText = $(rowA).children('td').eq(colIndex).text().trim();
+                let bText = $(rowB).children('td').eq(colIndex).text().trim();
+
+                if (col === 'id') {
+                    aText = parseInt(aText, 10);
+                    bText = parseInt(bText, 10);
+                }
+
+                if (aText < bText)
+                    return dir === 'asc' ? -1 : 1;
+                if (aText > bText)
+                    return dir === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            // Re-attach sorted rows
+            $.each($rows, function (_, row) {
+                $tbody.append(row);
+            });
+        });
         $('.grid-section').hide();
         $('.custom-toggle-icon .icon').on('click', function () {
             $(this).siblings('span').removeClass('active');
