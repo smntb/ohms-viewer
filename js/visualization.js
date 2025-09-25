@@ -21,7 +21,7 @@ function VisualizationJS() {
 
     };
     const wordCloudTab = function () {
-
+        
         const labelColors = {
             PERSON: '#dea590',
             PLACE: '#9aa6c1',
@@ -33,11 +33,11 @@ function VisualizationJS() {
             tooltip: {show: true, formatter: p => `${p.name} (${p.value})`},
             series: [{
                     type: 'wordCloud',
-                    gridSize: 2,
-                    sizeRange: [20, 20],
-                    rotationRange: [-90, 90],
+                    gridSize: 8,
+                    sizeRange: [20, 40],
+                    rotationRange: [0, 0],
                     shape: 'square',
-                    drawOutOfBound: true,
+                    drawOutOfBound: false,
                     textStyle: {
                         normal: {
                             color: function (params) {
@@ -45,13 +45,13 @@ function VisualizationJS() {
                             }
                         },
                         emphasis: {
-                            shadowBlur: 10,
+                            shadowBlur: 1,
                             shadowColor: '#333'
                         }
                     },
                     data: entityData.map(a => ({
                             name: a.text, // word shown
-                            value: 1, // value ignored since size fixed
+                            value: Math.floor(Math.random() * a.count) + a.count, // value ignored since size fixed
                             ref: a.first_ref,
                             labelType: a.label  // custom field used for color
                         }))
