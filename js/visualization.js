@@ -185,12 +185,13 @@ function VisualizationJS() {
         $('.custom-toggle-icon .icon').on('click', function () {
             $(this).siblings('span').removeClass('active');
             $(this).addClass('active');
+            let id = $(this).data('id');
             if ($(this).hasClass('list')) {
-                $('.grid-section').hide();
-                $('.list-section').show();
+                $('.grid_' + id).hide();
+                $('.list_' + id).show();
             } else {
-                $('.list-section').hide();
-                $('.grid-section').show();
+                $('.list_' + id).hide();
+                $('.grid_' + id).show();
             }
         });
     };
