@@ -59,7 +59,7 @@
         </div>
 
         <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
-            <option value="all">Type</option>
+            <option value="">Type</option>
             <option value="person">Person</option>
             <option value="place">Place</option>
             <option value="date">Date</option>
