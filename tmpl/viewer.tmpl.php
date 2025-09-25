@@ -84,9 +84,13 @@ endif;
         <link rel="stylesheet" href="css/font-awesome.css">
         <link rel="stylesheet" href="css/simplePagination.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="js/jquery-ui.toggleSwitch.js"></script>
         <script src="js/toggleSwitch.js?v1.16"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+        <!-- Select2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="js/viewer.js"></script>
         <script type="text/javascript" src="js/tipped/tipped.js"></script>
         <link rel="stylesheet" href="css/tipped/tipped.css" type="text/css"/>

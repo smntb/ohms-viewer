@@ -58,14 +58,17 @@
             <span class="icon grid">Grid</span>
         </div>
 
-        <select class="browser-type">
-            <option value="all">Type</option>
-            <option value="person">Person</option>
-            <option value="place">Place</option>
-            <option value="date">Date</option>
-            <option value="org">Org</option>
-            <option value="event">Event</option>
-        </select>
+        <div class="select-wrapper">
+            <label class="select-label">Type</label>
+            <select class="browser-type" multiple>
+                <option value="all">Type</option>
+                <option value="person">Person</option>
+                <option value="place">Place</option>
+                <option value="date">Date</option>
+                <option value="org">Org</option>
+                <option value="event">Event</option>
+            </select>
+        </div>
         <select class="browser-sort">
             <option value="all">Sort</option>
             <option value="one">ID ↑</option>
@@ -81,6 +84,8 @@
             <button class="by-voice">Voice</button>
         </div>
     </div>
+    <!-- Pills will appear here -->
+    <div class="pill-container"></div>
     <div class="list-section">
         <?php
         $stats = [];
@@ -176,5 +181,63 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function () {
+    $('.browser-type').each(function () {
+        const $select = $(this);
+        const $pillContainer = $select.closest('.browser-filter').next('.pill-container'); // Or customize selector
+
+        $select.select2({
+            placeholder: "Type",
+            closeOnSelect: false,
+            minimumResultsForSearch: Infinity
+        });
+
+        function updatePills() {
+            $pillContainer.empty();
+
+            const selectedItems = $select.select2('data') || [];
+
+            $.each(selectedItems, function (_, item) {
+                const $pill = $(`
+                    <span class="pill" data-id="${item.id}">
+                        ${item.text}
+                        <span class="remove-pill" title="Remove">×</span>
+                    </span>
+                `);
+                $pillContainer.append($pill);
+            });
+        }
+
+        $select.on('change', updatePills);
+
+        $pillContainer.on('click', '.remove-pill', function () {
+            const idToRemove = $(this).parent().data('id');
+            const currentValues = $select.val() || [];
+            const updatedValues = currentValues.filter(val => val !== idToRemove);
+            $select.val(updatedValues).trigger('change');
+        });
+
+        updatePills(); // Initial load
+    });
+
+    // Optional: close dropdowns on outside click
+    $(document).on('click', function (e) {
+        $('.select2-container').each(function () {
+            const $container = $(this);
+            if (
+                !$container.is(e.target) &&
+                $container.has(e.target).length === 0 &&
+                $container.find('.select2-selection--multiple').length
+            ) {
+                const $select = $container.prev('select');
+                if ($select.length && $select.data('select2')?.isOpen()) {
+                    $select.select2('close');
+                }
+            }
+        });
+    });
+});
+
+
 
 </script>
