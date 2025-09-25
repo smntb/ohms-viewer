@@ -54,8 +54,8 @@
 <div id="browser-tab-<?php echo $tab_tag; ?>">
     <div class="browser-filter">
         <div class="custom-toggle-icon">
-            <span class="icon list active">List</span>
-            <span class="icon grid">Grid</span>
+            <span class="icon list active" data-id="<?php echo $tab_tag; ?>">List</span>
+            <span class="icon grid" data-id="<?php echo $tab_tag; ?>">Grid</span>
         </div>
 
         <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
@@ -81,9 +81,7 @@
             <button class="by-voice">Voice</button>
         </div>
     </div>
-    <!-- Pills will appear here -->
-    <div class="pill-container"></div>
-    <div class="list-section">
+    <div class="list-section list_<?php echo $tab_tag; ?>">
         <?php
         $stats = [];
 
@@ -153,7 +151,7 @@
 
 
     </div>
-    <div class="grid-section">
+    <div class="grid-section grid_<?php echo $tab_tag; ?>">
         <div class="grid-container">
             <div class="grid-item bdg-person">
                 <img src="[IMAGE_URL]" alt="Thumbnail">
