@@ -57,15 +57,17 @@
             <span class="icon list active" data-id="<?php echo $tab_tag; ?>">List</span>
             <span class="icon grid" data-id="<?php echo $tab_tag; ?>">Grid</span>
         </div>
-
-        <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
-            <option value="all">Type</option>
-            <option value="person">Person</option>
-            <option value="place">Place</option>
-            <option value="date">Date</option>
-            <option value="org">Org</option>
-            <option value="event">Event</option>
-        </select>
+        <div class="select-wrapper">
+            <label class="select-label">Type</label>
+            <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
+                <option value="all">Type</option>
+                <option value="person">Person</option>
+                <option value="place">Place</option>
+                <option value="date">Date</option>
+                <option value="org">Org</option>
+                <option value="event">Event</option>
+            </select>
+        </div>
         <select id="sortDropdown<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-sort">
             <option value="">Sort</option>
             <option value="count-asc">Count ↑</option>
@@ -81,6 +83,22 @@
             <button class="by-voice">Voice</button>
         </div>
     </div>
+    <div class="browser-filter">
+        <div class="select-wrapper">
+            <label class="select-label">Type</label>
+            <select class="browser-type" multiple>
+                <option value="all">Type</option>
+                <option value="person">Person</option>
+                <option value="place">Place</option>
+                <option value="date">Date</option>
+                <option value="org">Org</option>
+                <option value="event">Event</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Pills will appear here -->
+    <div class="pill-container"></div>
     <div class="list-section list_<?php echo $tab_tag; ?>">
         <?php
         $stats = [];
