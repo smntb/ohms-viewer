@@ -58,7 +58,7 @@
             <span class="icon grid">Grid</span>
         </div>
 
-        <select class="browser-type">
+        <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
             <option value="all">Type</option>
             <option value="person">Person</option>
             <option value="place">Place</option>
@@ -77,7 +77,7 @@
 
         </select>
         <div class="browser-search">
-            <input type="text" id="browser-search<?php echo $tab_tag; ?>" class="browser-search" data-id="<?php echo $tab_tag; ?>" placeholder="Search">
+            <input type="text" id="browser_search<?php echo $tab_tag; ?>" class="browser-search" data-id="<?php echo $tab_tag; ?>" placeholder="Search">
             <button class="by-voice">Voice</button>
         </div>
     </div>

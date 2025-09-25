@@ -106,6 +106,22 @@ function VisualizationJS() {
             });
         }, 250);
     };
+
+    const applyFilters = function () {
+        let id = $(this).data('id');
+        const searchText = $('#browser_search' + id).val().toLowerCase();
+        const selectedType = $('#type_filter' + id).val().toLowerCase();
+
+        $('#entityTable' + id + ' tbody tr').each(function () {
+            const rowText = $(this).text().toLowerCase();
+            const rowType = $(this).children('td').eq(1).text().toLowerCase();
+
+            const matchesSearch = rowText.indexOf(searchText) > -1;
+            const matchesType = !selectedType || rowType === selectedType;
+
+            $(this).toggle(matchesSearch && matchesType);
+        });
+    };
     const browserTab = function () {
         $('.anno-row').click(function () {
             let container;
@@ -124,14 +140,9 @@ function VisualizationJS() {
             }
             scrollToTranscript(container, transcriptTab, $(this).data('ref'));
         });
+        $('#browser_search1, #browser_search2').on('keyup', applyFilters);
+        $('#type_filter1, #type_filter2').on('change', applyFilters);
 
-        $('#browser-search1, #browser-search2').on('keyup', function () {
-            const searchText = $(this).val().toLowerCase();
-            $('#entityTable' + $(this).data('id') + ' tbody tr').each(function () {
-                const rowText = $(this).text().toLowerCase();
-                $(this).toggle(rowText.indexOf(searchText) > -1);
-            });
-        });
         $('#sortDropdown1, #sortDropdown2 ').on('change', function () {
 
             const value = $(this).val();
