@@ -686,7 +686,7 @@ switch ($interview->playername) {
                         let viewer = new Viewer();
                         viewer.initialize();
                         const visualization = new VisualizationJS();
-                        visualization.initialize(<?php echo json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>);
+                        visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>);
             </script>
 
     </body> 

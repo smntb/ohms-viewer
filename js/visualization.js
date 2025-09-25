@@ -5,9 +5,12 @@ function VisualizationJS() {
     this.initialize = function (entityRows) {
         setupDropdownTabs("#custom-tabs-left");
         setupDropdownTabs("#custom-tabs-right");
-        browserTab();
-        entityData = entityRows;
-        wordCloudTab();
+        if (entityRows.length > 0) {
+            browserTab();
+            entityData = entityRows;
+            wordCloudTab();
+        }
+
 
     };
     const resizeWordCloud = function () {
@@ -21,7 +24,7 @@ function VisualizationJS() {
 
     };
     const wordCloudTab = function () {
-        
+
         const labelColors = {
             PERSON: '#dea590',
             PLACE: '#9aa6c1',
@@ -119,7 +122,7 @@ function VisualizationJS() {
                 container = $('.left-side');
                 transcriptTab = '#transcript-tab-1';
             }
-            scrollToTranscript(container,transcriptTab,$(this).data('ref'));
+            scrollToTranscript(container, transcriptTab, $(this).data('ref'));
         });
 
         $('.grid-section').hide();
