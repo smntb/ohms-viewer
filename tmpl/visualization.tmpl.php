@@ -66,18 +66,18 @@
             <option value="org">Org</option>
             <option value="event">Event</option>
         </select>
-        <select class="browser-sort">
-            <option value="all">Sort</option>
-            <option value="one">ID ↑</option>
-            <option value="one">ID ↓</option>
-            <option value="one">Type ↑</option>
-            <option value="one">Type ↓</option>
-            <option value="one">Entity Name ↑</option>
-            <option value="one">Entity Name ↓</option>
+        <select id="sortDropdown<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-sort">
+            <option value="">Sort</option>
+            <option value="count-asc">Count ↑</option>
+            <option value="count-desc">Count ↓</option>
+            <option value="type-asc">Type ↑</option>
+            <option value="type-desc">Type ↓</option>
+            <option value="name-asc">Entity Name ↑</option>
+            <option value="name-desc">Entity Name ↓</option>
 
         </select>
         <div class="browser-search">
-            <input type="text" class="browser-search" placeholder="Search">
+            <input type="text" id="browser-search<?php echo $tab_tag; ?>" class="browser-search" data-id="<?php echo $tab_tag; ?>" placeholder="Search">
             <button class="by-voice">Voice</button>
         </div>
     </div>
@@ -128,10 +128,10 @@
         });
         ?>
 
-        <table class="browser-table">
+        <table id="entityTable<?php echo $tab_tag; ?>" class="browser-table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Count</th>
                     <th>Type</th>
                     <th>Text/Entity Name</th>
                 </tr>
