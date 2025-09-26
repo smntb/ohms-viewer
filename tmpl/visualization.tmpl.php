@@ -1,3 +1,4 @@
+<?php ?>
 <div id="wordcloud-tab-<?php echo $tab_tag; ?>">
     <div id="wordcloud-<?php echo $tab_tag; ?>"></div> 
 
@@ -7,48 +8,46 @@
 </div>
 <div id="timeline-tab-<?php echo $tab_tag; ?>">
     <div class="timeline">
-        <div class="container left">
-            <div class="content">
-                <strong>2017</strong>
-                <div class="org">ORG: Org Name</div>
-                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+        <?php
+        $unique = [];
+        $filtered = [];
+
+        foreach ($interview->timeline as $item) {
+            // Key combines date + wiki.name
+            $key = $item['date'] . '|' . ($item['wiki']['name'] ?? '');
+
+            if (!isset($unique[$key])) {
+                $unique[$key] = true;
+                $filtered[] = $item;
+            }
+        }
+
+// Now $filtered has duplicates removed
+        $timeline = $filtered;
+        foreach ($timeline as $i => $item) {
+            $sideClass = ($i % 2 === 0) ? 'left' : 'right';
+            ?>
+            <div class="container <?php echo $sideClass; ?>">
+                <div class="content">
+                    <strong><?php echo htmlspecialchars($item['date']); ?></strong>
+                    <div class="org"><?php echo htmlspecialchars($item['label']); ?>: <?php echo htmlspecialchars($item['wiki']['name']); ?></div>
+                    <p><?php
+                        if (!empty($item['wiki']['description_1'])):
+                            echo htmlspecialchars($item['wiki']['description_1']);
+                        else:
+                            echo htmlspecialchars($item['wiki']['description_2']);
+                        endif;
+                        ?></p>
+                    <?php if (!empty($item['wiki']['url1'])): ?>
+                        <a href="<?php echo htmlspecialchars($item['wiki']['url1']); ?>" target="_blank">Wikipedia</a>
+                    <?php endif; ?>
+                </div>
+
             </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <strong>2016</strong>
-                <div class="org">ORG: Org Name</div>
-                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-            </div>
-        </div>
-        <div class="container left">
-            <div class="content">
-                <strong>2015</strong>
-                <div class="org">ORG: Org Name</div>
-                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-            </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <strong>2012</strong>
-                <div class="org">ORG: Org Name</div>
-                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-            </div>
-        </div>
-        <div class="container left">
-            <div class="content">
-                <strong>2011</strong>
-                <div class="org">ORG: Org Name</div>
-                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-            </div>
-        </div>
-        <div class="container right">
-            <div class="content">
-                <strong>2007</strong>
-                <div class="org">ORG: Org Name</div>
-                <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
-            </div>
-        </div>
+            <?php
+        }
+        ?>
+
     </div>
 </div>
 <div id="browser-tab-<?php echo $tab_tag; ?>">
@@ -193,61 +192,61 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-    $('.browser-type').each(function () {
-        const $select = $(this);
-        const $pillContainer = $select.closest('.browser-filter').next('.pill-container'); // Or customize selector
+        $('.browser-type').each(function () {
+            const $select = $(this);
+            const $pillContainer = $select.closest('.browser-filter').next('.pill-container'); // Or customize selector
 
-        $select.select2({
-            placeholder: "Type",
-            closeOnSelect: false,
-            minimumResultsForSearch: Infinity
-        });
+            $select.select2({
+                placeholder: "Type",
+                closeOnSelect: false,
+                minimumResultsForSearch: Infinity
+            });
 
-        function updatePills() {
-            $pillContainer.empty();
+            function updatePills() {
+                $pillContainer.empty();
 
-            const selectedItems = $select.select2('data') || [];
+                const selectedItems = $select.select2('data') || [];
 
-            $.each(selectedItems, function (_, item) {
-                const $pill = $(`
+                $.each(selectedItems, function (_, item) {
+                    const $pill = $(`
                     <span class="pill" data-id="${item.id}">
                         ${item.text}
                         <span class="remove-pill" title="Remove">×</span>
                     </span>
                 `);
-                $pillContainer.append($pill);
-            });
-        }
-
-        $select.on('change', updatePills);
-
-        $pillContainer.on('click', '.remove-pill', function () {
-            const idToRemove = $(this).parent().data('id');
-            const currentValues = $select.val() || [];
-            const updatedValues = currentValues.filter(val => val !== idToRemove);
-            $select.val(updatedValues).trigger('change');
-        });
-
-        updatePills(); // Initial load
-    });
-
-    // Optional: close dropdowns on outside click
-    $(document).on('click', function (e) {
-        $('.select2-container').each(function () {
-            const $container = $(this);
-            if (
-                !$container.is(e.target) &&
-                $container.has(e.target).length === 0 &&
-                $container.find('.select2-selection--multiple').length
-            ) {
-                const $select = $container.prev('select');
-                if ($select.length && $select.data('select2')?.isOpen()) {
-                    $select.select2('close');
-                }
+                    $pillContainer.append($pill);
+                });
             }
+
+            $select.on('change', updatePills);
+
+            $pillContainer.on('click', '.remove-pill', function () {
+                const idToRemove = $(this).parent().data('id');
+                const currentValues = $select.val() || [];
+                const updatedValues = currentValues.filter(val => val !== idToRemove);
+                $select.val(updatedValues).trigger('change');
+            });
+
+            updatePills(); // Initial load
+        });
+
+        // Optional: close dropdowns on outside click
+        $(document).on('click', function (e) {
+            $('.select2-container').each(function () {
+                const $container = $(this);
+                if (
+                        !$container.is(e.target) &&
+                        $container.has(e.target).length === 0 &&
+                        $container.find('.select2-selection--multiple').length
+                        ) {
+                    const $select = $container.prev('select');
+                    if ($select.length && $select.data('select2')?.isOpen()) {
+                        $select.select2('close');
+                    }
+                }
+            });
         });
     });
-});
 
 
 
