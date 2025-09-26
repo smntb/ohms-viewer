@@ -109,20 +109,44 @@ function VisualizationJS() {
 
     const applyFilters = function () {
         let id = $(this).data('id');
-        const searchText = $('#browser_search' + id).val().toLowerCase();
-        const selectedType = $('#type_filter' + id).val().toLowerCase();
+        const searchText = ($('#browser_search' + id).val() || '').toLowerCase().trim();
+
+        // MULTISELECT: ensure an array, then lowercase
+        let selectedTypes = $('#type_filter' + id).val() || [];
+        if (!Array.isArray(selectedTypes))
+            selectedTypes = [selectedTypes]; // in case it ever becomes single
+        selectedTypes = selectedTypes
+                .filter(v => v != null && v !== '')
+                .map(v => v.toString().toLowerCase().trim());
 
         $('#entityTable' + id + ' tbody tr').each(function () {
             const rowText = $(this).text().toLowerCase();
-            const rowType = $(this).children('td').eq(1).text().toLowerCase();
+            // Type column (index 1). Supports multiple tokens like "PERSON, ORG" or "PERSON|ORG"
+            const rowTypeRaw = $(this).children('td').eq(1).text().toLowerCase();
+            const rowTypes = rowTypeRaw
+                    .split(/[,\|\/]+/)       // commas, pipes, slashes
+                    .map(s => s.trim())
+                    .filter(Boolean);
 
-            const matchesSearch = rowText.indexOf(searchText) > -1;
-            const matchesType = !selectedType || rowType === selectedType;
+            const matchesSearch = !searchText || rowText.indexOf(searchText) > -1;
+
+            // If no type selected → pass. Else match if any row type is in selectedTypes.
+            const matchesType =
+                    selectedTypes.length === 0 ||
+                    rowTypes.some(t => selectedTypes.includes(t));
 
             $(this).toggle(matchesSearch && matchesType);
         });
     };
     const browserTab = function () {
+        $("#type_filter1, #type_filter2").multiselect({
+            header: true,
+            noneSelectedText: "Type",
+            selectedList: 0, // don’t list each, just show count
+            selectedText: function (numSelected, total, checkedItems) {
+                return numSelected + " selected";
+            }
+        });
         $('.anno-row').click(function () {
             let container;
             let transcriptTab;

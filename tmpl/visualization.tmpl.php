@@ -57,24 +57,25 @@
             <span class="icon grid" data-id="<?php echo $tab_tag; ?>">Grid</span>
         </div>
 
-        <div class="select-wrapper">
-            <div class="select-summary">Type</div>
-            <select data-id="<?php echo $tab_tag; ?>" class="browser-multiple" multiple>
-                <option value="person">Person</option>
-                <option value="place">Place</option>
-                <option value="date">Date</option>
-                <option value="org">Organization</option>
-                <option value="event">Event</option>
-            </select>
-        </div>
+        <!--        <div class="select-wrapper">
+                    <div class="select-summary">Type</div>
+                    <select data-id="<?php echo $tab_tag; ?>" class="browser-multiple" multiple>
+                        <option value="person">Person</option>
+                        <option value="place">Place</option>
+                        <option value="date">Date</option>
+                        <option value="org">Organization</option>
+                        <option value="event">Event</option>
+                    </select>
+                </div>-->
 
-        <!-- <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
+        <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type" multiple="multiple">
+
             <option value="person">Person</option>
             <option value="place">Place</option>
             <option value="date">Date</option>
             <option value="org">Org</option>
             <option value="event">Event</option>
-        </select> -->
+        </select> 
         <select id="sortDropdown<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-sort">
             <option value="">Sort</option>
             <option value="count-asc">Count ↑</option>
@@ -188,39 +189,5 @@
 
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.select-wrapper').each(function () {
-            const $wrapper = $(this);
-            const $select = $wrapper.find('.browser-multiple');
-            const $summary = $wrapper.find('.select-summary');
-            const totalOptions = $select.find('option').length;
-
-            // Initialize Select2
-            $select.select2({
-            placeholder: '',
-            closeOnSelect: true,
-            width: 'resolve',
-            tags: false,
-            });
-
-            // Function to update summary text
-            function updateSummary() {
-            const selectedCount = $select.val() ? $select.val().length : 0;
-            if (selectedCount === 0) {
-                $summary.text('Type').css('color', '#666');
-            } else {
-                $summary.text(`${selectedCount} of ${totalOptions}`).css('color', '#000');
-            }
-            }
-
-            // Initial update
-            updateSummary();
-
-            // Update on change
-            $select.on('change', updateSummary);
-        });
-    });
 
 
-</script>
