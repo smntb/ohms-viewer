@@ -58,14 +58,24 @@
             <span class="icon grid" data-id="<?php echo $tab_tag; ?>">Grid</span>
         </div>
 
-        <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
-            <option value="">Type</option>
+        <div class="select-wrapper">
+            <div class="select-summary">Type</div>
+            <select data-id="<?php echo $tab_tag; ?>" class="browser-multiple" multiple>
+                <option value="person">Person</option>
+                <option value="place">Place</option>
+                <option value="date">Date</option>
+                <option value="org">Organization</option>
+                <option value="event">Event</option>
+            </select>
+        </div>
+
+        <!-- <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type">
             <option value="person">Person</option>
             <option value="place">Place</option>
             <option value="date">Date</option>
             <option value="org">Org</option>
             <option value="event">Event</option>
-        </select>
+        </select> -->
         <select id="sortDropdown<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-sort">
             <option value="">Sort</option>
             <option value="count-asc">Count ↑</option>
@@ -81,22 +91,10 @@
             <button class="by-voice">Voice</button>
         </div>
     </div>
-    <div class="browser-filter">
-        <div class="select-wrapper">
-            <label class="select-label">Type</label>
-            <select class="browser-type" multiple>
-                <option value="all">Type</option>
-                <option value="person">Person</option>
-                <option value="place">Place</option>
-                <option value="date">Date</option>
-                <option value="org">Org</option>
-                <option value="event">Event</option>
-            </select>
-        </div>
-    </div>
 
-    <!-- Pills will appear here -->
-    <div class="pill-container"></div>
+
+
+
     <div class="list-section list_<?php echo $tab_tag; ?>">
         <?php
         $stats = [];
@@ -193,62 +191,37 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-    $('.browser-type').each(function () {
-        const $select = $(this);
-        const $pillContainer = $select.closest('.browser-filter').next('.pill-container'); // Or customize selector
+        $('.select-wrapper').each(function () {
+            const $wrapper = $(this);
+            const $select = $wrapper.find('.browser-multiple');
+            const $summary = $wrapper.find('.select-summary');
+            const totalOptions = $select.find('option').length;
 
-        $select.select2({
-            placeholder: "Type",
-            closeOnSelect: false,
-            minimumResultsForSearch: Infinity
-        });
-
-        function updatePills() {
-            $pillContainer.empty();
-
-            const selectedItems = $select.select2('data') || [];
-
-            $.each(selectedItems, function (_, item) {
-                const $pill = $(`
-                    <span class="pill" data-id="${item.id}">
-                        ${item.text}
-                        <span class="remove-pill" title="Remove">×</span>
-                    </span>
-                `);
-                $pillContainer.append($pill);
+            // Initialize Select2
+            $select.select2({
+            placeholder: '',
+            closeOnSelect: true,
+            width: 'resolve',
+            tags: false,
             });
-        }
 
-        $select.on('change', updatePills);
-
-        $pillContainer.on('click', '.remove-pill', function () {
-            const idToRemove = $(this).parent().data('id');
-            const currentValues = $select.val() || [];
-            const updatedValues = currentValues.filter(val => val !== idToRemove);
-            $select.val(updatedValues).trigger('change');
-        });
-
-        updatePills(); // Initial load
-    });
-
-    // Optional: close dropdowns on outside click
-    $(document).on('click', function (e) {
-        $('.select2-container').each(function () {
-            const $container = $(this);
-            if (
-                !$container.is(e.target) &&
-                $container.has(e.target).length === 0 &&
-                $container.find('.select2-selection--multiple').length
-            ) {
-                const $select = $container.prev('select');
-                if ($select.length && $select.data('select2')?.isOpen()) {
-                    $select.select2('close');
-                }
+            // Function to update summary text
+            function updateSummary() {
+            const selectedCount = $select.val() ? $select.val().length : 0;
+            if (selectedCount === 0) {
+                $summary.text('Type').css('color', '#666');
+            } else {
+                $summary.text(`${selectedCount} of ${totalOptions}`).css('color', '#000');
             }
+            }
+
+            // Initial update
+            updateSummary();
+
+            // Update on change
+            $select.on('change', updateSummary);
         });
     });
-});
-
 
 
 </script>

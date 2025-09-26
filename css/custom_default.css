@@ -115,7 +115,7 @@ div.video iframe {
   height: 35px;
   overflow: hidden;
   background: #fff;
-  width: 115px;
+  width: 120px;
 }
 .custom-toggle-icon:after {
   content: "";
@@ -799,7 +799,7 @@ div.video iframe {
 }
 .browser-filter {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 10px;
   gap: 10px;
@@ -812,6 +812,7 @@ div.video iframe {
 }
 .browser-filter select {
   cursor: pointer;
+  max-width: 100px;
   flex: auto;
   height: 35px;
   border-radius: 20px;
@@ -821,28 +822,41 @@ div.video iframe {
 .browser-filter .browser-type option {
   font-size: 14px;
 }
-.select2-container {
-  width: 100px !important;
-}
-.select2-results__option {
-  padding-left: 30px !important;
-  position: relative;
-  text-align: left;
-}
 .select-wrapper {
   position: relative;
 }
-.select-label {
-  position: absolute;
-  top: 8px;
-  left: 14px;
-  font-size: 13px;
-  background: white;
-  padding: 0 4px;
-  color: #777;
-  z-index: 2;
-  pointer-events: none;
+
+.select2-container {
+  width: 80px !important;
 }
+
+.select2-results__option {
+  padding-left: 30px !important;
+  position: relative;
+  user-select: none;
+  cursor: pointer;
+}
+.select2-dropdown {
+  width: 120px !important;
+  text-align: left !important;
+}
+.select2-container--default .select2-selection--multiple {
+  border-radius: 20px !important;
+  border-color: #aaa !important;
+}
+.select2-container--default .select2-selection--multiple:after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 11px;
+  border-bottom: 2px solid #000000;
+  border-left: 2px solid #000000;
+  width: 4px;
+  height: 4px;
+  transform: rotate(315deg);
+  -webkit-transform: rotate(315deg);
+}
+
 .select2-results__option::before {
   content: "";
   position: absolute;
@@ -854,42 +868,46 @@ div.video iframe {
   border: 1px solid #888;
   background-color: #fff;
   box-sizing: border-box;
+  border-radius: 2px;
 }
 
-.select2-results__option[aria-selected=true]::after {
-  content: "";
-  border-bottom: 1px solid #333;
-  border-left: 1px solid #333;
-  width: 7px;
-  height: 3px;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(315deg);
-  left: 13px;
-  top: 12px;
-  position: absolute;
+.select2-results__option[aria-selected=true]::before {
+  content: "✔";
+  font-size: 12px;
+  color: green;
+  text-align: center;
+  line-height: 14px;
+  font-weight: bold;
 }
+
 .select2-container--default .select2-selection--multiple {
-  border: 1px solid #aaa !important;
-  border-radius: 20px !important;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   min-height: 35px !important;
-  padding: 4px 8px;
-}
-.pill-container {
   text-align: left;
-  margin-bottom: 5px;
-  display: flex;
-  gap: 10px;
-  
+  padding-left: 5px;
+  padding-top: 2px;
 }
-.pill-container .pill {
-  background: #e7e7e7;
-  padding: 2px 5px;
-  border-radius: 20px;
-  border: 1px solid #777;
+
+.select-summary {
+  background: white;
+  color: #666;
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  z-index: 2;
+  pointer-events: none;
 }
+
+/* Hide pills in select2 box */
+.select2-selection__rendered {
+  display: none !important;
+}
+
+
 .browser-filter .browser-search {
   position: relative;
-  flex: 0 0 40%;
+  flex: 0 0 38%;
 }
 .browser-filter .browser-search::after {
   content: "🔍";
@@ -996,6 +1014,15 @@ div.video iframe {
   .browser-filter .browser-search {
     flex: 0 0 37%;
   }
+  .custom-toggle-icon .icon.active:before {
+    display: none;
+  }
+  .browser-filter .browser-search {
+    flex: 0 0 100%;
+  }
+  .browser-filter select {
+    max-width: inherit;
+  }
 }
 
 @media screen and (max-width: 1366px) {
@@ -1075,17 +1102,11 @@ div.video iframe {
 
 }
 @media screen and (max-width: 600px) {
-  .browser-filter {
-    flex-wrap: wrap;
-  }
-  .browser-filter .browser-search {
-    flex: 0 0 100%;
+  .select2-container {
+    width: 120px !important;
   }
   .custom-toggle-icon .icon.active {
     background-position: center;
-  }
-  .custom-toggle-icon .icon.active:before {
-    display: none;
   }
   .main-box .left-side .top-details {
     padding-left: 0;
