@@ -84,12 +84,10 @@ endif;
         <link rel="stylesheet" href="css/font-awesome.css">
         <link rel="stylesheet" href="css/simplePagination.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <!-- Select2 CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-multiselect-widget/1.13/jquery.multiselect.css">
         <script src="js/jquery-ui.toggleSwitch.js"></script>
         <script src="js/toggleSwitch.js?v1.16"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-        <!-- Select2 JS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-multiselect-widget/1.13/jquery.multiselect.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-multiselect-widget/1.13/jquery.multiselect.min.js"></script>
         <script src="js/viewer.js"></script>
         <script type="text/javascript" src="js/tipped/tipped.js"></script>

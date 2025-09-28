@@ -142,11 +142,53 @@ function VisualizationJS() {
         $("#type_filter1, #type_filter2").multiselect({
             header: true,
             noneSelectedText: "Type",
-            selectedList: 0, // don’t list each, just show count
+            selectedList: 0,
             selectedText: function (numSelected, total, checkedItems) {
                 return numSelected + " selected";
+            },
+
+            beforeopen: function () {
+                var $select = $(this);
+                var selectId = $select.attr('id');
+
+                // Find the correct multiselect menu for this select
+                var $dropdown = $('.ui-multiselect-menu').filter(function () {
+                    return $(this).find('input[id^="ui-multiselect-' + selectId + '-"]').length > 0;
+                }).first();
+
+                if ($dropdown.length) {
+                    // Create wrapper if not already there
+                    if (!$select.parent().hasClass('multiselect-wrapper')) {
+                        $select.wrap('<div class="multiselect-wrapper"></div>');
+                    }
+
+                    // Move dropdown into wrapper BEFORE it opens
+                    $dropdown.appendTo($select.closest('.multiselect-wrapper'));
+                }
+            },
+
+            open: function () {
+                var $select = $(this);
+                var selectId = $select.attr('id');
+
+                var $dropdown = $('.ui-multiselect-menu').filter(function () {
+                    return $(this).find('input[id^="ui-multiselect-' + selectId + '-"]').length > 0;
+                }).first();
+
+                if ($dropdown.length) {
+                    // Optionally re-style
+                    $dropdown.css({
+                        position: 'absolute',
+                        top: $select.outerHeight(),
+                        left: 0,
+                        zIndex: 1000
+                    });
+                }
             }
         });
+
+
+
         $('.anno-row').click(function () {
             let container;
             let transcriptTab;
