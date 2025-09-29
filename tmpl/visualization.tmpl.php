@@ -27,10 +27,10 @@
         foreach ($timeline as $i => $item) {
             $sideClass = ($i % 2 === 0) ? 'left' : 'right';
             ?>
-            <div class="container <?php echo $sideClass; ?>">
+            <div class="timeline_container container <?php echo $sideClass; ?>">
                 <div class="content">
                     <strong><?php echo htmlspecialchars($item['date']); ?></strong>
-                    <div class="org"><?php echo htmlspecialchars($item['label']); ?>: <?php echo htmlspecialchars($item['wiki']['name']); ?></div>
+                    <div class="org timeline_event" data-ref="<?php echo $item['ref']; ?>"><?php echo htmlspecialchars($item['label']); ?>: <?php echo htmlspecialchars($item['wiki']['name']); ?></div>
                     <p><?php
                         if (!empty($item['wiki']['description_1'])):
                             echo htmlspecialchars($item['wiki']['description_1']);
@@ -56,17 +56,6 @@
             <span class="icon list active" data-id="<?php echo $tab_tag; ?>">List</span>
             <span class="icon grid" data-id="<?php echo $tab_tag; ?>">Grid</span>
         </div>
-
-        <!--        <div class="select-wrapper">
-                    <div class="select-summary">Type</div>
-                    <select data-id="<?php echo $tab_tag; ?>" class="browser-multiple" multiple>
-                        <option value="person">Person</option>
-                        <option value="place">Place</option>
-                        <option value="date">Date</option>
-                        <option value="org">Organization</option>
-                        <option value="event">Event</option>
-                    </select>
-                </div>-->
 
         <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type" multiple="multiple">
 

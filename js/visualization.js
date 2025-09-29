@@ -189,7 +189,7 @@ function VisualizationJS() {
 
 
 
-        $('.anno-row').click(function () {
+        $('.anno-row, .timeline_event').click(function () {
             let container;
             let transcriptTab;
             if ($(this).closest('.right-side').length) {

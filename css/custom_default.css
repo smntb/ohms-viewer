@@ -819,7 +819,7 @@ div.video iframe {
   font-weight: 400;
   font-family: "Nunito" !important;
   background: #fff;
-  max-width: 80px;
+  max-width: 100px;
   position: relative;
 }
 .ui-multiselect.ui-widget.ui-state-default:after {
@@ -881,6 +881,14 @@ div.video iframe {
   margin-right: 10px;
 }
 
+.timeline_event {
+    cursor: pointer;
+}
+
+.timeline_container a{
+    color: #366999 !important;
+}
+
 .browswer-filter .browser-type {
   padding: 5px 10px;
   font-size: 14px;
@@ -901,7 +909,7 @@ div.video iframe {
 }
 .browser-filter .browser-search {
   position: relative;
-  flex: 0 0 38%;
+  flex: 0 0 36%;
 }
 .browser-filter .browser-search::after {
   content: "🔍";
