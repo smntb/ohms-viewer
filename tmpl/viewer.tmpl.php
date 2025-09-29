@@ -76,7 +76,7 @@ endif;
         <title><?php echo $interview->title; ?></title>
         <link rel="stylesheet" href="css/viewer.css?v1.4.1" type="text/css"/>
         <?php if (isset($extraCss)) { ?>
-            <link rel="stylesheet" href="css/<?php echo $extraCss ?>?v1.0" type="text/css"/>
+            <link rel="stylesheet" href="css/<?php echo $extraCss ?>?v1.1" type="text/css"/>
         <?php }
         ?>
         <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css"/>
