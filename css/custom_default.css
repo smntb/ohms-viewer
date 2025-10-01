@@ -821,6 +821,7 @@ div.video iframe {
   background: #fff;
   max-width: 100px;
   position: relative;
+  white-space: nowrap;
 }
 .ui-multiselect.ui-widget.ui-state-default:after {
   content: "";
@@ -1170,5 +1171,8 @@ div.video iframe {
   }
   .browser-table th, .browser-table td {
     font-size: 12px;
+  }
+  .browser-filter select {
+    max-width: 95px;
   }
 }
