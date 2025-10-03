@@ -185,7 +185,9 @@ endif;
                                         <?php if (count($interview->annotations) > 0): ?>
                                             <!-- These will be moved into dropdown via JS -->
                                             <li class="dropdown-tab"><a href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
-                                            <li class="dropdown-tab"><a href="#map-tab-1">Map</a></li>
+                                            <?php if (count($interview->mapData) > 0): ?>
+                                                <li class="dropdown-tab"><a href="#map-tab-1" id="map-tab-1-head">Map</a></li>
+                                            <?php endif; ?>
                                             <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
                                             <li class="dropdown-tab"><a href="#browser-tab-1">Browser</a></li>
                                         <?php endif; ?>
@@ -276,7 +278,10 @@ endif;
                                     <?php if (count($interview->annotations) > 0): ?>
                                         <!-- These will be moved into dropdown via JS -->
                                         <li class="dropdown-tab"><a href="#wordcloud-tab-2" id="wordcloud-tab-2-head">Word Cloud</a></li>
-                                        <li class="dropdown-tab"><a href="#map-tab-2">Map</a></li>
+                                        <?php if (count($interview->mapData) > 0): ?>
+                                            <li class="dropdown-tab"><a href="#map-tab-2" id="map-tab-2-head">Map</a></li>
+                                        <?php endif; ?>
+
                                         <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
                                         <li class="dropdown-tab"><a href="#browser-tab-2">Browser</a></li>
                                     <?php endif; ?>
@@ -684,11 +689,12 @@ switch ($interview->playername) {
                         });
             </script>
             <script src="js/visualization.js"></script>
+
             <script type="text/javascript">
                         let viewer = new Viewer();
                         viewer.initialize();
                         const visualization = new VisualizationJS();
-                        visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>);
+                        visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
             </script>
 
     </body> 

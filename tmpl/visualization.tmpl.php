@@ -1,11 +1,27 @@
-<?php ?>
+
 <div id="wordcloud-tab-<?php echo $tab_tag; ?>">
     <div id="wordcloud-<?php echo $tab_tag; ?>"></div> 
 
 </div>
-<div id="map-tab-<?php echo $tab_tag; ?>">
-    <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.mapsdirections.info/fr/calculer-la-population-sur-une-carte">Estimer la population sur la carte</a></iframe>
-</div>
+<?php if (count($interview->mapData) > 0): ?>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        /* Full width; auto height via aspect ratio (fallback below) */
+        #map_area_1, #map_area_2 {
+            width: 100%;
+            aspect-ratio: 16 / 9;   /* auto height */
+            min-height: 320px;      /* safety floor */
+            border-radius: 12px;
+            margin: 12px 0;
+        }
+    </style>
+    <div id="map-tab-<?php echo $tab_tag; ?>">
+        <div id="map_area_<?php echo $tab_tag; ?>"></div>
+
+    </div>
+<?php endif; ?>
+
 <div id="timeline-tab-<?php echo $tab_tag; ?>">
     <div class="timeline">
         <?php
@@ -155,25 +171,15 @@
 
     </div>
     <div class="grid-section grid_<?php echo $tab_tag; ?>">
-        <div class="grid-container">
-            <div class="grid-item bdg-person">
-                <img src="[IMAGE_URL]" alt="Thumbnail">
-                <div class="caption">Caption Text</div>
-            </div>
-
-            <div class="grid-item bdg-date">
-                <img src="[IMAGE_URL]" alt="Thumbnail">
-                <div class="caption">Another Caption</div>
-            </div>
-
-            <div class="grid-item bdg-org">
-                <img src="[IMAGE_URL]" alt="Thumbnail">
-                <div class="caption">Yet Another (1)</div>
-            </div>
-
-            <div class="grid-item bdg-place">
-                <div class="caption no-image">Caption Only</div>
-            </div>
+        <div class="grid-container grid-container<?php echo $tab_tag; ?>">
+            <?php foreach ($interview->grid as $grid): ?>
+                <div class="grid-item grid-item<?php echo $tab_tag; ?> bdg-<?php echo strtolower($grid['label']) ?>" data-ref="<?php echo (int) $grid['first_ref'] ?>" data-label="<?php echo strtolower($grid['label']) ?>"
+                     data-text="<?php echo htmlspecialchars($grid['text'], ENT_QUOTES) ?>"
+                     data-count="<?php echo (int) $grid['count'] ?>">
+                    <img src="<?php echo $grid['thumbnail_url']; ?>" alt="Thumbnail" loading="lazy" decoding="async">
+                    <div class="caption"><?php echo "{$grid['text']} ({$grid['count']})"; ?></div>
+                </div>
+            <?php endforeach; ?>
         </div>
 
     </div>

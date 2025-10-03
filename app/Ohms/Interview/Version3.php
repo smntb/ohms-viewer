@@ -110,6 +110,8 @@ class Version3 {
         $this->data['transcript'] = $this->Transcript->getTranscriptHTML();
         $this->data['annotations'] = $this->Transcript->getAnnotatedTerms();
         $this->data['timeline'] = Utils::buildTimelineFlat($this->data['annotations']);
+        $this->data['grid'] = Utils::extractTextThumbIndex($this->data['annotations']);
+        $this->data['mapData'] = Utils::buildGeoIndex($this->data['annotations']);
         $this->data['index'] = $this->Transcript->getIndexHTML();
         $this->data['index_points'] = $ohfile->record->index;
 

@@ -77,6 +77,89 @@ class Utils {
         );
     }
 
+    public static function extractTextThumbIndex(array $annotations): array {
+        $index = [];
+
+        foreach ($annotations as $a) {
+            if (!is_array($a))
+                continue;
+
+            $text = isset($a['text']) ? trim((string) $a['text']) : '';
+            if ($text === '')
+                continue;
+
+            $ref = isset($a['ref']) ? (int) $a['ref'] : PHP_INT_MAX;
+            $meta = (isset($a['meta']) && is_array($a['meta'])) ? $a['meta'] : [];
+
+            $label = isset($meta['label']) ? (string) $meta['label'] : '';
+            $thumb = isset($meta['thumbnail_url']) ? trim((string) $meta['thumbnail_url']) : '';
+            $hasThumb = self::isValidHttpUrl($thumb);
+
+            if (!isset($index[$text])) {
+                $index[$text] = [
+                    'text' => $text,
+                    'first_ref' => $ref,
+                    'count' => 1,
+                    'label' => $label, // may be ''
+                    'thumbnail_url' => $hasThumb ? $thumb : null, // set if valid
+                    '_thumb_ref' => $hasThumb ? $ref : null, // helper to track earliest thumb
+                ];
+                continue;
+            }
+
+            // Update first_ref and count
+            $index[$text]['count']++;
+            if ($ref < $index[$text]['first_ref']) {
+                $index[$text]['first_ref'] = $ref;
+            }
+
+            // Fill label if previously empty
+            if ($index[$text]['label'] === '' && $label !== '') {
+                $index[$text]['label'] = $label;
+            }
+
+            // Prefer the thumbnail from the earliest occurrence that has one
+            if ($hasThumb) {
+                if ($index[$text]['_thumb_ref'] === null || $ref < $index[$text]['_thumb_ref']) {
+                    $index[$text]['_thumb_ref'] = $ref;
+                    $index[$text]['thumbnail_url'] = $thumb;
+                }
+            }
+        }
+
+        // Keep only texts that ended up with a thumbnail
+        $rows = [];
+        foreach ($index as $rec) {
+            if (!empty($rec['thumbnail_url'])) {
+                unset($rec['_thumb_ref']); // drop helper field
+                $rows[] = $rec;
+            }
+        }
+
+        // Sort: count desc, then first_ref asc, then text asc
+        usort($rows, function ($a, $b) {
+            if ($a['count'] !== $b['count'])
+                return $b['count'] <=> $a['count'];
+            if ($a['first_ref'] !== $b['first_ref'])
+                return $a['first_ref'] <=> $b['first_ref'];
+            return strcmp($a['text'], $b['text']);
+        });
+
+        return $rows;
+    }
+
+    /**
+     * Validate an http(s) URL.
+     */
+    private static function isValidHttpUrl(?string $url): bool {
+        if (empty($url))
+            return false;
+        if (!filter_var($url, FILTER_VALIDATE_URL))
+            return false;
+        $scheme = parse_url($url, PHP_URL_SCHEME);
+        return in_array(strtolower((string) $scheme), ['http', 'https'], true);
+    }
+
     public static function buildTimelineFlat(array $annotations): array {
         $timeline = [];
 
@@ -247,6 +330,107 @@ class Utils {
         }
 
         return null;
+    }
+
+    public static function buildGeoIndex(array $annotations): array {
+        $idx = [];
+
+        foreach ($annotations as $a) {
+            if (!is_array($a))
+                continue;
+
+            $text = isset($a['text']) ? trim((string) $a['text']) : '';
+            $ref = isset($a['ref']) ? (int) $a['ref'] : PHP_INT_MAX;
+            $meta = (isset($a['meta']) && is_array($a['meta'])) ? $a['meta'] : [];
+            $label = isset($meta['label']) ? (string) $meta['label'] : '';
+
+            // Pull geolocation from meta['geo_location'] or meta['geolocation'] or fallback "href=?q=lat,lng"
+            $geoStr = self::firstNonEmpty($meta['geo_location'] ?? null, $meta['geolocation'] ?? null, $meta['href'] ?? null);
+            [$lat, $lng] = self::parseLatLng($geoStr);
+            if ($lat === null || $lng === null)
+                continue; // skip non-geo items
+
+            // Use normalized key: label|lower(text)|lat,lng
+            $key = strtoupper($label) . '|' . mb_strtolower($text) . '|' . $lat . ',' . $lng;
+
+            if (!isset($idx[$key])) {
+                $idx[$key] = [
+                    'text' => $text,
+                    'label' => $label,
+                    'count' => 1,
+                    'first_ref' => $ref,
+                    'geo' => $lat . ',' . $lng,
+                    'lat' => (float) $lat,
+                    'lng' => (float) $lng,
+                ];
+            } else {
+                $idx[$key]['count']++;
+                if ($ref < $idx[$key]['first_ref']) {
+                    $idx[$key]['first_ref'] = $ref;
+                }
+            }
+        }
+
+        // Flatten + sort: count desc, first_ref asc, text asc
+        $rows = array_values($idx);
+        usort($rows, function ($a, $b) {
+            if ($a['count'] !== $b['count'])
+                return $b['count'] <=> $a['count'];
+            if ($a['first_ref'] !== $b['first_ref'])
+                return $a['first_ref'] <=> $b['first_ref'];
+            return strcmp($a['text'], $b['text']);
+        });
+
+        return $rows;
+    }
+
+    /** Helpers * */
+    public static function firstNonEmpty(...$vals): ?string {
+        foreach ($vals as $v) {
+            if (isset($v)) {
+                $s = trim((string) $v);
+                if ($s !== '')
+                    return $s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Accepts:
+     *  - "lat,lng"
+     *  - strings with junk chars like " 37.77 , -122.42 "
+     *  - Google href "...?q=lat,lng"
+     * Returns [lat, lng] as strings normalized, or [null, null] if invalid.
+     */
+    public static function parseLatLng(?string $val): array {
+        if (!$val)
+            return [null, null];
+
+        // If it's a full URL with ?q=lat,lng, try to pull q
+        if (stripos($val, 'http') === 0) {
+            $parts = parse_url($val);
+            if (!empty($parts['query'])) {
+                parse_str($parts['query'], $q);
+                if (!empty($q['q']))
+                    $val = $q['q'];
+            }
+        }
+
+        // Extract two numbers (lat,lng)
+        $val = trim($val);
+        $m = [];
+        if (!preg_match('/^\s*([+\-]?\d+(?:\.\d+)?)\s*,\s*([+\-]?\d+(?:\.\d+)?)\s*$/', $val, $m)) {
+            return [null, null];
+        }
+
+        $lat = (float) $m[1];
+        $lng = (float) $m[2];
+        if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
+            return [null, null];
+        }
+        // return as strings to keep stable key formatting
+        return [rtrim(rtrim(sprintf('%.6f', $lat), '0'), '.'), rtrim(rtrim(sprintf('%.6f', $lng), '0'), '.')];
     }
 }
 
