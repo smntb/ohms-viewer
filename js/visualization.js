@@ -18,16 +18,104 @@ function VisualizationJS() {
                 refreshMap(map2, marker2);
             });
         }
-        
+
         if (entityRows.length > 0) {
             browserTab();
             entityData = entityRows;
             wordCloudTab();
         }
-        
-        
+        annotationPopup();
 
 
+
+    };
+    const annotationPopup = function () {
+
+        $('.toggle-layers').change(function () {
+            let layer = $(this).data('layer');
+            let tab = '#transcript-tab-2';
+            if (layer == 'ttl1') {
+                tab = '#transcript-tab-1';
+            }
+            if ($(this).is(':checked')) {
+                $('.data-layers-list.' + $(this).data('layer')).show();
+                $(tab + ' .bdg-text').removeClass('bdg-text-disabled');
+            } else {
+                $('.data-layers-list.' + $(this).data('layer')).hide();
+                $(tab + ' .bdg-text').addClass('bdg-text-disabled');
+            }
+        });
+
+        $('.data-layers-list').on('click', '.fa-eye, .fa-eye-slash', function (e) {
+            e.stopPropagation();
+            const $icon = $(this);
+            const $span = $icon.closest('span');
+            const $parent = $icon.closest('.data-layers-list');
+            let tab = '#transcript-tab-2';
+            if ($parent.hasClass('ttl1'))
+                tab = '#transcript-tab-1';
+            $span.toggleClass('active-layer');
+            if ($icon.hasClass('fa-eye')) {
+                $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                $(tab + ' .bdg-text.' + $icon.data('layer')).addClass('bdg-text-disabled');
+            } else {
+                $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                $(tab + ' .bdg-text.' + $icon.data('layer')).removeClass('bdg-text-disabled');
+            }
+        });
+
+        const $popoverBtn = $('.bdg-text, .page-link');
+        const $popover = $('#customPopover');
+        let container;
+        let transcriptTab;
+        $popoverBtn.on('click', function (e) {
+            if (!$(this).hasClass('bdg-text-disabled')) {
+                $popover.hide();
+                e.stopPropagation(); // prevent immediate close
+                let rect = this.getBoundingClientRect();
+                let ref = $(this).data('ref');
+                $('.popover-body').addClass('d-none');
+                if ($(this).hasClass('page-link')) {
+                    scrollToTranscript(container, transcriptTab, ref);
+                    setTimeout(function () {
+                        rect = $(transcriptTab + ' .ref_' + ref)[0].getBoundingClientRect();
+                    }, 300);
+
+                } else {
+                    if ($(this).closest('.right-side').length) {
+                        transcriptTab = '#transcript-tab-2';
+                        container = $('.right-side-inner');
+
+                    } else {
+                        container = $('.left-side');
+                        transcriptTab = '#transcript-tab-1';
+
+                    }
+                }
+                setTimeout(function () {
+                    $('.transcript_' + ref).removeClass('d-none');
+                    if ($popover.css('display') === 'block') {
+                        $popover.hide();
+                    } else {
+                        $popover.show();
+                        $popover.css({
+                            top: rect.bottom + 12 + window.scrollY + 'px',
+                            left: rect.left - 15 + window.scrollX + 'px'
+                        });
+                    }
+                }, 700);
+
+
+
+            }
+
+
+        });
+        $(document).on('click', function (e) {
+            if (!$popover.is(e.target) && $popover.has(e.target).length === 0 && !$popoverBtn.is(e.target)) {
+                $popover.hide();
+            }
+        });
     };
     const refreshMap = function (map, markers) {
         if (!('CSS' in window && CSS.supports && CSS.supports('aspect-ratio', '1/1'))) {
@@ -163,8 +251,8 @@ function VisualizationJS() {
             let scrollTo = $(transcriptTab + ">.transcript-panel .ref_" + ref);
             container.animate({
                 scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-            });
-        }, 250);
+            }, 100, 'swing');
+        }, 150);
     };
     const applyGridFilter = function () {
         let id = $(this).data('id');
@@ -291,9 +379,9 @@ function VisualizationJS() {
             }
         });
 
-$(document).on("click", ".anno-row, .timeline_event, .grid-item, .map_highlight", function (e) {
-    e.preventDefault(); // optional, prevents default action
-    let container;
+        $(document).on("click", ".anno-row, .timeline_event, .grid-item, .map_highlight", function (e) {
+            e.preventDefault(); // optional, prevents default action
+            let container;
             let transcriptTab;
             if ($(this).closest('.right-side').length) {
                 container = $('.left-side');
@@ -308,7 +396,7 @@ $(document).on("click", ".anno-row, .timeline_event, .grid-item, .map_highlight"
                 transcriptTab = '#transcript-tab-1';
             }
             scrollToTranscript(container, transcriptTab, $(this).data('ref'));
-});
+        });
 
 
 //        $('.anno-row, .timeline_event, .grid-item, .map_highlight').click(function () {

@@ -432,6 +432,150 @@ class Utils {
         // return as strings to keep stable key formatting
         return [rtrim(rtrim(sprintf('%.6f', $lat), '0'), '.'), rtrim(rtrim(sprintf('%.6f', $lng), '0'), '.')];
     }
+
+     /**
+ * Render popovers for all annotations, grouped by text.
+ * - Groups case-insensitively by `text`
+ * - For each annotation, shows LABEL, text, optional wiki description + link
+ * - Adds Prev/Next pagination only when the same text appears multiple times
+ *
+ * @param array $annotations  Raw annotations array (like the one you shared)
+ * @return string             HTML for all popovers
+ */
+public static function renderAnnotationPopoversGroupedByText(array $annotations): string
+{
+    // 1) Build groups: key = lower(text) => ['text','refs'=>[...], 'meta_by_ref'=>[ref=>meta]]
+    $groups = [];
+    foreach ($annotations as $a) {
+        if (!is_array($a)) continue;
+        $text = trim($a['text'] ?? '');
+        if ($text === '') continue;
+
+        $ref  = isset($a['ref']) ? (int)$a['ref'] : PHP_INT_MAX;
+        $meta = (isset($a['meta']) && is_array($a['meta'])) ? $a['meta'] : [];
+        $key  = mb_strtolower($text);
+
+        if (!isset($groups[$key])) {
+            $groups[$key] = ['text' => $text, 'refs' => [], 'meta_by_ref' => []];
+        }
+        $groups[$key]['refs'][] = $ref;
+        $groups[$key]['meta_by_ref'][$ref] = $meta;
+    }
+
+    // 2) Normalize each group's refs
+    foreach ($groups as &$g) {
+        $g['refs'] = array_values(array_unique(array_map('intval', $g['refs'])));
+        sort($g['refs'], SORT_NUMERIC);
+    }
+    unset($g);
+
+    // 3) Render popover HTML for every annotation
+    $descKeys = ['wiki_description_2','wiki_description_1','wiki_description'];
+    $linkKeys = ['wiki_url_2','wiki_url_1','wiki_url'];
+
+    $html = '';
+    foreach ($annotations as $a) {
+        if (!is_array($a)) continue;
+
+        $text = trim($a['text'] ?? '');
+        if ($text === '') continue;
+
+        $ref   = (int)($a['ref'] ?? 0);
+        $meta  = (isset($a['meta']) && is_array($a['meta'])) ? $a['meta'] : [];
+        $label = strtoupper((string)($meta['label'] ?? 'UNKNOWN'));
+
+        $key   = mb_strtolower($text);
+        $g     = $groups[$key] ?? null;
+        if (!$g) continue;
+
+        $refs  = $g['refs'];
+        $total = count($refs);
+        $pos0  = array_search($ref, $refs, true);
+        if ($pos0 === false) continue; // safety
+        $pos   = $pos0 + 1;
+        $prev  = ($pos > 1)      ? $refs[$pos0 - 1] : null;
+        $next  = ($pos < $total) ? $refs[$pos0 + 1] : null;
+
+        // Pick wiki description and link (prefer current, else any in group)
+        $desc = self::pickFirstNonEmptyFrom($meta, $descKeys);
+        if ($desc === '') {
+            foreach ($g['meta_by_ref'] as $m) {
+                $desc = self::pickFirstNonEmptyFrom($m, $descKeys);
+                if ($desc !== '') break;
+            }
+        }
+        $link = self::pickFirstValidUrlFrom($meta, $linkKeys);
+        if ($link === '') {
+            foreach ($g['meta_by_ref'] as $m) {
+                $link = self::pickFirstValidUrlFrom($m, $linkKeys);
+                if ($link !== '') break;
+            }
+        }
+
+        // Build one popover
+        $html .= '<div class="popover-body d-none transcript_'.self::h($ref).'" data-ref="'.self::h($ref).'">';
+        $html .=   '<div><strong>'.self::h($label).':</strong> '.self::h($text).'</div>';
+        if ($desc !== '') {
+            $html .= '<div>'.self::h($desc).'</div>';
+        }
+        if ($link !== '') {
+            $html .= '<div><a href="'.self::h($link).'" target="_blank" rel="noopener">Wikipedia link</a></div>';
+        }
+
+        if ($total > 1) {
+            $html .= '<div class="simple-pagination"><ul>';
+
+            // Prev
+            if ($prev === null) {
+                $html .= '<li class="disabled"><span class="current prev"><img src="/imgs/arrow-square-prev.webp" alt="Previous"></span></li>';
+            } else {
+                $html .= '<li><a href="javascript://" data-ref="'.self::h($prev).'"  class="page-link prev"><img src="/imgs/arrow-square-prev.webp" alt="Previous"></a></li>';
+            }
+
+            // Info
+            $html .= '<li><span id="paginate_info">Showing '.self::h($pos).' of '.self::h($total).'</span></li>';
+
+            // Next
+            if ($next === null) {
+                $html .= '<li class="disabled"><span class="current next"><img src="/imgs/arrow-square-next.webp" alt="Next"></span></li>';
+            } else {
+                $html .= '<li><span href="#javascript://" data-ref="'.self::h($next).'" class="page-link next"><img src="/imgs/arrow-square-next.webp" alt="Next"></span></li>';
+            }
+
+            $html .= '</ul></div>';
+        }
+
+        $html .= '</div>';
+    }
+
+    return $html;
+}
+
+/* ---------------- helpers ---------------- */
+
+public static function h($s): string {
+    return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
+}
+
+public static function pickFirstNonEmptyFrom(array $meta, array $keys): string {
+    foreach ($keys as $k) {
+        if (!empty($meta[$k])) {
+            $s = trim((string)$meta[$k]);
+            if ($s !== '') return $s;
+        }
+    }
+    return '';
+}
+
+public static function pickFirstValidUrlFrom(array $meta, array $keys): string {
+    foreach ($keys as $k) {
+        if (!empty($meta[$k])) {
+            $u = trim((string)$meta[$k]);
+            if (filter_var($u, FILTER_VALIDATE_URL)) return $u;
+        }
+    }
+    return '';
+}
 }
 
 /* Location: ./app/Ohms/Utils.php */

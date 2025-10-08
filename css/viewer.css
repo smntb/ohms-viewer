@@ -8,7 +8,7 @@ body {
 }
 
 img {
-    border: 0;  
+    border: 0;
 }
 
 a {
@@ -130,8 +130,8 @@ h1 {
 
 #line_0 {
     margin-top: 0px;
-/*  margin-left: 50px;
-    margin-right: 50px; */
+    /*  margin-left: 50px;
+        margin-right: 50px; */
 }
 
 #transcript-panel p.first-p, #transcript-panel-alt p.first-p {
@@ -922,7 +922,7 @@ input {
     }
 }
 
-#paginate ul {
+#paginate ul, .simple-pagination ul {
     float: right;
     padding-top: 10px;
 }
@@ -1394,9 +1394,9 @@ p.bold {
     /*border-bottom: 1px dotted #aba8a8;*/
     line-height: 0.1em;
     margin: 20px 0px 10px 0px;
-} 
+}
 
-.heading-multi  span { 
+.heading-multi  span {
     background: #eee;
     font-weight: bold;
 }
@@ -1416,8 +1416,8 @@ p.bold {
     opacity: 0.7;
 }
 .bbold{
-   font-weight: bold; 
-} 
+    font-weight: bold;
+}
 .printCustom{
     background-image: url(../imgs/print_full.png);
     background-repeat: no-repeat;
@@ -1464,4 +1464,13 @@ p.bold {
 /* Make player height minimum to the controls height so when we hide video/poster area the controls are displayed correctly. */
 .audio-player .video-js.vjs-audio {
     min-height: 3em;
+}
+
+.d-none {
+    display:none;
+}
+
+.bdg-text-disabled {
+    border: none !important;
+    background: transparent !important;
 }

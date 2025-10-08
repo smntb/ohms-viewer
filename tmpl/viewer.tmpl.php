@@ -213,18 +213,18 @@ endif;
                                         <div id="transcript-panel" class="transcript-panel">
                                             <div class="data-layers">
                                                 <div class="custom-checkbox">
-                                                    <input type="checkbox" id="toggle-layers-1" class="toggle-layers" name="toggle-layers">
+                                                    <input type="checkbox" id="toggle-layers-1" class="toggle-layers" data-layer="ttl1" name="toggle-layers" checked="checked">
                                                     <label for="toggle-layers-1" class="toggle-layers-label">View Data Layers</label>
                                                 </div>
-                                                <ul class="data-layers-list">
-                                                    <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
-                                                    <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
-                                                    <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
-                                                    <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
-                                                    <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
+                                                <ul class="data-layers-list ttl1">
+                                                    <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
+                                                    <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
+                                                    <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
+                                                    <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
+                                                    <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
                                                 </ul>
                                             </div>
-                                            <p>Lorem <span class="bdg-event bdg-text" id="popoverBtn">ipsum</span> dolor sit amet <span class="bdg-person bdg-text">consectetur</span> adipisicing elit. In, totam assumenda <span class="bdg-place bdg-text">consequatur</span> iusto aut vero enim incidunt aspernatur, <span class="bdg-date bdg-text">ipsa</span> perspiciatis velit <span class="bdg-org bdg-text">explicabo</span> esse nemo autem consequuntur! Repellat minima sint omnis.</p>
+
                                             <?php echo $interview->transcript; ?>
                                         </div>
                                     </div>
@@ -296,18 +296,18 @@ endif;
                                     <div id="transcript-panel" class="transcript-panel">
                                         <div class="data-layers">
                                             <div class="custom-checkbox">
-                                                <input type="checkbox" id="toggle-layers-2" class="toggle-layers" name="toggle-layers">
+                                                <input type="checkbox" id="toggle-layers-2" class="toggle-layers" data-layer="ttl2" name="toggle-layers" checked="checked">
                                                 <label for="toggle-layers-2" class="toggle-layers-label">View Data Layers</label>
                                             </div>
-                                            <ul class="data-layers-list">
-                                                <li><span class="bdg-person"><i class="fa fa-eye"></i> Person</span></li>
-                                                <li><span class="bdg-place"><i class="fa fa-eye"></i> Place</span></li>
-                                                <li><span class="bdg-date"><i class="fa fa-eye"></i> Date</span></li>
-                                                <li><span class="bdg-org"><i class="fa fa-eye"></i> Org</span></li>
-                                                <li><span class="bdg-event"><i class="fa fa-eye"></i> Event</span></li>
+                                            <ul class="data-layers-list ttl2">
+                                                <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
+                                                <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
+                                                <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
+                                                <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
+                                                <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
                                             </ul>
                                         </div>
-                                        <p>Lorem <span class="bdg-event bdg-text">ipsum</span> dolor sit amet <span class="bdg-person bdg-text">consectetur</span> adipisicing elit. In, totam assumenda <span class="bdg-place bdg-text">consequatur</span> iusto aut vero enim incidunt aspernatur, <span class="bdg-date bdg-text">ipsa</span> perspiciatis velit <span class="bdg-org bdg-text">explicabo</span> esse nemo autem consequuntur! Repellat minima sint omnis.</p>
+
                                         <?php echo $interview->transcript; ?>
                                     </div>
                                 </div>
@@ -394,24 +394,7 @@ endif;
             </div>
 
             <div id="customPopover" class="popover">
-                <div class="popover-body">
-                    <div><strong>Person:</strong> Lorem Ispum Corp.</div>
-                    <div>Wiki Description text running onto 2 rows with elipses cutting it offelipses cutting it off</div>
-                    <div><a href="#">Wikipedia</a></div>
-                    <div id="paginate" class="simple-pagination">
-                        <ul>
-                            <li class="disabled">
-                                <span class="current prev"><img src="/imgs/arrow-square.webp" alt="Previous"></span>
-                            </li>
-                            <li>
-                                <span id="paginate_info">Showing 1 - 5 of 8</span>
-                            </li>
-                            <li>
-                                <a href="#page-2" class="page-link next"><img src="/imgs/arrow-square.webp" alt="Next"></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <?php echo $interview->groupAnnotations; ?>
             </div>
 
 
@@ -443,39 +426,39 @@ endif;
                                         setTimeout(() => {
                                         $('html').removeClass('loading')
                                         }, 500);
-                                                $(".transcript-line").each(function(){
-                                        var jumplinkElm = $(this).find('.jumpLink');
-                                                var numberOfIntervalsInLine = jumplinkElm.length;
-                                                var isNestedElm = $(this).find('.transcript-line');
-                                                if (numberOfIntervalsInLine > 1 && isNestedElm.length < 1){
-                                        var marginToAdd = 13;
-                                                var totalMargin = 13 * numberOfIntervalsInLine;
-                                                jumplinkElm.each(function(index){
-                                                var currentMargin = totalMargin - (marginToAdd * (index + 1));
-                                                        $(this).css('margin-top', currentMargin);
-                                                });
-                                        }
-                                        });
-                                                setTimeout(function(){
-                                                var htmlTranscript = $('#transcript-panel').html().trim();
-                                                        var htmlIndex = $('#index-panel').html().trim();
-                                                        var isTranslate = $('#is_translate').val().trim();
-                                                        if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
-                                                $('.alpha-circle').hide();
-                                                        $('#toggle_switch').attr("disabled", "disabled");
-                                                        $('.slider.round').css("background-color", "#ccc");
-                                                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
-                                                $('.alpha-circle').hide();
-                                                        $('#toggle_switch').attr("disabled", "disabled");
-                                                        $('.slider.round').css("background-color", "#ccc");
-                                                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
-                                                $('.alpha-circle').hide();
-                                                        $('#toggle_switch').attr("disabled", "disabled");
-                                                        $('.slider.round').css("background-color", "#ccc");
-                                                } else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
-                                                $('.alpha-circle').hide();
-                                                }
-                                                }, 300);
+//                                                $(".transcript-line").each(function(){
+//                                        var jumplinkElm = $(this).find('.jumpLink');
+//                                                var numberOfIntervalsInLine = jumplinkElm.length;
+//                                                var isNestedElm = $(this).find('.transcript-line');
+//                                                if (numberOfIntervalsInLine > 1 && isNestedElm.length < 1){
+//                                        var marginToAdd = 13;
+//                                                var totalMargin = 13 * numberOfIntervalsInLine;
+//                                                jumplinkElm.each(function(index){
+//                                                var currentMargin = totalMargin - (marginToAdd * (index + 1));
+//                                                        $(this).css('margin-top', currentMargin);
+//                                                });
+//                                        }
+//                                        });
+//                                                setTimeout(function(){
+//                                                var htmlTranscript = $('#transcript-panel').html().trim();
+//                                                        var htmlIndex = $('#index-panel').html().trim();
+//                                                        var isTranslate = $('#is_translate').val().trim();
+//                                                        if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
+//                                                $('.alpha-circle').hide();
+//                                                        $('#toggle_switch').attr("disabled", "disabled");
+//                                                        $('.slider.round').css("background-color", "#ccc");
+//                                                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
+//                                                $('.alpha-circle').hide();
+//                                                        $('#toggle_switch').attr("disabled", "disabled");
+//                                                        $('.slider.round').css("background-color", "#ccc");
+//                                                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
+//                                                $('.alpha-circle').hide();
+//                                                        $('#toggle_switch').attr("disabled", "disabled");
+//                                                        $('.slider.round').css("background-color", "#ccc");
+//                                                } else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
+//                                                $('.alpha-circle').hide();
+//                                                }
+//                                                }, 300);
                                                 $('.footnoteTooltip').each(function(index, element){
                                         footnoteID = $(element).data('index');
                                                 footnoteAttrId = $(element).attr("id");
@@ -652,41 +635,9 @@ switch ($interview->playername) {
                         }
 
                         });
-                        // Data Layers Toggle Functionality
-                        $('.data-layers-list').hide();
-                        $('.toggle-layers').change(function() {
-                if ($(this).is(':checked')) {
-                $('.data-layers-list').show();
-                } else {
-                $('.data-layers-list').hide();
-                }
-                });
-                        $('.data-layers-list').on('click', '.fa-eye, .fa-eye-slash', function(e) {
-                e.stopPropagation();
-                        const $icon = $(this);
-                        const $span = $icon.closest('span');
-                        $span.toggleClass('active-layer');
-                        if ($icon.hasClass('fa-eye')) {
-                $icon.removeClass('fa-eye').addClass('fa-eye-slash');
-                } else {
-                $icon.removeClass('fa-eye-slash').addClass('fa-eye');
-                }
-                });
-                        // Custom Popover Functionality
-                        const popoverBtn = document.getElementById('popoverBtn');
-                        const popover = document.getElementById('customPopover');
-                        popoverBtn.addEventListener('click', (e) => {
-                        e.stopPropagation(); // prevent immediate close
-                                popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
-                                const rect = popoverBtn.getBoundingClientRect();
-                                popover.style.top = rect.bottom + 12 + window.scrollY + 'px';
-                                popover.style.left = rect.left - 15 + window.scrollX + 'px';
-                        });
-                        document.addEventListener('click', (e) => {
-                        if (!popover.contains(e.target) && e.target !== popoverBtn) {
-                        popover.style.display = 'none';
-                        }
-                        });
+                        
+
+                       
             </script>
             <script src="js/visualization.js"></script>
 
@@ -696,6 +647,7 @@ switch ($interview->playername) {
                         const visualization = new VisualizationJS();
                         visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
             </script>
+
 
     </body> 
 </html>

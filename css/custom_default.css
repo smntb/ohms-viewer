@@ -425,7 +425,7 @@ div.video iframe {
   right: 0;
   top: 0;
 }
-.popover-body #paginate ul,
+.popover-body .simple-pagination ul,
 #search-form .search-content #paginate ul {
   padding-top: 6px;
   display: flex;
@@ -443,14 +443,16 @@ div.video iframe {
   margin: 0 1px;
   font-weight: 700;
 }
-.popover-body #paginate li a img,
+/*.popover-body .simple-pagination li .next{
+    transform: rotate(180deg);
+}*/
 #search-form .search-content #paginate li a img {
   transform: rotate(180deg);
 }
-.popover-body #paginate li span img,
-.popover-body #paginate li a img,
-#search-form .search-content #paginate li span img,
-#search-form .search-content #paginate li a img {
+.popover-body .simple-pagination li span img,
+.popover-body .simple-pagination li a img,
+#search-form .search-content .simple-pagination li span img,
+#search-form .search-content .simple-pagination li a img {
   width: 18px;
   height: 18px;
   vertical-align: middle;
