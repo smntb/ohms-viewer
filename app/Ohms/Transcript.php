@@ -377,7 +377,8 @@ private function formatTranscriptVtt()
             $visible = $attrs['text'] ?? $word;
 
             // Classes: bdg-text + bdg-{wiki_label lower}
-            $wikiLabel = strtolower((string)($attrs['wiki_label'] ?? ''));
+            
+            $wikiLabel = strtolower((string)($attrs['wiki_label'] ?? ($attrs['label'] ?? '')));
             $cls = 'bdg-text' . ($wikiLabel ? ' bdg-' . preg_replace('/[^a-z0-9\-]+/', '-', $wikiLabel) : '');
 
             // Build data-* attributes for all annotation attributes
