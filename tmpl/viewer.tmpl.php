@@ -136,15 +136,11 @@ endif;
         <div class="main-box-holder">
             <div class="main-box">
                 <div class="left-side">
-                    <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
+                    
                         <div id="header">
-                        <?php } else {
-                            ?>
-                            <div id="headervid">  
-                                <div class="top-details">
-                                    <?php
-                                }
-                                if ($printMode) {
+                        
+                            
+                                <?php if ($printMode) {
                                     ?> 
                                     <a href="#" class="printCustom" ></a>
                                 <?php } if (isset($repoConfig)): ?>
@@ -237,7 +233,7 @@ endif;
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    
                     <div class="right-side">
                         <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
                         <div class="right-side-inner">

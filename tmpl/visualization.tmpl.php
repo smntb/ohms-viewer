@@ -46,12 +46,12 @@
             <div class="timeline_container container <?php echo $sideClass; ?>">
                 <div class="content">
                     <strong><?php echo htmlspecialchars($item['date']); ?></strong>
-                    <div class="org timeline_event" data-ref="<?php echo $item['ref']; ?>"><?php echo htmlspecialchars($item['label']); ?>: <?php echo htmlspecialchars($item['wiki']['name']); ?></div>
+                    <div class="org timeline_event" data-ref="<?php echo $item['ref']; ?>"><?php echo htmlspecialchars((string)$item['label']); ?>: <?php echo htmlspecialchars((string)$item['wiki']['name']); ?></div>
                     <p><?php
                         if (!empty($item['wiki']['description_1'])):
-                            echo htmlspecialchars($item['wiki']['description_1']);
+                            echo htmlspecialchars((string)$item['wiki']['description_1']);
                         else:
-                            echo htmlspecialchars($item['wiki']['description_2']);
+                            echo htmlspecialchars((string)$item['wiki']['description_2']);
                         endif;
                         ?></p>
                     <?php if (!empty($item['wiki']['url1'])): ?>
