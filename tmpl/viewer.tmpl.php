@@ -477,16 +477,6 @@ switch ($interview->playername) {
                                             });
                                             }
                                             $(".fancybox").fancybox();
-                                                    $('.fancybox-media').fancybox({
-                                            openEffect: 'none',
-                                                    closeEffect: 'none',
-                                                    width: '80%',
-                                                    height: '80%',
-                                                    fitToView: true,
-                                                    helpers: {
-                                                    media: {}
-                                                    }
-                                            });
                                             });
                                             function footnoteHover(state){
                                             if (state == "bind"){
@@ -547,11 +537,14 @@ switch ($interview->playername) {
         <script src="js/visualization.js"></script>
 
         <script type="text/javascript">
-                                            var cachefile = '<?php echo $interview->cachefile; ?>';
-                                            let viewer = new Viewer();
-                                            viewer.initialize();
-                                            const visualization = new VisualizationJS();
-                                            visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
+            $(document).ready(function () {
+                var cachefile = '<?php echo $interview->cachefile; ?>';
+                let viewer = new Viewer();
+                viewer.initialize();
+                const visualization = new VisualizationJS();
+                visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
+            });
+
         </script>
     </body> 
 </html>
