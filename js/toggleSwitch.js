@@ -32,20 +32,6 @@ function toggleSwitch() {
                     $(this).hide();
                 }
             });
-            $(".info-circle").each(function () {
-                var outerTop = $(this).offset().top;
-                var outerId = this.id;
-                $(".info-circle").each(function () {
-                    var innerTop = $(this).offset().top;
-                    var innerId = this.id;
-                    if (innerId != outerId) {
-                        if (outerTop == innerTop) {
-                            $("#" + innerId).css("margin-top", "18px");
-                        }
-                    }
-                });
-
-            });
         }
         firstTogglePerformed = true;
         resetSearch();

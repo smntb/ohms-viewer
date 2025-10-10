@@ -1,6 +1,9 @@
 
 function Viewer() {
     this.initialize = function (cachefile) {
+        setTimeout(() => {
+            $('html').removeClass('loading');
+        }, 500);
         $('.refreshPage').click(function () {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
@@ -17,11 +20,24 @@ function Viewer() {
         $(".printCustomMobile").click(function () {
             window.open("viewer.php?action=pdf&cachefile=" + cachefile + external + "", '_blank');
         });
+
+        $('#lnkRights').click(function () {
+            $('#rightsStatement').fadeToggle(400);
+            return false;
+        });
+        $('#lnkUsage').click(function () {
+            $('#usageStatement').fadeToggle(400);
+            return false;
+        });
+        $('#lnkFunding').click(function () {
+            $('#fundingStatement').fadeToggle(400);
+            return false;
+        });
         activateTruncateText();
         let indexJS = new IndexJS();
 
         indexJS.initialize();
-        
+
     };
     const activateTruncateText = function () {
         document.querySelectorAll('.truncate').forEach(el => {
@@ -54,6 +70,7 @@ function Viewer() {
 function IndexJS() {
     this.initialize = function () {
         bindEvents();
+        activateTranscriptPopup();
 
     };
 
@@ -85,6 +102,50 @@ function IndexJS() {
         dummy.select();
         document.execCommand("copy");
         document.body.removeChild(dummy);
+    }
+    const activateTranscriptPopup = function () {
+        $('.info-circle').each(function (index, element) {
+
+            var timePoint = $("." + element.id).data("time-point");
+            var id = $("." + element.id).data("marker-counter");
+            var indexTitle = $("." + element.id).data("index-title");
+            var anchorHtml = "<div class='info-toggle transcript-info-tipped' data-id='" + id + "' >Segment: <b>" + indexTitle + "</b> " + timePoint + " </div>";
+            Tipped.create('.' + element.id, anchorHtml, {
+                size: 'large',
+                radius: true,
+                position: 'right'
+            });
+        });
+        //, .transcript-info-tipped
+        $(document).on("click", ".transcript-info", function (e) {
+            console.log('here');
+
+            let id = $(this).data('id');
+            $('.tpd-tooltip').hide();
+            let container;
+            let indexTab;
+            if ($(this).closest('.right-side').length) {
+                container = $('.left-side');
+                indexTab = '#index-tab-1';
+
+            } else if ($('.right-side').is(':visible')) {
+                indexTab = '#index-tab-2';
+                container = $('.right-side-inner');
+
+            } else {
+                container = $('.left-side');
+                indexTab = '#index-tab-1';
+            }
+            $('a[href="' + indexTab + '"]').trigger("click");
+            $('html, body').animate({scrollTop: 0}, 100);
+            setTimeout(function () {
+                var currentIndex = $(indexTab + ' .accordionHolder').accordion('option', 'active');
+                if (currentIndex != id || currentIndex === false) {
+                    jQuery(indexTab + ' .accordionHolder').accordion({active: id});
+                    jQuery(indexTab + ' .accordionHolder-alt').accordion({active: id});
+                }
+            }, 250);
+        });
     }
     const switchIndexToTranscript = function () {
         $('.mapIndexTranscript').click(function () {
@@ -126,7 +187,7 @@ function IndexJS() {
                 $('.tpd-tooltip').hide();
                 $('#transcript-panel').hide();
                 $('#index-panel').show();
-                var currentIndex = $('#accordionHolder').accordion('option', 'active');
+                var currentIndex = $('.accordionHolder').accordion('option', 'active');
                 if (currentIndex != id || currentIndex === false) {
                     jQuery('#accordionHolder').accordion({active: id});
                     jQuery('#accordionHolder-alt').accordion({active: id});

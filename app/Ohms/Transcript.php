@@ -209,9 +209,10 @@ POINT;
                 $indexMarkerTitle = (string) $singlePoint->title;
                 // Generate marker HTML
                 $markerHtml = sprintf(
-                        '<span id="info_trans_%s" data-time-point="%s" data-marker-counter="%d" data-marker-id="%s" data-index-title="%s" data-id="%s" data-type="transcript-to-index" class="alpha-circle info-circle info_trans_%s"></span>',
+                        '<span id="info_trans_%s" data-time-point="%s" data-id="%d" data-marker-counter="%d" data-marker-id="%s" data-index-title="%s" data-id="%s" data-type="transcript-to-index" class="transcript-info alpha-circle info-circle info_trans_%s"></span>',
                         $time,
                         $display_time,
+                        $counter,
                         $counter,
                         $time,
                         htmlspecialchars($indexMarkerTitle, ENT_QUOTES),
@@ -552,15 +553,15 @@ ANCHOR;
             $wordCountPerLine = str_word_count(strip_tags($line)) + $wordCountPerLine;
             if ($placeIndexMarker && !$placed) {
                 $timeinm = $currentMarkerTimeSecs / 60;
-                if ($wordsToMove <= $wordCountPerLine || $indexisChanging) {
+//                if ($wordsToMove <= $wordCountPerLine || $indexisChanging) {
                     $placed = true;
                     $placeIndexMarker = false;
                     $wordsToMove = 0;
 
                     $timePoint = $this->formatTimePoint($currentMarkerTimeSecs);
-                    $markerHtml = '<span id="info_trans_' . $currentMarkerTimeSecs . '" data-time-point="' . $timePoint . '" data-marker-counter="' . $markerCounter . '" data-marker-id="' . $currentMarkerTimeSecs . '" data-index-title="' . $currentMarkerTitle . '" onclick="toggleRedirectTranscriptIndex(' . $markerCounter . ', \'transcript-to-index\');" class="alpha-circle info-circle info_trans_' . $currentMarkerTimeSecs . '"></span>';
+                    $markerHtml = '<span id="info_trans_' . $currentMarkerTimeSecs . '" data-id="' . $markerCounter . '" data-time-point="' . $timePoint . '" data-marker-counter="' . $markerCounter . '" data-marker-id="' . $currentMarkerTimeSecs . '" data-index-title="' . $currentMarkerTitle . '" class="transcript-info alpha-circle old-info-circle info-circle info_trans_' . $currentMarkerTimeSecs . '"></span>';
                     $markerCounter++;
-                }
+//                }
             }
 
             if (trim($line) == "" && $key == count($itlines) - 1) {
