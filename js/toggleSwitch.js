@@ -171,8 +171,10 @@ function toggleSwitch() {
                                 $(this).html(htmlArray[index]);
                                 activatePopper($(this).find(".footnoteTooltip").attr("id"));
                             });
-                            footnoteHover("unbind");
-                            footnoteHover("bind");
+                            let viewer = new Viewer();
+                            viewer.bindFootNoteHover('unbind');
+                            viewer.bindFootNoteHover('bind');
+                            
                         });
                         $('<ul/>').addClass('nline').html(matches.join('')).appendTo('#search-results');
                         $('a.search-result').on('click', function (e) {

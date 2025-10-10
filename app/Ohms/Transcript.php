@@ -513,7 +513,7 @@ ANCHOR;
             $markerHtml = "";
             if (strstr($line, '[[footnote]]') !== false) {
                 $line = preg_replace(
-                        '/\[\[footnote\]\]([0-9]+)\[\[\/footnote\]\]/', '<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $line
+                        '/\[\[footnote\]\]([0-9]+)\[\[\/footnote\]\]/', '<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnote$1 footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $line
                 );
             }
 

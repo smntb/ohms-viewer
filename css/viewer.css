@@ -1157,6 +1157,10 @@ div.jp-current-time, div.jp-duration {
     display: inline;
     position: relative;
 }
+.footnote-ref .tooltip{
+    background:white !important;
+}
+
 .label-ft{
     padding-bottom: 10px;
     font-weight: bold;

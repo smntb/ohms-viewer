@@ -419,132 +419,75 @@ endif;
         <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
         <script>
                                     var allToolTipInstances = {};
+                                    var playerNameJS = '<?php echo $interview->playername; ?>'
                                     $(document).ready(function () {
-                                    setTimeout(() => {
-                                    $('html').removeClass('loading');
-                                    }, 500);
+                                        setTimeout(() => {
+                                            $('html').removeClass('loading');
+                                        }, 500);
 //                                              
-                                            $('.footnoteTooltip').each(function(index, element){
-                                    footnoteID = $(element).data('index');
-                                            footnoteAttrId = $(element).attr("id");
-                                            footnoteHtml = $('#' + footnoteID).parent().children('span').html();
-                                            $(element).attr("data-tooltip", footnoteHtml);
-                                            activatePopper(footnoteAttrId);
-                                    });
-                                            footnoteHover("bind");
-                                            if (jumpToTime !== null) {
-                                    jQuery('div.point').each(function (index) {
-                                    if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
-                                    jumpLink = jQuery(this).find('a.indexJumpLink');
-                                            jQuery('#accordionHolder').accordion({active: index});
-                                            jQuery('#accordionHolder-alt').accordion({active: index});
-                                            var interval = setInterval(function () {
-<?php
-switch ($interview->playername) {
-    case 'youtube':
-        ?>
-                                                    if (player !== undefined &&
-                                                            player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
-        <?php
-        break;
-    case 'brightcove':
-        ?>
-                                                    if (modVP !== undefined &&
-                                                            modVP.getVideoPosition !== undefined &&
-                                                            Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
-        <?php
-        break;
-    case 'kaltura':
-        ?>
-                                                    if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
-        <?php
-        break;
-    default:
-        ?>
-                                                    if (Math.floor(player.currentTime) == jumpToTime) {
-        <?php
-        break;
-}
-?>
-                                            clearInterval(interval);
-                                            } else {
-                                            jumpLink.click();
-                                            }
-                                            }
-                                            ,
-                                                    500
-                                                    );
+
+                                        if (jumpToTime !== null) {
+                                            jQuery('div.point').each(function (index) {
+                                                if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
+                                                    jumpLink = jQuery(this).find('a.indexJumpLink');
+                                                    jQuery('#index-tab-2 .accordionHolder').accordion({active: index});
+                                                    jQuery('#index-tab-2 .accordionHolder-alt').accordion({active: index});
+                                                    var interval = setInterval(function () {
+                                                        switch (playerNameJS) {
+                                                            case "youtube":
+                                                                if (player !== undefined &&
+                                                                        player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
+                                                                    clearInterval(interval);
+                                                                } else {
+                                                                    jumpLink.click();
+                                                                }
+                                                                break;
+
+                                                            case "brightcove":
+                                                                if (modVP !== undefined &&
+                                                                        modVP.getVideoPosition !== undefined &&
+                                                                        Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
+                                                                    clearInterval(interval);
+                                                                } else {
+                                                                    jumpLink.click();
+                                                                }
+                                                                break;
+
+                                                            case "kaltura":
+                                                                if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
+                                                                    clearInterval(interval);
+                                                                } else {
+                                                                    jumpLink.click();
+                                                                }
+                                                                break;
+
+                                                            default:
+                                                                if (Math.floor(player.currentTime) == jumpToTime) {
+                                                                    clearInterval(interval);
+                                                                } else {
+                                                                    jumpLink.click();
+                                                                }
+                                                                // Code to execute if none of the cases match
+                                                        }
+                                                    }, 500);
                                                     jQuery(this).find('a.indexJumpLink').click();
-                                            }
+                                                }
                                             });
-                                            }
-                                            $(".fancybox").fancybox();
-                                            });
-                                            function footnoteHover(state){
-                                            if (state == "bind"){
-                                            $(".footnote-ref").bind("hover",
-                                                    function() {
-                                                    var footnoteHtmlLength = $(this).find('.footnoteTooltip').attr("data-tooltip").length;
-                                                            width = footnoteHtmlLength * 50 / 100;
-                                                            if (footnoteHtmlLength > 130){
-                                                    $('head').append("<style>.tooltip{ width: " + width + "px }</style>");
-                                                    } else{
-                                                    $('head').append("<style>.tooltip{ width: 130px; }</style>");
-                                                    }
-                                                    }
-                                            );
-                                            } else if (state == "unbind"){
-                                            $(".footnote-ref").unbind("hover");
-                                            }
-                                            }
-                                    function activatePopper(element) {
-                                    var footnoteHtml = $("#" + element).data("tooltip");
-                                            allToolTipInstances[footnoteAttrId] = new Tooltip($("#" + element), {
-                                    title: footnoteHtml,
-                                            trigger: "hover",
-                                            placement: "bottom",
-                                            html: true,
-                                            eventsEnabled: true,
-                                            modifiers: {
-                                            flip: {
-                                            behavior: ['left', 'right', 'top']
-                                            },
-                                                    preventOverflow: {
-                                                    boundariesElement: $('#transcript-panel'),
-                                                    },
-                                            },
+                                        }
+                                        $(".fancybox").fancybox();
                                     });
-                                    }
-
-                                    function activatePopperIndexTranscript(element, type) {
-                                    console.log(element);
-                                            console.log(type);
-                                            if (type == 'i'){
-                                    var timePoint = $("#" + element).data("time-point");
-                                            var id = $("#" + element).data("marker-counter");
-                                            var indexTitle = $("#" + element).data("index-title");
-                                            var anchorHtml = "<div class='info-toggle' onclick=\"toggleRedirectTranscriptIndex(" + id + ",'transcript-to-index')\" >Segment: <b>" + indexTitle + "</b> " + timePoint + " </div>";
-                                            Tipped.create('#' + element, anchorHtml, {
-                                            size: 'large',
-                                                    radius: true,
-                                                    position: 'right'
-                                            });
-                                    }
-                                    }
-
-
         </script>
 
 
         <script src="js/visualization.js"></script>
 
         <script type="text/javascript">
-                                            $(document).ready(function () {
-                                    var cachefile = '<?php echo $interview->cachefile; ?>';
-                                            let viewer = new Viewer();
-                                            viewer.initialize();
-                                            const visualization = new VisualizationJS();
-                                            visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
+                                    $(document).ready(function () {
+                                        var cachefile = '<?php echo $interview->cachefile; ?>';
+                                        let viewer = new Viewer();
+                                        viewer.initialize();
+                                        const visualization = new VisualizationJS();
+                                        visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
                                     });
 
         </script>

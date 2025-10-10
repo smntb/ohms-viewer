@@ -1,7 +1,7 @@
 
 function Viewer() {
     this.initialize = function (cachefile) {
-        
+
         $('.refreshPage').click(function () {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
@@ -40,12 +40,61 @@ function Viewer() {
             $('#fundingStatement').fadeToggle(400);
             return false;
         });
-        activateTruncateText();
+        bindOldFootNotes();
+        
         let indexJS = new IndexJS();
 
         indexJS.initialize();
 
     };
+    const bindOldFootNotes = function () {
+        $('.footnoteTooltip').each(function (index, element) {
+            let footnoteID = $(element).data('index');
+            let footnoteAttrId = $(element).attr("id");
+            let footnoteHtml = $('#' + footnoteID).parent().children('span').html();
+
+            $(element).attr("data-tooltip", footnoteHtml);
+            footNotesTooltip('#transcript-tab-1', footnoteAttrId, footnoteHtml);
+            footNotesTooltip('#transcript-tab-2', footnoteAttrId, footnoteHtml);
+        });
+        bindFootNoteHover("bind");
+    }
+    const bindFootNoteHover = function (state) {
+        if (state == "bind") {
+            $(".footnote-ref").bind("hover",
+                    function () {
+                        var footnoteHtmlLength = $(this).find('.footnoteTooltip').attr("data-tooltip").length;
+                        width = footnoteHtmlLength * 50 / 100;
+                        if (footnoteHtmlLength > 130) {
+                            $('head').append("<style>.tooltip{ width: " + width + "px }</style>");
+                        } else {
+                            $('head').append("<style>.tooltip{ width: 130px; }</style>");
+                        }
+                    }
+            );
+        } else if (state == "unbind") {
+            $(".footnote-ref").unbind("hover");
+        }
+    }
+    const footNotesTooltip = function (tab, element, footnoteHtml) {
+
+        new Tooltip($(tab + " #" + element), {
+            title: footnoteHtml,
+            trigger: "hover",
+            placement: "bottom",
+            html: true,
+            eventsEnabled: true,
+            modifiers: {
+                flip: {
+                    behavior: ['left', 'right', 'top']
+                },
+                preventOverflow: {
+                    boundariesElement: $('#transcript-panel')
+                }
+            }
+        });
+
+    }
     const activateTruncateText = function () {
         document.querySelectorAll('.truncate').forEach(el => {
 
@@ -182,25 +231,7 @@ function IndexJS() {
             }, 250);
         });
     };
-    const switchTranscriptToIndex = function () {
 
-    };
-    const  toggleRedirectTranscriptIndex = function () {
-        let type = $(this).data('type');
-        let id = $(this).data('id');
-        if (type == 'transcript-to-index') {
-            $('#toggle_switch').trigger('click');
-            setTimeout(function () {
-                $('.tpd-tooltip').hide();
-                $('#transcript-panel').hide();
-                $('#index-panel').show();
-                var currentIndex = $('.accordionHolder').accordion('option', 'active');
-                if (currentIndex != id || currentIndex === false) {
-                    jQuery('#accordionHolder').accordion({active: id});
-                    jQuery('#accordionHolder-alt').accordion({active: id});
-                }
-            }, 250);
-        }
-    }
+
 }
         
