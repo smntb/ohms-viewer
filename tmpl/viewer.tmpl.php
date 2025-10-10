@@ -420,9 +420,11 @@ endif;
         <script>
                                     var allToolTipInstances = {};
                                     $(document).ready(function () {
-
+                                    setTimeout(() => {
+                                    $('html').removeClass('loading');
+                                    }, 500);
 //                                              
-                                    $('.footnoteTooltip').each(function(index, element){
+                                            $('.footnoteTooltip').each(function(index, element){
                                     footnoteID = $(element).data('index');
                                             footnoteAttrId = $(element).attr("id");
                                             footnoteHtml = $('#' + footnoteID).parent().children('span').html();
@@ -537,13 +539,13 @@ switch ($interview->playername) {
         <script src="js/visualization.js"></script>
 
         <script type="text/javascript">
-            $(document).ready(function () {
-                var cachefile = '<?php echo $interview->cachefile; ?>';
-                let viewer = new Viewer();
-                viewer.initialize();
-                const visualization = new VisualizationJS();
-                visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
-            });
+                                            $(document).ready(function () {
+                                    var cachefile = '<?php echo $interview->cachefile; ?>';
+                                            let viewer = new Viewer();
+                                            viewer.initialize();
+                                            const visualization = new VisualizationJS();
+                                            visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
+                                    });
 
         </script>
     </body> 

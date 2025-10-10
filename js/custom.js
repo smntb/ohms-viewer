@@ -1,9 +1,7 @@
 
 function Viewer() {
     this.initialize = function (cachefile) {
-        setTimeout(() => {
-            $('html').removeClass('loading');
-        }, 500);
+        
         $('.refreshPage').click(function () {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
