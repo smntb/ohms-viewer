@@ -418,7 +418,7 @@ endif;
         <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
         <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
         <script>
-                                    var allToolTipInstances = {};
+                                    
                                     var playerNameJS = '<?php echo $interview->playername; ?>'
                                     $(document).ready(function () {
                                         setTimeout(() => {

@@ -40,12 +40,37 @@ function Viewer() {
             $('#fundingStatement').fadeToggle(400);
             return false;
         });
+        switchViews();
         bindOldFootNotes();
-        
+
         let indexJS = new IndexJS();
 
         indexJS.initialize();
 
+    };
+    const switchViews = function () {
+        $(".toggle-sides").click(function () {
+            let activeLeft, activeLeftLink, activeRight, activeRightLink = '';
+            if ($("#custom-tabs-left ul li").hasClass("ui-tabs-selected ui-state-active")) {
+                activeLeft = $("#custom-tabs-left ul li.ui-tabs-selected.ui-state-active a");
+                activeLeftLink = activeLeft.attr("href");
+
+            }
+            if ($("#custom-tabs-right ul li").hasClass("ui-tabs-selected ui-state-active")) {
+                activeRight = $("#custom-tabs-right ul li.ui-tabs-selected.ui-state-active a");
+                activeRightLink = activeRight.attr("href");
+
+            }
+            if (activeLeftLink == '#about-tab-1')
+                return;
+           
+            let switchLeftToRight = activeLeftLink.replace(/-1/g, "-2");
+            let switchRightToLeft = activeRightLink.replace(/-2/g, "-1");
+            $('a[href="' + switchLeftToRight + '"]').trigger("click");
+            $('a[href="' + switchRightToLeft + '"]').trigger("click");
+
+
+        });
     };
     const bindOldFootNotes = function () {
         $('.footnoteTooltip').each(function (index, element) {

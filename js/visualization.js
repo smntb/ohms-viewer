@@ -23,7 +23,7 @@ function VisualizationJS() {
             browserTab();
             entityData = entityRows;
             wordCloudTab();
-        }
+        } 
         annotationPopup();
 
 
@@ -486,7 +486,7 @@ function VisualizationJS() {
         });
         $(`${containerSelector} .dropdown-menu a`).on("click", function () {
             const $li = $(this).parent();
-            $li.removeClass("ui-tabs-selected ui-state-active");
+//            $li.removeClass("ui-tabs-selected ui-state-active");
             $li.parent().prev().addClass('active');
             $li.parent().hide();
         });
