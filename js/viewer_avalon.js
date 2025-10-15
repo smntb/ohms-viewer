@@ -1,6 +1,7 @@
 jQuery(function ($) {
     var loaded = false;
 
+    $('#audio-panel .video').attr('id', 'avalon-video');
 
     $('.translate-link').click(function (e) {
         var urlIndexPiece = '';

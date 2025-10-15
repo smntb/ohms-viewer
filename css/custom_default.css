@@ -1112,7 +1112,20 @@ div.video iframe {
   .main-box .left-side #audio-panel {
     max-width: 95%;
   }
-
+  #avalon-video {
+    min-height: 300px;
+    width: 65%;
+    max-width: 700px;
+    margin: auto;
+  }
+}
+@media screen and (max-width: 767px) {
+  #avalon-video {
+    min-height: 280px;
+    width: 89%;
+    max-width: 700px;
+    margin: auto;
+  }
 }
 @media screen and (max-width: 600px) {
   .select2-container {
@@ -1184,5 +1197,11 @@ div.video iframe {
   }
   .browser-filter select {
     max-width: 95px;
+  }
+  #avalon-video {
+    min-height: 230px;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
   }
 }
