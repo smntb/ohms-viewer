@@ -35,6 +35,7 @@ html.loading .right-side * {
 div.video {
   width: 100%;
   aspect-ratio: 16 / 9;
+  min-height: 280px;
   overflow: hidden;
 }
 
@@ -1015,6 +1016,9 @@ div.video iframe {
   padding: 20px;
 }
 @media screen and (max-width: 1430px) {
+  #kaltura_player_embed, div.video {
+    min-height: 240px;
+  }
   #secondaryMetaData .link {
       position: relative;
       right: 0;
