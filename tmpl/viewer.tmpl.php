@@ -419,7 +419,8 @@ endif;
         <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
         <script>
                                     
-                                    var playerNameJS = '<?php echo $interview->playername; ?>'
+                                    var playerNameJS = '<?php echo $interview->playername; ?>';
+                                    var cachefile = '<?php echo $interview->cachefile; ?>';
                                     $(document).ready(function () {
                                         setTimeout(() => {
                                             $('html').removeClass('loading');

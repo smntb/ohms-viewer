@@ -58,6 +58,9 @@ kWidget.embed({
     'flashvars': {
         'autoPlay': {$autoPlay},
         'externalInterfaceDisabled': false,
+        'dualScreen.plugin': true,
+        'dualScreen.layout': 'pip',
+        'dualScreen.smallScreenPosition': 'tr',
         'keyboardShortcuts': { 
 	'shortSeekTime' : '15',
 	'longSeekTime' : '15',

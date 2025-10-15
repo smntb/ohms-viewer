@@ -18,7 +18,7 @@ if (($interview->avalon_target_domain) != '') {
     $domain = $matches[0];
 }
 
-$embedcode = '<iframe id="avalon_widget" src="' . $media_url . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+$embedcode = '<iframe width="367" allow="fullscreen; picture-in-picture" id="avalon_widget" src="' . $media_url . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {
     $playScript = "widget('play');";

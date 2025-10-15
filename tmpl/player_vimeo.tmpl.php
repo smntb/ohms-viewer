@@ -8,7 +8,7 @@ if ($interview->kembed == "" && $interview->media_url != "") {
 } elseif ($interview->kembed != "") {
         $embedcode = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $interview->kembed);
         $embedcode = preg_replace('/(width|height)=["\']\d*["\']\s?/', "", $embedcode);
-        $embedcode = str_replace('<iframe ', '<iframe referrerpolicy="strict-origin" title="Video Player" id="vimeo_widget"', $embedcode);
+        $embedcode = str_replace('<iframe ', '<iframe allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="strict-origin" title="Video Player" id="vimeo_widget"', $embedcode);
 }
 
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {
