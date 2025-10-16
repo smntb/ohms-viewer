@@ -48,6 +48,10 @@ function Viewer() {
         indexJS.initialize();
 
     };
+    this.footerNotes = function (event) {
+        bindFootNoteHover(event)
+    }
+    
     const switchViews = function () {
         $(".toggle-sides").click(function () {
             let activeLeft, activeLeftLink, activeRight, activeRightLink = '';

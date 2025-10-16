@@ -1475,7 +1475,7 @@ p.bold {
 }
 
 .d-none {
-    display:none;
+    display:none !important;
 }
 
 .bdg-text-disabled {

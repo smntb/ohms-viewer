@@ -16,23 +16,22 @@ if (isset($_GET['translate']) && $_GET['translate'] == '1') {
     $targetLanguage = $interview->language;
     $isTranslate = "1";
 } else {
-    $targetLanguage = $interview->transcript_alt_lang;  
+    $targetLanguage = $interview->transcript_alt_lang;
 }
 $tAvailable = "";
 if (isset($_GET['t_available']) && $_GET['t_available'] == '1') {
     $tAvailable = "1";
 }
 
-$toggleClass= "non-greyed-out";
+$toggleClass = "non-greyed-out";
 $toggleAvailable = "";
 $toggleAttr = "";
 $toggleLanguageSwitch = "";
 
-if((($interview->index == '' && ($interview->transcript != '' || strpos($interview->transcript, 'No transcript') === false)) 
-        || ($interview->index != '' && ($interview->transcript == '' || strpos($interview->transcript, 'No transcript') !== false))) && $isTranslate == "0" || $tAvailable == "1"){
+if ((($interview->index == '' && ($interview->transcript != '' || strpos($interview->transcript, 'No transcript') === false)) || ($interview->index != '' && ($interview->transcript == '' || strpos($interview->transcript, 'No transcript') !== false))) && $isTranslate == "0" || $tAvailable == "1") {
     $toggleClass = "greyed_out";
     $toggleAttr = 'disabled="diabled"';
-    $toggleAvailable  = "hide";
+    $toggleAvailable = "hide";
     $toggleLanguageSwitch = "translate-toggle-preview";
 }
 
@@ -46,13 +45,14 @@ $toggleDisplay = "";
 //    $toggleDisplay = "display:none;";
 ?>
 
-<input type="hidden" id="is_translate" value="<?php echo $isTranslate;?>">
-<!-- <div id="search-toggle"  class="<?php echo $toggleAvailable;?>" >
+<input type="hidden" id="is_translate" value="<?php echo $isTranslate; ?>">
+<!-- <div id="search-toggle"  class="<?php echo $toggleAvailable; ?>" >
     <span class="toggle-txt-info">Transcript</span>
 
     <div class="switch" style="<?php echo $toggleDisplay; ?>">
         <div style="display:none;">Toggle Index/Transcript View Switch.</div>
-        <input class="switch-input" type="checkbox" title="Toggle Display Switch" id="toggle_switch" name="toggle_switch" <?php echo $toggleSwitch; echo $toggleAttr;?>>
+        <input class="switch-input" type="checkbox" title="Toggle Display Switch" id="toggle_switch" name="toggle_switch" <?php echo $toggleSwitch;
+echo $toggleAttr; ?>>
         <label for="toggle_switch" class="switch-label">Toggle Index/Transcript View Switch.</label>
     </div>
     <span class="toggle-txt-info">Index</span>
@@ -72,7 +72,7 @@ $toggleDisplay = "";
             <input class="kw-empty" title="Search keyword field" id="kw" name="kw" size="30" value="Keyword" placeholder="Search this Interview" />
             <button class="search-button" id="submit-btn">Go</button>
             <a href="#" class="searchclear-button" id="clear-btn">Clear search term X</a>
-            <!-- <div id="accordionHolderSearch">
+            <div id="accordionHolderSearch">
                 <h3>
                     <span class="toggle-span">Index</span>
                     <div id="paginate" class="compact-theme simple-pagination">
@@ -81,17 +81,19 @@ $toggleDisplay = "";
                                 <span class="current prev"><img src="/imgs/arrow-square.webp" alt="Previous" /></span>
                             </li>
                             <li>
-                                <span id="paginate_info">Showing 1 - 5 of 8</span>
+                                <span id="paginate_info" class="search_paginate_info">Showing 1 - 5 of 8</span>
                             </li>
                             <li>
                                 <a href="#page-2" class="page-link next"><img src="/imgs/arrow-square.webp" alt="Next" /></a>
                             </li>
                         </ul>
                     </div>
+                    <span id="paginate_info" class="search_paginate_info"></span>
                 </h3>
                 <div>
                     <div id="search-results"></div>
-                </div><h3>
+                </div>
+<!--                <h3>
                     <span class="toggle-span">Transcript</span>
                     <div id="paginate" class="compact-theme simple-pagination">
                         <ul>
@@ -108,14 +110,10 @@ $toggleDisplay = "";
                     </div>
                 </h3>
                 <div>
-                    <p>
-                    Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-                    purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-                    velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-                    suscipit faucibus urna.
-                    </p>
-                </div>
-            </div> -->
+                    <div id="search-results"></div>
+                </div>-->
+                
+            </div> 
         </div>
     </fieldset>
 </form>

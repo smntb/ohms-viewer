@@ -9,14 +9,15 @@ function toggleSwitch() {
         }
         $('#clear-btn').on('click', clearSearchResults);
         IndexView();
-        $('#toggle_switch').bind('click', function () {
-            if ($(this).is(":checked")) {
-                IndexView();
-            } else {
-                TranscriptView();
-            }
-
-        });
+//        TranscriptView();
+//        $('#toggle_switch').bind('click', function () {
+//            if ($(this).is(":checked")) {
+//                IndexView();
+//            } else {
+//                TranscriptView();
+//            }
+//
+//        });
     }
     var TranscriptView = function () {
         $('#search-type').val(0);
@@ -70,7 +71,7 @@ function toggleSwitch() {
                 url = new URL(window.location.href);
                 let external = '';
                 if (url.searchParams.has('external')) {
-                    external = '&external=true'
+                    external = '&external=true';
                 }
 
                 $.getJSON('viewer.php?action=index' + external + '&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
@@ -78,7 +79,10 @@ function toggleSwitch() {
                     $('#search-results').empty();
                     if (data.matches.length === 0) {
                         $('<ul/>').addClass('error-msg').html('<li>No results found.</li>').appendTo('#search-results');
+                        $('.index_count').addClass('d-none');
                     } else {
+                        $('.index_count').text(data.matches.length).removeClass('d-none');
+                        console.log(data.matches);
                         $("#kw").prop('disabled', true);
                         $("#submit-btn").css("display", "none");
                         $("#clear-btn").css("display", "inline-block");
@@ -86,10 +90,13 @@ function toggleSwitch() {
                         $.each(data.matches, function (key, val) {
                             matches.push('<li><a class="search-result" href="#" data-linenum="' + val.time + '">' + val.shortline + '</a></li>');
                             prevIndex.matches.push(val.linenum);
-                            var section = $('#link' + val.time);
+                            var section = $('.index_link' + val.time);
                             var synopsis = $('a[name="tp_' + val.time + '"]').parent();
                             var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
-                            section.html(section.text().replace(re, "<span class=\"highlight\">$1</span>"));
+//                            section.html(section.text().replace(re, "<span class=\"highlight\">$1</span>"));
+                            section.each(function(){
+                                $(this).html($(this).text().replace(re, "<span class=\"highlight\">$1</span>"))
+                            })
                             synopsis.find('span').each(function () {
                                 $(this).html($(this).text().replace(re, "<span class=\"highlight\">$1</span>"));
                             });
@@ -112,6 +119,7 @@ function toggleSwitch() {
                 });
             }
         }
+//        getSearchResults(this);
     };
     var getSearchResults = function (e) {
         var isTranslate = false;
@@ -173,8 +181,9 @@ function toggleSwitch() {
                                 activatePopper($(this).find(".footnoteTooltip").attr("id"));
                             });
                             let viewer = new Viewer();
-                            viewer.bindFootNoteHover('unbind');
-                            viewer.bindFootNoteHover('bind');
+                            viewer.footerNotes('unbind');
+                            viewer.footerNotes('bind');
+                            
                             
                         });
                         $('<ul/>').addClass('nline').html(matches.join('')).appendTo('#search-results');
@@ -230,14 +239,14 @@ function toggleSwitch() {
     };
 
     var pagination = function () {
-        $("#search-results").prepend("<div id=\"paginate\"></div>");
-        $("#search-results").prepend("<span id=\"paginate_info\"></span>");
+//        $("#search-results").prepend("<div id=\"paginate\"></div>");
+//        $(".search_paginate").prepend("<span id=\"search_paginate_info\" class=\"search_paginate_info\></span>");
         var pageParts = $(".nline li");
         var numPages = pageParts.length;
         var perPage = 5;
         if (numPages > 5) {
             pageParts.slice(perPage).hide();
-            $("#paginate_info").text("Showing 1 - " + perPage + " of " + numPages);
+            $(".search_paginate_info").text("Showing 1 - " + perPage + " of " + numPages);
             $("#paginate").pagination({
                 items: numPages,
                 itemsOnPage: perPage,
@@ -259,7 +268,7 @@ function toggleSwitch() {
                     if (start == 0) {
                         starting = 1;
                     }
-                    $("#paginate_info").text("Showing " + starting + " - " + ending + " of " + numPages);
+                    $(".search_paginate_info").text("Showing " + starting + " - " + ending + " of " + numPages);
                 }
             });
         }

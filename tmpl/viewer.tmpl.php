@@ -175,8 +175,8 @@ endif;
                         <div id="custom-tabs-left">
                             <ul>
                                 <li><a href="#about-tab-1">About</a></li>
-                                <li><a href="#index-tab-1">Index <span class="count">4</span></a></li>
-                                <li><a href="#transcript-tab-1">Transcript <span class="count">8</span></a></li>
+                                <li><a href="#index-tab-1">Index <span class="count index_count d-none"></span></a></li>
+                                <li><a href="#transcript-tab-1">Transcript <span class="count transcript_count d-none"></span></a></li>
                                 <?php if (count($interview->annotations) > 0): ?>
                                     <!-- These will be moved into dropdown via JS -->
                                     <li class="dropdown-tab"><a href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
@@ -269,8 +269,8 @@ endif;
                         <?php endif; ?>
                         <div id="custom-tabs-right">
                             <ul>
-                                <li><a href="#index-tab-2">Index <span class="count">4</span></a></li>
-                                <li><a href="#transcript-tab-2">Transcript <span class="count">8</span></a></li>
+                                <li><a href="#index-tab-2">Index <span class="count index_count d-none"></span></a></li>
+                                <li><a href="#transcript-tab-2">Transcript <span class="count transcript_count d-none"></span></a></li>
                                 <?php if (count($interview->annotations) > 0): ?>
                                     <!-- These will be moved into dropdown via JS -->
                                     <li class="dropdown-tab"><a href="#wordcloud-tab-2" id="wordcloud-tab-2-head">Word Cloud</a></li>

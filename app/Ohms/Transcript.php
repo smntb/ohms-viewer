@@ -174,7 +174,7 @@ class Transcript {
                 }
 
                 $indexHTML .= <<<POINT
-<span><a href="#" id="link{$point->time}">{$timePoint} - {$formattedTitle}</a></span>
+<span><a href="#" class="index_link{$point->time}" id="link{$point->time}">{$timePoint} - {$formattedTitle}</a></span>
 <div class="point">
   <p style="margin-bottom:1.2em;">
    <a class="indexJumpLink" href="#" data-timestamp="{$point->time}">Play segment</a>
