@@ -417,7 +417,10 @@ div.video iframe {
   border: none !important;
   box-shadow: none;
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
+  position: absolute;
+  padding: 0 !important;
+  right: 35px;
 }
 .popover-body #paginate_info {
   color: #000;
@@ -435,7 +438,9 @@ div.video iframe {
   padding-top: 6px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
+  width: 180px;
 }
 .popover-body #paginate_info li span,
 .popover-body #paginate_info li a,
@@ -443,15 +448,22 @@ div.video iframe {
 #search-form .search-content #paginate li a {
   padding: 0;
   background: transparent;
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
+  border: none;
   border-radius: 3px;
   margin: 0 1px;
   font-weight: 700;
 }
-/*.popover-body .simple-pagination li .next{
+/* .popover-body .simple-pagination li .next img {
     transform: rotate(180deg);
-}*/
-#search-form .search-content #paginate li a img {
+} */
+#search-form #paginate li.disabled {
+  opacity: 0.5;
+}
+#search-form #paginate li .prev img {
+  transform: rotate(0deg);
+}
+#search-form #paginate li .next img {
   transform: rotate(180deg);
 }
 .popover-body .simple-pagination li span img,
@@ -461,6 +473,7 @@ div.video iframe {
   width: 18px;
   height: 18px;
   vertical-align: middle;
+  transform: rotate(180deg);
 }
 #search-form fieldset {
   border: none;
@@ -507,6 +520,7 @@ div.video iframe {
   box-shadow: none;
   text-shadow: none;
   z-index: 2;
+  cursor: pointer;
 }
 #search-form .searchclear-button {
   background: transparent;

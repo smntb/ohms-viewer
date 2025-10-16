@@ -76,7 +76,7 @@ echo $toggleAttr; ?>>
                 <h3>
                     <span class="toggle-span">Index</span>
                     <div id="paginate" class="compact-theme simple-pagination">
-                        <ul>
+                        <!-- <ul>
                             <li class="disabled">
                                 <span class="current prev"><img src="/imgs/arrow-square.webp" alt="Previous" /></span>
                             </li>
@@ -86,7 +86,7 @@ echo $toggleAttr; ?>>
                             <li>
                                 <a href="#page-2" class="page-link next"><img src="/imgs/arrow-square.webp" alt="Next" /></a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                     <span id="paginate_info" class="search_paginate_info"></span>
                 </h3>
