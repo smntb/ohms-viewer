@@ -8,6 +8,7 @@ function toggleSwitch() {
             eval(viewName[view] + 'View')();
         }
         $('#clear-btn').on('click', clearSearchResults);
+        IndexView();
         $('#toggle_switch').bind('click', function () {
             if ($(this).is(":checked")) {
                 IndexView();
