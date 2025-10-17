@@ -63,10 +63,6 @@ $collectionLink = (string) $interview->collection_link;
 $lang = (string) $interview->translate;
 
 $userNotes = trim($interview->user_notes);
-$heightAdjustmentClass = "";
-if (!empty($userNotes)):
-    $heightAdjustmentClass = "adjust_height";
-endif;
 ?>
 
 <!DOCTYPE html>
@@ -197,6 +193,13 @@ endif;
                                     <p><?php echo $interview->interviewer; ?></p>
                                     <strong>Interviewee Name</strong>
                                     <p><?php echo "{$interview->interviewee}"; ?></p>
+                                    <?php
+                                    if (!empty($userNotes)):
+                                        echo '<strong>User Notes</strong>';
+                                        echo "<p>${$userNotes}</p>";
+                                    endif;
+                                    ?>
+
                                 </div>
                             </div>
                             <div id="index-tab-1">
@@ -262,11 +265,8 @@ endif;
                         </div>
                         <?php if ($printMode) { ?>
                             <a href="#" class="printCustomMobile" ></a>
-                        <?php } if (!empty($userNotes)): ?>
-                            <div class="user_notes"><?php echo $interview->user_notes ?>
-                                <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
-                            </div>
-                        <?php endif; ?>
+                        <?php } ?>
+
                         <div id="custom-tabs-right">
                             <ul>
                                 <li><a href="#index-tab-2">Index <span class="count index_count d-none"></span></a></li>
@@ -418,78 +418,78 @@ endif;
         <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
         <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
         <script>
-                                    
-                                    var playerNameJS = '<?php echo $interview->playername; ?>';
-                                    var cachefile = '<?php echo $interview->cachefile; ?>';
-                                    $(document).ready(function () {
-                                        setTimeout(() => {
-                                            $('html').removeClass('loading');
-                                        }, 500);
+
+            var playerNameJS = '<?php echo $interview->playername; ?>';
+            var cachefile = '<?php echo $interview->cachefile; ?>';
+            $(document).ready(function () {
+                setTimeout(() => {
+                    $('html').removeClass('loading');
+                }, 500);
 //                                              
 
-                                        if (jumpToTime !== null) {
-                                            jQuery('div.point').each(function (index) {
-                                                if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
-                                                    jumpLink = jQuery(this).find('a.indexJumpLink');
-                                                    jQuery('#index-tab-2 .accordionHolder').accordion({active: index});
-                                                    jQuery('#index-tab-2 .accordionHolder-alt').accordion({active: index});
-                                                    var interval = setInterval(function () {
-                                                        switch (playerNameJS) {
-                                                            case "youtube":
-                                                                if (player !== undefined &&
-                                                                        player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
-                                                                    clearInterval(interval);
-                                                                } else {
-                                                                    jumpLink.click();
-                                                                }
-                                                                break;
-
-                                                            case "brightcove":
-                                                                if (modVP !== undefined &&
-                                                                        modVP.getVideoPosition !== undefined &&
-                                                                        Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
-                                                                    clearInterval(interval);
-                                                                } else {
-                                                                    jumpLink.click();
-                                                                }
-                                                                break;
-
-                                                            case "kaltura":
-                                                                if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
-                                                                    clearInterval(interval);
-                                                                } else {
-                                                                    jumpLink.click();
-                                                                }
-                                                                break;
-
-                                                            default:
-                                                                if (Math.floor(player.currentTime) == jumpToTime) {
-                                                                    clearInterval(interval);
-                                                                } else {
-                                                                    jumpLink.click();
-                                                                }
-                                                                // Code to execute if none of the cases match
-                                                        }
-                                                    }, 500);
-                                                    jQuery(this).find('a.indexJumpLink').click();
-                                                }
-                                            });
+                if (jumpToTime !== null) {
+                    jQuery('div.point').each(function (index) {
+                        if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
+                            jumpLink = jQuery(this).find('a.indexJumpLink');
+                            jQuery('#index-tab-2 .accordionHolder').accordion({active: index});
+                            jQuery('#index-tab-2 .accordionHolder-alt').accordion({active: index});
+                            var interval = setInterval(function () {
+                                switch (playerNameJS) {
+                                    case "youtube":
+                                        if (player !== undefined &&
+                                                player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
+                                            clearInterval(interval);
+                                        } else {
+                                            jumpLink.click();
                                         }
-                                        $(".fancybox").fancybox();
-                                    });
+                                        break;
+
+                                    case "brightcove":
+                                        if (modVP !== undefined &&
+                                                modVP.getVideoPosition !== undefined &&
+                                                Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
+                                            clearInterval(interval);
+                                        } else {
+                                            jumpLink.click();
+                                        }
+                                        break;
+
+                                    case "kaltura":
+                                        if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
+                                            clearInterval(interval);
+                                        } else {
+                                            jumpLink.click();
+                                        }
+                                        break;
+
+                                    default:
+                                        if (Math.floor(player.currentTime) == jumpToTime) {
+                                            clearInterval(interval);
+                                        } else {
+                                            jumpLink.click();
+                                        }
+                                        // Code to execute if none of the cases match
+                                }
+                            }, 500);
+                            jQuery(this).find('a.indexJumpLink').click();
+                        }
+                    });
+                }
+                $(".fancybox").fancybox();
+            });
         </script>
 
 
         <script src="js/visualization.js"></script>
 
         <script type="text/javascript">
-                                    $(document).ready(function () {
-                                        var cachefile = '<?php echo $interview->cachefile; ?>';
-                                        let viewer = new Viewer();
-                                        viewer.initialize();
-                                        const visualization = new VisualizationJS();
-                                        visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
-                                    });
+            $(document).ready(function () {
+                var cachefile = '<?php echo $interview->cachefile; ?>';
+                let viewer = new Viewer();
+                viewer.initialize();
+                const visualization = new VisualizationJS();
+                visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
+            });
 
         </script>
     </body> 

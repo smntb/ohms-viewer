@@ -521,6 +521,7 @@ public static function renderAnnotationPopoversGroupedByText(array $annotations)
         if ($link !== '') {
             $html .= '<div><a href="'.self::h($link).'" target="_blank" rel="noopener">Wikipedia link</a></div>';
         }
+        
 
         if ($total > 1) {
             $html .= '<div class="simple-pagination"><ul>';
@@ -533,7 +534,7 @@ public static function renderAnnotationPopoversGroupedByText(array $annotations)
             }
 
             // Info
-            $html .= '<li><span id="paginate_info">Showing '.self::h($pos).' of '.self::h($total).'</span></li>';
+            $html .= '<li><span id="popover_paginate_info">Showing '.self::h($pos).' of '.self::h($total).'</span></li>';
 
             // Next
             if ($next === null) {

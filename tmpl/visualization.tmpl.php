@@ -10,10 +10,20 @@
         /* Full width; auto height via aspect ratio (fallback below) */
         #map_area_1, #map_area_2 {
             width: 100%;
-            aspect-ratio: 16 / 9;   /* auto height */
-            min-height: 320px;      /* safety floor */
-            border-radius: 12px;
-            margin: 12px 0;
+            height: 100vh;              /* Full viewport height */
+            max-height: 100vh;
+            /*border-radius: 12px;*/
+            margin: 0;
+        }
+        @media (min-width: 768px) {
+            #map_area_1,
+            #map_area_2 {
+                height: 80vh;           /* Slightly shorter on large screens */
+                margin: 12px 0;
+            }
+        }
+        .leaflet-control-attribution {
+            display:none;
         }
     </style>
     <div id="map-tab-<?php echo $tab_tag; ?>">
@@ -46,12 +56,12 @@
             <div class="timeline_container container <?php echo $sideClass; ?>">
                 <div class="content">
                     <strong><?php echo htmlspecialchars($item['date']); ?></strong>
-                    <div class="org timeline_event" data-ref="<?php echo $item['ref']; ?>"><?php echo htmlspecialchars((string)$item['label']); ?>: <?php echo htmlspecialchars((string)$item['wiki']['name']); ?></div>
+                    <div class="org timeline_event" data-ref="<?php echo $item['ref']; ?>"><?php echo htmlspecialchars((string) $item['label']); ?>: <?php echo htmlspecialchars((string) $item['wiki']['name']); ?></div>
                     <p><?php
                         if (!empty($item['wiki']['description_1'])):
-                            echo htmlspecialchars((string)$item['wiki']['description_1']);
+                            echo htmlspecialchars((string) $item['wiki']['description_1']);
                         else:
-                            echo htmlspecialchars((string)$item['wiki']['description_2']);
+                            echo htmlspecialchars((string) $item['wiki']['description_2']);
                         endif;
                         ?></p>
                     <?php if (!empty($item['wiki']['url1'])): ?>

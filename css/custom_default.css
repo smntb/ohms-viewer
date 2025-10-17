@@ -260,7 +260,7 @@ div.video iframe {
   padding: 0;
   background: #ffffff;
   border: none;
-  z-index: 99;
+  z-index: 400;
   position: absolute;
   border-radius: 50%;
 }
@@ -473,7 +473,7 @@ div.video iframe {
   width: 18px;
   height: 18px;
   vertical-align: middle;
-  transform: rotate(180deg);
+  /*transform: rotate(180deg);*/
 }
 #search-form fieldset {
   border: none;

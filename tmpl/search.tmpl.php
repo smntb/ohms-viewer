@@ -72,26 +72,16 @@ echo $toggleAttr; ?>>
             <input class="kw-empty" title="Search keyword field" id="kw" name="kw" size="30" value="Keyword" placeholder="Search this Interview" />
             <button class="search-button" id="submit-btn">Go</button>
             <a href="#" class="searchclear-button" id="clear-btn">Clear search term X</a>
-            <div id="accordionHolderSearch">
+            <div id="accordionHolderSearch" class="d-none">
                 <h3>
                     <span class="toggle-span">Index</span>
-                    <div id="paginate" class="compact-theme simple-pagination">
-                        <!-- <ul>
-                            <li class="disabled">
-                                <span class="current prev"><img src="/imgs/arrow-square.webp" alt="Previous" /></span>
-                            </li>
-                            <li>
-                                <span id="paginate_info" class="search_paginate_info">Showing 1 - 5 of 8</span>
-                            </li>
-                            <li>
-                                <a href="#page-2" class="page-link next"><img src="/imgs/arrow-square.webp" alt="Next" /></a>
-                            </li>
-                        </ul> -->
+                    <div id="paginate" class="compact-theme simple-pagination index_paginate">
+                       
                     </div>
-                    <span id="paginate_info" class="search_paginate_info"></span>
+                    <span id="paginate_info" class="search_paginate_info index_paginate_info"></span>
                 </h3>
                 <div>
-                    <div id="search-results"></div>
+                    <div id="search-results" class="index-search-results"></div>
                 </div>
 <!--                <h3>
                     <span class="toggle-span">Transcript</span>

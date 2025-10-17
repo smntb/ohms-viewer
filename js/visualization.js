@@ -3,14 +3,18 @@ function VisualizationJS() {
     var mapData;
     var chart1;
     var chart2;
+    var map1;
+    var map2;
+    var marker1;
+    var marker2;
     this.initialize = function (entityRows, mapPoints) {
         setupDropdownTabs("#custom-tabs-left");
         setupDropdownTabs("#custom-tabs-right");
         if (mapPoints.length > 0) {
 
             mapData = mapPoints;
-            let [map1, marker1] = loadMap('map_area_1');
-            let [map2, marker2] = loadMap('map_area_2');
+            [map1, marker1] = loadMap('map_area_1');
+            [map2, marker2] = loadMap('map_area_2');
             $('#map-tab-1-head').click(function () {
                 refreshMap(map1, marker1);
             });
@@ -23,7 +27,7 @@ function VisualizationJS() {
             browserTab();
             entityData = entityRows;
             wordCloudTab();
-        } 
+        }
         annotationPopup();
 
 
@@ -68,6 +72,9 @@ function VisualizationJS() {
         const $popover = $('#customPopover');
         let container;
         let transcriptTab;
+        let marker;
+        let map;
+        let mapTab;
         $popoverBtn.on('click', function (e) {
             if (!$(this).hasClass('bdg-text-disabled')) {
                 $popover.hide();
@@ -84,13 +91,26 @@ function VisualizationJS() {
                 } else {
                     if ($(this).closest('.right-side').length) {
                         transcriptTab = '#transcript-tab-2';
+                        mapTab = '#map-tab-1';
                         container = $('.right-side-inner');
+                        marker = marker1;
+                        map = map1;
 
                     } else {
                         container = $('.left-side');
                         transcriptTab = '#transcript-tab-1';
+                        mapTab = '#map-tab-2';
+                        marker = marker2;
+                        map = map2;
 
                     }
+                }
+                let geoLocation = $.trim($(this).data('geolocation'));
+                if (geoLocation) {
+                    const [lat, lng] = geoLocation.split(",").map(Number);
+                    $('a[href="' + mapTab + '"]').trigger("click");
+                    highlightMarkerByLatLng(lat, lng, marker, map);
+
                 }
                 setTimeout(function () {
                     $('.transcript_' + ref).removeClass('d-none');
@@ -117,6 +137,25 @@ function VisualizationJS() {
             }
         });
     };
+    const highlightMarkerByLatLng = function (lat, lng, markers, map) {
+
+//        markers.forEach(m => {
+//            m._icon.querySelector('svg').setAttribute('fill', '#0033A0');
+//        });
+        const marker = findMarkerByLatLng(lat, lng, markers);
+        if (marker) {
+//            marker._icon.querySelector('svg').setAttribute('fill', '#000000');
+            marker.openPopup();
+            map.flyTo(marker.getLatLng(), 15, {duration: 1.5});
+        }
+    }
+    const findMarkerByLatLng = function (lat, lng, markers) {
+        const tolerance = 0.00001; // allows for tiny rounding differences
+        return markers.find(m => {
+            const pos = m.getLatLng();
+            return Math.abs(pos.lat - lat) < tolerance && Math.abs(pos.lng - lng) < tolerance;
+        });
+    };
     const refreshMap = function (map, markers) {
         if (!('CSS' in window && CSS.supports && CSS.supports('aspect-ratio', '1/1'))) {
             const w = document.getElementById('map').offsetWidth;
@@ -133,11 +172,21 @@ function VisualizationJS() {
     }
     const loadMap = function (mapId) {
         const map = L.map(mapId).setView([20, 0], 2);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
+            attribution: ''
         }).addTo(map);
-
+        const brandIcon = L.divIcon({
+            className: 'custom-marker',
+            html: `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="#0033A0">
+          <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zM12 11.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+        </svg>
+      `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+        });
 // Plot markers
         const markers = [];
         mapData.forEach(row => {
@@ -150,7 +199,7 @@ function VisualizationJS() {
             const count = Number(row.count || 0);
 
             const popupHtml = `<strong class="map_highlight" data-ref="${first_ref}">${esc(text)}${count ? ' (' + count + ')' : ''}</strong>`;
-            const m = L.marker([lat, lng]).addTo(map).bindPopup(popupHtml);
+            const m = L.marker([lat, lng], {icon: brandIcon}).addTo(map).bindPopup(popupHtml);
             markers.push(m);
         });
 

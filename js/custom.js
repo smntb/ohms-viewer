@@ -203,8 +203,6 @@ function IndexJS() {
         });
         //, .transcript-info-tipped
         $(document).on("click", ".transcript-info", function (e) {
-            console.log('here');
-
             let id = $(this).data('id');
             $('.tpd-tooltip').hide();
             let container;
