@@ -356,7 +356,7 @@ private function formatTranscriptVtt()
         $body = preg_replace($vPattern, '$2', $body);
 
         // Keep original <c.N> tokens for Pass 2
-        $html .= "<span id='line_{$line_key}'>{$body}</span>";
+        $html .= "<span id='line_{$line_key}' class='transcript_line_{$line_key}'>{$body}</span>";
         $html .= "</p></span>";
 
         $this->transcriptHTML .= $html;
@@ -567,7 +567,7 @@ ANCHOR;
             if (trim($line) == "" && $key == count($itlines) - 1) {
                 $this->transcriptHTML .= "";
             } else {
-                $this->transcriptHTML .= "$markerHtml<span class='transcript-line' id='line_$key'>$line</span>\n";
+                $this->transcriptHTML .= "$markerHtml<span class='transcript-line' id='line_$key' class='transcript_line_{$key}'>$line</span>\n";
             }
             $lastKey = $key;
         }
@@ -578,11 +578,11 @@ ANCHOR;
                 $note = str_replace('[[/note]]', '', $note);
                 $matches = array();
                 preg_match('/\[\[link\]\](.*)\[\[\/link\]\]/', $note, $matches);
-                $footnoteContent = '<span id="line_' . $lastKey . '" class="content">' . $note . '</span>';
+                $footnoteContent = '<span id="line_' . $lastKey . '" class="content transcript_line_' . $lastKey . '">' . $note . '</span>';
                 if (isset($matches[1])) {
                     $footnoteLink = $matches[1];
                     $footnoteText = preg_replace('/\[\[link\]\](.*)\[\[\/link\]\]/', '', $note);
-                    $footnoteContent = '<span id="line_' . $lastKey . '" class="content"><a class="footnoteLink nblu" href="' . $footnoteLink . '" target="_blank">' . $footnoteText . '</a></span>';
+                    $footnoteContent = '<span id="line_' . $lastKey . '" class="content transcript_line_' . $lastKey . '"><a class="footnoteLink nblu" href="' . $footnoteLink . '" target="_blank">' . $footnoteText . '</a></span>';
                 }
                 $lastKey++;
                 $note = '<div><a name="footnote' . $noteNum . '" id="footnote' . $noteNum . '"></a>

@@ -68,21 +68,22 @@ function VisualizationJS() {
             }
         });
 
-        const $popoverBtn = $('.bdg-text, .page-link');
+        const $popoverBtn = $('.bdg-text, .pop-page-link');
         const $popover = $('#customPopover');
         let container;
         let transcriptTab;
         let marker;
         let map;
         let mapTab;
-        $popoverBtn.on('click', function (e) {
+        $(document).on("click", ".bdg-text, .pop-page-link", function (e) {
+//        $popoverBtn.on('click', function (e) {
             if (!$(this).hasClass('bdg-text-disabled')) {
                 $popover.hide();
                 e.stopPropagation(); // prevent immediate close
                 let rect = this.getBoundingClientRect();
                 let ref = $(this).data('ref');
                 $('.popover-body').addClass('d-none');
-                if ($(this).hasClass('page-link')) {
+                if ($(this).hasClass('pop-page-link')) {
                     scrollToTranscript(container, transcriptTab, ref);
                     setTimeout(function () {
                         rect = $(transcriptTab + ' .ref_' + ref)[0].getBoundingClientRect();

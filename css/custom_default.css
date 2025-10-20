@@ -442,6 +442,9 @@ div.video iframe {
   gap: 10px;
   width: 180px;
 }
+#search-form .search-content #paginate ul {
+    width: 190px;
+}
 .popover-body #paginate_info li span,
 .popover-body #paginate_info li a,
 #search-form .search-content #paginate li span,
