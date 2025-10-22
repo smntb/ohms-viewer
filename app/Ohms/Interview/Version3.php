@@ -41,16 +41,23 @@ class Version3 {
         } else {
             throw new \Exception("Initialization requires valid Version3CacheFile.");
         }
-//        echo '<pre>';print_r($ohfile);exit;
         $this->data = array(
             'cachefile' => $cachefile,
             'title' => (string) $ohfile->record->title,
             'description' => (string) $ohfile->record->description,
             'accession' => (string) $ohfile->record->accession,
+            'date' => (string) $ohfile->record->date['value'],
+            'keyword' => (string) $ohfile->record->keyword,
+            'subjects' => (string) $ohfile->record->subjects,
+            'type' => (string) $ohfile->record->type,
+            'cms_record_id' => (string) $ohfile->record->cms_record_id,
+            'collection_id' => (string) $ohfile->record->collection_id,
+            'collection' => (string) $ohfile->record->collection_name,
+            'collection_link' => (string) $ohfile->record->collection_link,
             'chunks' => (string) $ohfile->record->sync,
             'chunks_alt' => (string) $ohfile->record->sync_alt,
             'time_length' => (string) $ohfile->record->duration,
-            'collection' => (string) $ohfile->record->collection_name,
+            'series_id' => (string) $ohfile->record->series_id,
             'series' => (string) $ohfile->record->series_name,
             'series_link' => (string) $ohfile->record->series_link,
             'fmt' => (string) $ohfile->record->fmt,
@@ -60,20 +67,18 @@ class Version3 {
             'usage' => (string) $ohfile->record->usage,
             'repository' => (string) $ohfile->record->repository,
             'kembed' => (string) $ohfile->record->kembed,
-            'collection_link' => (string) $ohfile->record->collection_link,
             'series_link' => (string) $ohfile->record->series_link,
             'language' => empty($ohfile->record->language) ? 'English' : $ohfile->record->language,
             'transcript_alt_lang' => (string) $ohfile->record->transcript_alt_lang,
             'translate' => (string) $ohfile->record->translate,
             'funding' => (string) $ohfile->record->funding, 'avalon_target_domain' => (string) $ohfile->record->mediafile->avalon_target_domain,
             'user_notes' => (string) $ohfile->record->user_notes,
-            'collection_link' => (string) $ohfile->record->collection_link,
             'transcript_alt_raw' => (string) $ohfile->record->transcript_alt,
             'transcript_raw' => (string) $ohfile->record->transcript,
             'vtt_transcript' => (string) $ohfile->record->vtt_transcript,
             'vtt_transcript_alt' => (string) $ohfile->record->vtt_transcript_alt,
         );
-
+//echo '<pre>';print_r($this->data);exit;
         $collection_link = ($ohfile->record->collection_link != null) ? (string) $ohfile->record->collection_link : '';
         $series_link = ($ohfile->record->series_link != null) ? (string) $ohfile->record->series_link : '';
 

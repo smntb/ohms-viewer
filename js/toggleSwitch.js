@@ -100,7 +100,7 @@ function toggleSwitch() {
     };
     var getSearchResults = function (e) {
         var isTranslate = false;
-        console.log('here');
+        
 //        if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
 //            e.preventDefault();
         var kw = $('#kw').val();
@@ -212,7 +212,7 @@ function toggleSwitch() {
         if (kwval != 'Keyword' && kwval != '') {
 
             $('#search-results').empty();
-
+            $('#accordionHolderSearch').accordion('option', 'active', false)
             $('.index_count').addClass('d-none');
             $('.transcript_count').addClass('d-none');
             $('.index-search-results').empty();
@@ -234,7 +234,7 @@ function toggleSwitch() {
                 var txt = $(this).text();
                 $(this).replaceWith(txt);
             });
-
+            $('#accordionHolderSearch').accordion('option', 'active', false)
             $('.index_count').addClass('d-none');
             $('.transcript_count').addClass('d-none');
             $('.index-search-results').empty();

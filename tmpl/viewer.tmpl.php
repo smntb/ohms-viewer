@@ -185,18 +185,52 @@ $userNotes = trim($interview->user_notes);
                             </ul>
                             <div id="about-tab-1">
                                 <div class="about-panel">
-                                    <strong>Interview Summary</strong>
+                                    <strong>Summary</strong>
                                     <p><?php echo $interview->description; ?></p>
-                                    <strong>Interview Accession</strong>
+                                    <strong>Accession Number</strong>
                                     <p><?php echo $interview->accession; ?></p>
-                                    <strong>Interviewer Name</strong>
+                                    <strong>Interviewer</strong>
                                     <p><?php echo $interview->interviewer; ?></p>
-                                    <strong>Interviewee Name</strong>
+                                    <strong>Interviewee</strong>
                                     <p><?php echo "{$interview->interviewee}"; ?></p>
                                     <?php
+                                    
+                                    if (!empty((string)$interview->date)):
+                                        echo '<strong>Interview Date</strong>';
+                                        echo "<p>{$interview->date}</p>";
+                                    endif;
+                                    if (!empty((string)$interview->keyword)):
+                                        echo '<strong>Keywords</strong>';
+                                        echo "<p>{$interview->keyword}</p>";
+                                    endif;
+                                    if (!empty((string)$interview->subjects)):
+                                        echo '<strong>Subjects</strong>';
+                                        echo "<p>{$interview->subjects}</p>";
+                                    endif;
+                                    if (!empty((string)$interview->type)):
+                                        echo '<strong>Type</strong>';
+                                        echo "<p>{$interview->type}</p>";
+                                    endif;
+                                    if (!empty((string)$interview->cms_record_id)):
+                                        echo '<strong>CMS Record ID</strong>';
+                                        echo "<p>{$interview->cms_record_id}</p>";
+                                    endif;
+                                    if (!empty((string)$interview->language)):
+                                        echo '<strong>Language</strong>';
+                                        echo "<p>{$interview->language}</p>";
+                                    endif;
+                                    if (!empty((string)$interview->transcript_alt_lang)):
+                                        echo '<strong>Language For Translation</strong>';
+                                        echo "<p>{$interview->transcript_alt_lang}</p>";
+                                    endif;
+//                                    if (!empty((string)$interview->collection_id)):
+//                                        echo '<strong>Collection ID</strong>';
+//                                        echo "<p>{$interview->collection_id}</p>";
+//                                    endif;
+                                    
                                     if (!empty($userNotes)):
                                         echo '<strong>User Notes</strong>';
-                                        echo "<p>${$userNotes}</p>";
+                                        echo "<p>{$userNotes}</p>";
                                     endif;
                                     ?>
 
