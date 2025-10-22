@@ -60,6 +60,7 @@ class Version3 {
             'series_id' => (string) $ohfile->record->series_id,
             'series' => (string) $ohfile->record->series_name,
             'series_link' => (string) $ohfile->record->series_link,
+            'userestrict' => (string) $ohfile->record->userestrict,
             'fmt' => (string) $ohfile->record->fmt,
             'media_url' => (string) $ohfile->record->media_url,
             'file_name' => (string) $ohfile->record->file_name,

@@ -194,40 +194,43 @@ $userNotes = trim($interview->user_notes);
                                     <strong>Interviewee</strong>
                                     <p><?php echo "{$interview->interviewee}"; ?></p>
                                     <?php
-                                    
-                                    if (!empty((string)$interview->date)):
+                                    if (!empty((string) $interview->date)):
                                         echo '<strong>Interview Date</strong>';
                                         echo "<p>{$interview->date}</p>";
                                     endif;
-                                    if (!empty((string)$interview->keyword)):
+                                    if (!empty((string) $interview->keyword)):
+                                        $keywords = preg_replace('/\s*;\s*/', '; ', $interview->keyword);
+                                        $keywords = trim($keywords);
                                         echo '<strong>Keywords</strong>';
-                                        echo "<p>{$interview->keyword}</p>";
+                                        echo "<p>{$keywords}</p>";
                                     endif;
-                                    if (!empty((string)$interview->subjects)):
+                                    if (!empty((string) $interview->subjects)):
+                                        $subjects = preg_replace('/\s*;\s*/', '; ', $interview->subjects);
+                                        $subjects = trim($subjects);
                                         echo '<strong>Subjects</strong>';
-                                        echo "<p>{$interview->subjects}</p>";
+                                        echo "<p>{$subjects}</p>";
                                     endif;
-                                    if (!empty((string)$interview->type)):
+                                    if (!empty((string) $interview->type)):
                                         echo '<strong>Type</strong>';
                                         echo "<p>{$interview->type}</p>";
                                     endif;
-                                    if (!empty((string)$interview->cms_record_id)):
+                                    if (!empty((string) $interview->cms_record_id)):
                                         echo '<strong>CMS Record ID</strong>';
                                         echo "<p>{$interview->cms_record_id}</p>";
                                     endif;
-                                    if (!empty((string)$interview->language)):
+                                    if (!empty((string) $interview->language)):
                                         echo '<strong>Language</strong>';
                                         echo "<p>{$interview->language}</p>";
                                     endif;
-                                    if (!empty((string)$interview->transcript_alt_lang)):
+                                    if (!empty((string) $interview->transcript_alt_lang)):
                                         echo '<strong>Language For Translation</strong>';
                                         echo "<p>{$interview->transcript_alt_lang}</p>";
                                     endif;
-//                                    if (!empty((string)$interview->collection_id)):
-//                                        echo '<strong>Collection ID</strong>';
-//                                        echo "<p>{$interview->collection_id}</p>";
-//                                    endif;
-                                    
+                                    if (!empty((string) $interview->userestrict)):
+                                        echo '<strong>Use Restrictions</strong>';
+                                        echo "<p>{$interview->userestrict}</p>";
+                                    endif;
+
                                     if (!empty($userNotes)):
                                         echo '<strong>User Notes</strong>';
                                         echo "<p>{$userNotes}</p>";
