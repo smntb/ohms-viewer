@@ -11,10 +11,13 @@ class ViewerController {
     private $interviewName;
     private $tmpDir;
     private $config;
+    private $version;
     private $enable_translation;
 
     public function __construct($interviewName, $external, $translate) {
         $this->config = parse_ini_file("config/config.ini", true);
+        $versionFile = dirname(__DIR__, 2) . '/VERSION.txt';
+        $this->version = trim(file_exists($versionFile) ? file_get_contents($versionFile) : '1.0.0');
         $this->interview = Interview::getInstance($translate, $external, $this->config, $this->config['tmpDir'], $interviewName);
         $this->interviewName = $interviewName;
         $this->enable_translation = $translate;
@@ -23,7 +26,7 @@ class ViewerController {
     public function route($action, $kw, $interviewName) {
         switch ($action) {
             case 'pdf':
-                CustomPdf::__prepare($this->interview, $this->config,$this->enable_translation);
+                CustomPdf::__prepare($this->interview, $this->config, $this->enable_translation);
                 exit();
                 break;
             case 'metadata':
@@ -57,11 +60,11 @@ class ViewerController {
                 $interview = $this->interview;
                 $interviewName = $this->interviewName;
                 $config = $this->config;
+                $version = $this->version;
                 include_once 'tmpl/viewer.tmpl.php';
                 break;
         }
     }
-
 }
 
 /* Location: ./app/Ohms/ViewerController.php */

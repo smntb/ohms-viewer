@@ -46,10 +46,7 @@ if ('index' in vars) {
 }
 var firstTogglePerformed = false;
 jQuery(document).ready(function ($) {
-    // Added by AVPreserve - Start
-    ts = new toggleSwitch();
-    ts.initialize();
-    // Added by AVPreserve - End
+    
     $('#kw').on('focus', function (e) {
         if ($('#kw').val() === 'Keyword') {
             $('#kw').toggleClass('kw-entry');

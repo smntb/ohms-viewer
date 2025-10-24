@@ -86,8 +86,8 @@ class Legacy {
             $pieces[] = $part;
         }
         $this->data['interviewer'] = implode($pieces, '');
-        $this->data['viewerjs'] = 'legacy';
-        $this->data['playername'] = 'legacy';
+        $this->data['viewerjs'] = 'other';
+        $this->data['playername'] = 'other';
 
         unset($this->cacheFile);
     }

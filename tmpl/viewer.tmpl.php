@@ -63,32 +63,38 @@ $collectionLink = (string) $interview->collection_link;
 $lang = (string) $interview->translate;
 
 $userNotes = trim($interview->user_notes);
+$css = ['viewer.css', 'font-awesome.css', 'jquery-ui-1.8.16.custom.css', 'simplePagination.css',
+    'jquery.multiselect.css', 'tipped.css', 'video-js.css'];
+if (isset($extraCss)):
+    $css[] = $extraCss;
+endif;
+$js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped.js',
+    'jquery.simplePagination.js', 'video.min.js', 'jquery.easing.1.4.js', 'jquery.scrollTo-min.js',
+    'popper.js', 'tooltip.js', 'echarts-en.min-421rc1.js', 'echarts-wordcloud2.min.js',
+    'viewer.js', 'custom.js', 'viewer_' . $interview->viewerjs . '.js']
 ?>
 
 <!DOCTYPE html>
 <html lang="en" class="loading">
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title><?php echo $interview->title; ?></title>
-        <link rel="stylesheet" href="css/viewer.css?v1.4.1" type="text/css"/>
-        <?php if (isset($extraCss)) { ?>
-            <link rel="stylesheet" href="css/<?php echo $extraCss ?>?v1.1" type="text/css"/>
-        <?php }
+
+        <?php
+        foreach ($css as $c):
+            echo '<link rel="stylesheet" href="css/' . $c . '?v=' . $version . '" type="text/css" media="screen"/>';
+        endforeach;
+        foreach ($js as $j):
+            echo '<script type="text/javascript" src="js/' . $j . '?v=' . $version . '"></script>';
+
+        endforeach;
         ?>
-        <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css"/>
-        <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css" type="text/css"/>
-        <link rel="stylesheet" href="css/font-awesome.css">
-        <link rel="stylesheet" href="css/simplePagination.css">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script src="js/jquery-ui.toggleSwitch.js"></script>
-        <script src="js/toggleSwitch.js?v1.16"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-multiselect-widget/1.13/jquery.multiselect.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-multiselect-widget/1.13/jquery.multiselect.min.js"></script>
-        <script src="js/viewer.js"></script>
-        <script type="text/javascript" src="js/tipped/tipped.js"></script>
-        <link rel="stylesheet" href="css/tipped/tipped.css" type="text/css"/>
-        <script src="js/jquery.simplePagination.js"></script>
+        <link rel="stylesheet" href="js/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
+        <script src="js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+        <script src="js/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+        <link rel="stylesheet" href="js/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen"/>
+        <script src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
         <meta property="og:title" content="<?php echo $interview->title; ?>"/>
         <meta property="og:url" content="<?php echo $baseurl ?>">
         <?php if (isset($openGraphImage)) { ?>
@@ -112,7 +118,7 @@ $userNotes = trim($interview->user_notes);
                 gtag('config', '<?php echo $repoConfig['ga_tracking_id']; ?>');
             </script>
         <?php } ?>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     </head>
     <body>
 
@@ -435,25 +441,9 @@ $userNotes = trim($interview->user_notes);
 
 
 
-        <script src="js/video.min.js"></script>
-        <link rel="stylesheet" href="css/video-js.css" type="text/css" media="screen"/>
-        <script src="js/jquery.easing.1.4.js"></script>
-        <script src="js/jquery.scrollTo-min.js"></script>
-        <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.12"></script>
-        <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
-
-        <script src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-        <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
-        <link rel="stylesheet"
-              href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen"/>
-        <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
-        <script src="js/popper.js"></script>
-        <script src="js/tooltip.js"></script>
-        <script src="js/custom.js"></script>
-        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-en.min-421rc1.js"></script>
-        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/95368/echarts-wordcloud2.min.js"></script>
+
         <script>
 
             var playerNameJS = '<?php echo $interview->playername; ?>';
