@@ -234,20 +234,21 @@ function VisualizationJS() {
             tooltip: {show: true, formatter: p => `${p.name} (${p.value})`},
             series: [{
                     type: 'wordCloud',
-                    gridSize: 8,
+                    gridSize: 10,
                     sizeRange: [20, 40],
                     rotationRange: [0, 0],
                     shape: 'square',
                     drawOutOfBound: false,
                     textStyle: {
                         normal: {
+                            fontFamily: 'Nunito, sans-serif',
                             color: function (params) {
                                 return labelColors[params.data.labelType] || '#333';
-                            }
+                            },
                         },
                         emphasis: {
-                            shadowBlur: 1,
-                            shadowColor: '#333'
+                            fontFamily: 'Nunito, sans-serif',
+                            shadowColor: '#333',
                         }
                     },
                     data: entityData.map(a => ({
