@@ -234,11 +234,11 @@ function VisualizationJS() {
             tooltip: {show: true, formatter: p => `${p.name} (${p.value})`},
             series: [{
                     type: 'wordCloud',
-                    gridSize: 10,
+                    gridSize: 15,
                     sizeRange: [25, 50],
                     rotationRange: [0, 0],
                     shape: 'square',
-                    drawOutOfBound: true,
+                    drawOutOfBound: false,
                     textStyle: {
                         normal: {
                             fontFamily: 'Nunito, sans-serif',
@@ -307,23 +307,70 @@ function VisualizationJS() {
     };
     const applyGridFilter = function () {
         let id = $(this).data('id');
+
         const $c = $('.grid-container' + id);
         const $it = $c.find('.grid-item' + id);
-        const $labels = $('#type_filter' + id), $q = $('#browser_search' + id), $sort = $('#sortBy');
-        const sel = ($labels.val() || []).map(s => s.toLowerCase());
+        const $lbl = $('#type_filter' + id);
+        const $q = $('#browser_search' + id);
+        const $sort = $('#sortDropdown' + id);
+
+        // normalize multiselect
+        let sel = $lbl.val() || [];
+        if (!Array.isArray(sel))
+            sel = [sel];
+        sel = sel
+                .filter(v => v != null && v !== '')
+                .map(v => String(v).toLowerCase().trim());
+
         const hasSel = sel.length > 0;
-        const q = ($q.val() || '').toLowerCase();
+        const q = String($q.val() || '').toLowerCase().trim();
         const order = $sort.val();
 
+        // add/get a no-results element just after the grid container
+        let $nores = $('#noResultsGrid' + id);
+        if ($nores.length === 0) {
+            $nores = $('<div/>', {
+                id: 'noResultsGrid' + id,
+                class: 'no-results',
+                text: 'No results found'
+            }).hide();
+            $c.after($nores);
+        }
+
+        // if nothing selected → hide all and show message
+        if (!hasSel) {
+            $it.hide();
+            $nores.show();
+            return;
+        }
+
         // filter (uses data-label and data-text)
+        let visibleCount = 0;
         $it.each(function () {
             const $el = $(this);
-            const lbl = String($el.data('label') || '').toLowerCase();
+
+            // support multiple labels in data-label: "person, org" or "person|org" or "person/org"
+            const lbls = String($el.data('label') || '')
+                    .toLowerCase()
+                    .split(/[,\|\/]+/)
+                    .map(s => s.trim())
+                    .filter(Boolean);
+
             const txt = String($el.data('text') || '').toLowerCase();
-            $el.toggle((!hasSel || sel.includes(lbl)) && (!q || txt.includes(q)));
+
+            const labelMatch = lbls.some(l => sel.includes(l));
+            const textMatch = !q || txt.includes(q);
+
+            const show = labelMatch && textMatch;
+            $el.toggle(show);
+            if (show)
+                visibleCount++;
         });
 
-        // sort (uses data-count, data-text, data-label)
+        // toggle "no results"
+        $nores.toggle(visibleCount === 0);
+
+        // sort (uses data-count, data-text, data-label) then re-append
         const arr = $it.get().sort((a, b) => {
             const $a = $(a), $b = $(b);
             const ac = +$a.data('count') || 0, bc = +$b.data('count') || 0;
@@ -331,6 +378,7 @@ function VisualizationJS() {
             const bt = String($b.data('text') || '').toLowerCase();
             const al = String($a.data('label') || '').toLowerCase();
             const bl = String($b.data('label') || '').toLowerCase();
+
             switch (order) {
                 case 'count-desc':
                     return (bc - ac) || at.localeCompare(bt);
@@ -348,38 +396,70 @@ function VisualizationJS() {
                     return 0;
             }
         });
+
         $(arr).appendTo($c);
-    }
+    };
     const applyFilters = function () {
         let id = $(this).data('id');
+
+        const $table = $('#entityTable' + id);
+        const $tbody = $table.find('tbody');
+        const $rows = $tbody.find('tr');
+
         const searchText = ($('#browser_search' + id).val() || '').toLowerCase().trim();
 
-        // MULTISELECT: ensure an array, then lowercase
+        // MULTISELECT: normalize to a lowercased array
         let selectedTypes = $('#type_filter' + id).val() || [];
         if (!Array.isArray(selectedTypes))
-            selectedTypes = [selectedTypes]; // in case it ever becomes single
+            selectedTypes = [selectedTypes];
         selectedTypes = selectedTypes
                 .filter(v => v != null && v !== '')
                 .map(v => v.toString().toLowerCase().trim());
 
-        $('#entityTable' + id + ' tbody tr').each(function () {
-            const rowText = $(this).text().toLowerCase();
-            // Type column (index 1). Supports multiple tokens like "PERSON, ORG" or "PERSON|ORG"
-            const rowTypeRaw = $(this).children('td').eq(1).text().toLowerCase();
+        // Add/get a "no results" element right after the table
+        let $nores = $('#noResults' + id);
+        if ($nores.length === 0) {
+            $nores = $('<div/>', {
+                id: 'noResults' + id,
+                class: 'no-results',
+                text: 'No results found'
+            }).hide();
+            $table.after($nores);
+        }
+
+        // If no types selected → show nothing
+        if (selectedTypes.length === 0) {
+            $rows.hide();
+            $nores.show();
+            return;
+        }
+
+        let visible = 0;
+
+        $rows.each(function () {
+            const $tr = $(this);
+
+            // Full row text for search
+            const rowText = $tr.text().toLowerCase();
+
+            // Type column (index 1). Supports "PERSON, ORG" / "PERSON|ORG" / "PERSON/ORG"
+            const rowTypeRaw = $tr.children('td').eq(1).text().toLowerCase();
             const rowTypes = rowTypeRaw
-                    .split(/[,\|\/]+/)       // commas, pipes, slashes
+                    .split(/[,\|\/]+/) // commas, pipes, slashes
                     .map(s => s.trim())
                     .filter(Boolean);
 
             const matchesSearch = !searchText || rowText.indexOf(searchText) > -1;
+            const matchesType = rowTypes.some(t => selectedTypes.includes(t));
 
-            // If no type selected → pass. Else match if any row type is in selectedTypes.
-            const matchesType =
-                    selectedTypes.length === 0 ||
-                    rowTypes.some(t => selectedTypes.includes(t));
-
-            $(this).toggle(matchesSearch && matchesType);
+            const show = matchesSearch && matchesType;
+            $tr.toggle(show);
+            if (show)
+                visible++;
         });
+
+        // Toggle "no results"
+        $nores.toggle(visible === 0);
     };
     const browserTab = function () {
         $("#type_filter1, #type_filter2").multiselect({
@@ -457,14 +537,15 @@ function VisualizationJS() {
         $('#type_filter1, #type_filter2').on('change', applyFilters);
         $('#browser_search1, #browser_search2').on('keyup', applyGridFilter);
         $('#type_filter1, #type_filter2').on('change', applyGridFilter);
-
-        $('#sortDropdown1, #sortDropdown2 ').on('change', function () {
+        $('#sortDropdown1, #sortDropdown2').on('change', applyGridFilter);
+        $('#sortDropdown1, #sortDropdown2').on('change', function () {
 
             const value = $(this).val();
             if (!value)
                 return;
 
-            const [col, dir] = value.split('-'); // e.g. "id-asc" → ["id", "asc"]
+            const [col, dir] = value.split('-'); // e.g. "id-asc"
+            const isAsc = dir === 'asc';
 
             let colIndex = 0;
             if (col === 'type')
@@ -475,26 +556,31 @@ function VisualizationJS() {
             const $tbody = $('#entityTable' + $(this).data('id') + ' tbody');
             const $rows = $tbody.find('tr').get();
 
+            const toNumber = (txt) => {
+                const n = parseFloat(String(txt).replace(/[^\d.-]/g, ''));
+                return isNaN(n) ? 0 : n;
+            };
+
             $rows.sort(function (rowA, rowB) {
-                let aText = $(rowA).children('td').eq(colIndex).text().trim();
-                let bText = $(rowB).children('td').eq(colIndex).text().trim();
+                const aText = $(rowA).children('td').eq(colIndex).text().trim();
+                const bText = $(rowB).children('td').eq(colIndex).text().trim();
 
                 if (col === 'id') {
-                    aText = parseInt(aText, 10);
-                    bText = parseInt(bText, 10);
+                    const a = toNumber(aText);
+                    const b = toNumber(bText);
+                    return isAsc ? a - b : b - a;
                 }
 
-                if (aText < bText)
-                    return dir === 'asc' ? -1 : 1;
-                if (aText > bText)
-                    return dir === 'asc' ? 1 : -1;
-                return 0;
+                // default string sorting
+                return isAsc
+                        ? aText.localeCompare(bText, undefined, {numeric: true})
+                        : bText.localeCompare(aText, undefined, {numeric: true});
             });
 
-            // Re-attach sorted rows
-            $.each($rows, function (_, row) {
+            // re-attach sorted rows
+            for (const row of $rows) {
                 $tbody.append(row);
-            });
+            }
         });
         $('.grid-section').hide();
         $('.custom-toggle-icon .icon').on('click', function () {
