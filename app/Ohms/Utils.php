@@ -128,16 +128,16 @@ class Utils {
         }
 
         // Keep only texts that ended up with a thumbnail
-        $rows = [];
-        foreach ($index as $rec) {
-            if (!empty($rec['thumbnail_url'])) {
-                unset($rec['_thumb_ref']); // drop helper field
-                $rows[] = $rec;
-            }
-        }
+//        $rows = [];
+//        foreach ($index as $rec) {
+//            if (!empty($rec['thumbnail_url'])) {
+//                unset($rec['_thumb_ref']); // drop helper field
+//                $rows[] = $rec;
+//            }
+//        }
 
         // Sort: count desc, then first_ref asc, then text asc
-        usort($rows, function ($a, $b) {
+        usort($index, function ($a, $b) {
             if ($a['count'] !== $b['count'])
                 return $b['count'] <=> $a['count'];
             if ($a['first_ref'] !== $b['first_ref'])
@@ -145,7 +145,7 @@ class Utils {
             return strcmp($a['text'], $b['text']);
         });
 
-        return $rows;
+        return $index;
     }
 
     /**

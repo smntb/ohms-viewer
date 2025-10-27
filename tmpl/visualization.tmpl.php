@@ -182,7 +182,7 @@
     </div>
     <div class="grid-section grid_<?php echo $tab_tag; ?>">
         <div class="grid-container grid-container<?php echo $tab_tag; ?>">
-            <!-- <?php foreach ($interview->grid as $grid): ?>
+            <?php foreach ($interview->grid as $grid): ?>
                 <div class="grid-item grid-item<?php echo $tab_tag; ?> bdg-<?php echo strtolower($grid['label']) ?>" data-ref="<?php echo (int) $grid['first_ref'] ?>" data-label="<?php echo strtolower($grid['label']) ?>"
                      data-text="<?php echo htmlspecialchars($grid['text'], ENT_QUOTES) ?>"
                      data-count="<?php echo (int) $grid['count'] ?>">
@@ -190,38 +190,8 @@
                     <div class="caption"><?php echo "{$grid['text']} ({$grid['count']})"; ?></div>
                 </div>
 
-            <?php endforeach; ?> -->
+            <?php endforeach; ?> 
 
-
-                <div class="grid-item bdg-person" data-ref="1" data-label="person" data-text="John Doe" data-count="42">
-                    <img src="https://picsum.photos/200/200?random=1" alt="Thumbnail" loading="lazy" decoding="async">
-                    <div class="caption">John Doe (42)</div>
-                </div>
-
-                <div class="grid-item bdg-location" data-ref="2" data-label="location" data-text="London" data-count="31">
-                    <img src="https://picsum.photos/200/200?random=2" alt="Thumbnail" loading="lazy" decoding="async">
-                    <div class="caption">London (31)</div>
-                </div>
-
-                <div class="grid-item bdg-organization" data-ref="3" data-label="organization" data-text="OpenAI" data-count="58">
-                    <img src="https://picsum.photos/200/200?random=3" alt="Thumbnail" loading="lazy" decoding="async">
-                    <div class="caption">OpenAI (58)</div>
-                </div>
-
-                <div class="grid-item bdg-event" data-ref="4" data-label="event" data-text="Tech Conference" data-count="27">
-                    <img src="https://picsum.photos/200/200?random=4" alt="Thumbnail" loading="lazy" decoding="async">
-                    <div class="caption">Tech Conference (27)</div>
-                </div>
-
-                <div class="grid-item bdg-product" data-ref="5" data-label="product" data-text="AI Assistant" data-count="19">
-                    <img src="https://picsum.photos/200/200?random=5" alt="Thumbnail" loading="lazy" decoding="async">
-                    <div class="caption">AI Assistant (19)</div>
-                </div>
-
-                <div class="grid-item bdg-place" data-ref="6" data-label="place" data-text="New York City" data-count="64">
-                    <img src="https://picsum.photos/200/200?random=6" alt="Thumbnail" loading="lazy" decoding="async">
-                    <div class="caption">New York City (64)</div>
-                </div>
         </div>
 
     </div>
