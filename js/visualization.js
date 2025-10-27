@@ -235,10 +235,10 @@ function VisualizationJS() {
             series: [{
                     type: 'wordCloud',
                     gridSize: 10,
-                    sizeRange: [20, 40],
+                    sizeRange: [25, 50],
                     rotationRange: [0, 0],
                     shape: 'square',
-                    drawOutOfBound: false,
+                    drawOutOfBound: true,
                     textStyle: {
                         normal: {
                             fontFamily: 'Nunito, sans-serif',

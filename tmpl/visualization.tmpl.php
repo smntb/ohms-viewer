@@ -85,11 +85,11 @@
 
         <select id="type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type" multiple="multiple">
 
-            <option value="person">Person</option>
-            <option value="place">Place</option>
-            <option value="date">Date</option>
-            <option value="org">Org</option>
-            <option value="event">Event</option>
+            <option value="person" selected="selected">Person</option>
+            <option value="place" selected="selected">Place</option>
+            <option value="date" selected="selected">Date</option>
+            <option value="org" selected="selected">Org</option>
+            <option value="event" selected="selected">Event</option>
         </select> 
         <select id="sortDropdown<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-sort">
             <option value="">Sort</option>
