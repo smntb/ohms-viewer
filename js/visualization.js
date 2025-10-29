@@ -593,9 +593,22 @@ function VisualizationJS() {
             } else {
                 $('.list_' + id).hide();
                 $('.grid_' + id).show();
+                $('.grid-section').css('opacity', '0');
+                setTimeout(function () {
+                    callMasonary();
+                    $('.grid-section').css('opacity', '1');
+                }, 300);
             }
         });
     };
+    const callMasonary = function () {
+        $('.grid-container').masonry({
+            itemSelector: '.grid-item',
+            gutter: 15,
+            percentPosition: true,
+            horizontalOrder: true
+        });
+    }
     const setupDropdownTabs = function (containerSelector, dropdownLabel = "Visualization ▼") {
         const $tabs = $(containerSelector).tabs();
         const $dropdownTabs = $(`${containerSelector} .ui-tabs-nav li.dropdown-tab`);

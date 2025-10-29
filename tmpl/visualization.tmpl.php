@@ -6,6 +6,7 @@
 <?php if (count($interview->mapData) > 0): ?>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/masonry.pkgd.min.js"></script>
     <style>
         /* Full width; auto height via aspect ratio (fallback below) */
         #map_area_1, #map_area_2 {
@@ -186,7 +187,7 @@
                 <div class="grid-item grid-item<?php echo $tab_tag; ?> bdg-<?php echo strtolower($grid['label']) ?>" data-ref="<?php echo (int) $grid['first_ref'] ?>" data-label="<?php echo strtolower($grid['label']) ?>"
                      data-text="<?php echo htmlspecialchars($grid['text'], ENT_QUOTES) ?>"
                      data-count="<?php echo (int) $grid['count'] ?>">
-                    <img src="<?php echo $grid['thumbnail_url']; ?>" alt="Thumbnail" loading="lazy" decoding="async">
+                    <img src="https://picsum.photos/200/300" alt="Thumbnail" loading="lazy" decoding="async">
                     <div class="caption"><?php echo "{$grid['text']} ({$grid['count']})"; ?></div>
                 </div>
 

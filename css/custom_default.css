@@ -994,28 +994,17 @@ div.video iframe {
 .browser-table tr:hover a {
   color: #fff;
 }
-.grid-section .grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
-  grid-template-rows: masonry;
-  gap: 1rem;
-  max-width: 1000px;
-  margin: 0 auto;
-}
 
 .grid-item {
   border-radius: 8px;
-  overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  margin-bottom: 10px;
 }
 
 .grid-section .grid-item {
   padding: 10px;
   border-radius: 6px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .grid-section .grid-item img {
