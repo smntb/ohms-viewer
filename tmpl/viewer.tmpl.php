@@ -511,7 +511,6 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
         <script type="text/javascript">
             $(document).ready(function () {
-                var cachefile = '<?php echo $interview->cachefile; ?>';
                 let viewer = new Viewer();
                 viewer.initialize();
                 const visualization = new VisualizationJS();

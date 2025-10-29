@@ -1,7 +1,6 @@
 
 function Viewer() {
-    this.initialize = function (cachefile) {
-
+    this.initialize = function () {
         $('.refreshPage').click(function () {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
