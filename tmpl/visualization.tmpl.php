@@ -187,7 +187,9 @@
                 <div class="grid-item grid-item<?php echo $tab_tag; ?> bdg-<?php echo strtolower($grid['label']) ?>" data-ref="<?php echo (int) $grid['first_ref'] ?>" data-label="<?php echo strtolower($grid['label']) ?>"
                      data-text="<?php echo htmlspecialchars($grid['text'], ENT_QUOTES) ?>"
                      data-count="<?php echo (int) $grid['count'] ?>">
-                    <img src="https://picsum.photos/200/300" alt="Thumbnail" loading="lazy" decoding="async">
+                    <?php if (!empty((string) $grid['thumbnail_url'])) { ?>
+                    <img src="<?php echo $grid['thumbnail_url']; ?>" alt="Thumbnail" loading="lazy" decoding="async">
+                    <?php } ?>
                     <div class="caption"><?php echo "{$grid['text']} ({$grid['count']})"; ?></div>
                 </div>
 

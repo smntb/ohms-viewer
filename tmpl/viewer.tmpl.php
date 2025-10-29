@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set($config['timezone']);
+
 $audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
 $filepath = $interview->media_url;
 $mediaFormat = (strtolower($interview->clipsource) == "aviary") ? $interview->aviaryMediaFormat : substr($filepath, -4, 4);
