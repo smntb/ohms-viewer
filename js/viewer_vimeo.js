@@ -15,6 +15,7 @@ jQuery(function ($) {
                 urlIndexPiece = '&index=' + activeIndexPanel;
             }
         }
+        var pos = widget.getCurrentTime();
         if ($(this).attr('data-linkto') == $(this).attr('data-default')) {
             re = /&translate=(.*)/g;
             location.href = location.href.replace(re, '') + '&time=' + Math.floor(pos) + toggleAvailability +'&panel=' + $('#search-type').val() + urlIndexPiece;
