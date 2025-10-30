@@ -189,10 +189,8 @@
                      data-text="<?php echo htmlspecialchars($grid['text'], ENT_QUOTES) ?>"
                      data-count="<?php echo (int) $grid['count'] ?>">
                     <img src="<?php echo $grid['thumbnail_url']; ?>" alt="Thumbnail" loading="lazy" decoding="async">
-
                     <div class="caption"><?php echo "{$grid['text']} ({$grid['count']})"; ?></div>
                 </div>
-
             <?php endforeach; ?> 
 
         </div>
