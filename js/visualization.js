@@ -634,6 +634,7 @@ function VisualizationJS() {
         });
         $(`${containerSelector} .ui-tabs-nav li a`).on("click", function () {
             $(`${containerSelector} .dropdown-toggle`).removeClass('active');
+            callMasonary();
         });
         $(`${containerSelector} .dropdown-menu a`).on("click", function () {
             const $li = $(this).parent();
@@ -642,9 +643,6 @@ function VisualizationJS() {
             $li.parent().hide();
         });
     }
-
-
-
 }
 
             
