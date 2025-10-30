@@ -129,7 +129,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
             var exhibitIndex = null;
             var jumpToTime = null;
             if (location.href.search('#segment') > -1) {
-                var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
+                jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
                 if (isNaN(jumpToTime)) {
                     jumpToTime = 0;
                 }
@@ -449,6 +449,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
             var playerNameJS = '<?php echo $interview->playername; ?>';
             var cachefile = '<?php echo $interview->cachefile; ?>';
+            var initialLoad = true;
             $(document).ready(function () {
                 setTimeout(() => {
                     $('html').removeClass('loading');
@@ -456,11 +457,23 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 //                                              
 
                 if (jumpToTime !== null) {
+                    let indexTab = '#index-tab-1';
+                    if ($('.right-side').is(':visible')) {
+                        indexTab = '#index-tab-2';
+                    }
+                    setTimeout(function(){jQuery('a[href="' + indexTab + '"]').trigger("click")},500);
                     jQuery('div.point').each(function (index) {
-                        if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
+                        if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime && initialLoad == true) {
+                            initialLoad = false;
                             jumpLink = jQuery(this).find('a.indexJumpLink');
-                            jQuery('#index-tab-2 .accordionHolder').accordion({active: index});
-                            jQuery('#index-tab-2 .accordionHolder-alt').accordion({active: index});
+
+
+
+                            jQuery(indexTab + ' .accordionHolder').accordion({active: index});
+                            jQuery(indexTab + ' .accordionHolder-alt').accordion({active: index});
+
+
+
                             var interval = setInterval(function () {
                                 switch (playerNameJS) {
                                     case "youtube":
@@ -489,16 +502,27 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                                             jumpLink.click();
                                         }
                                         break;
-
+                                    case "vimeo":
+                                        clearInterval(interval);
+                                        break;
                                     default:
-                                        if (Math.floor(player.currentTime) == jumpToTime) {
-                                            clearInterval(interval);
-                                        } else {
-                                            jumpLink.click();
+                                        if (typeof player !== 'undefined' && player !== null) {
+                                            player.ready(function () {
+                                                console.log('Player is ready');
+                                                if (!player.paused()) {
+                                                    clearInterval(interval);
+                                                }
+                                                // Move to a specific point (in seconds)
+                                                var seekTime = jumpToTime; // example: 30 seconds
+                                                player.currentTime(seekTime);
+
+                                                // Optionally play after seeking
+                                                player.play();
+                                            });
                                         }
-                                        // Code to execute if none of the cases match
                                 }
                             }, 500);
+
                             jQuery(this).find('a.indexJumpLink').click();
                         }
                     });

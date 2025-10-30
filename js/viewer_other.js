@@ -1,7 +1,8 @@
+var player;
 jQuery(function ($) {
     var loaded = false;
     let isAudio = $('#my_player').hasClass('audio');
-    const player = videojs('my_player', {
+    player = videojs('my_player', {
         autoplay: false,
         controls: true,
         preload: 'auto',
@@ -14,7 +15,7 @@ jQuery(function ($) {
             }
         }
     });
-
+    
     player.on('timeupdate', function () {
         const current = player.currentTime();
         if (exhibitMode) {
