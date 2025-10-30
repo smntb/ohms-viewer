@@ -604,8 +604,9 @@ function VisualizationJS() {
     const callMasonary = function () {
         $('.grid-container').masonry({
             itemSelector: '.grid-item',
-            gutter: 15,
+            columnWidth: '.grid-sizer',
             percentPosition: true,
+            gutter: 15,
             horizontalOrder: true
         });
     }

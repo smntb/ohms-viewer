@@ -999,12 +999,20 @@ div.video iframe {
   border-radius: 8px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   margin-bottom: 10px;
+  float: left;
 }
 
+.grid-section .grid-sizer,
 .grid-section .grid-item {
   padding: 10px;
   border-radius: 6px;
   text-align: center;
+  width: calc(25% - 15px);
+}
+
+.left-side .grid-section .grid-sizer,
+.left-side .grid-section .grid-item {
+  width: calc(50% - 15px);
 }
 
 .grid-section .grid-item img {
@@ -1091,7 +1099,16 @@ div.video iframe {
     font-size: 14px;
     padding: 5px 30px 5px 35px;
   }
+  .grid-sizer,
+  .grid-item {
+    width: calc(33.333% - 15px) !important;
+  }
+  .left-side .grid-section .grid-sizer,
+  .left-side .grid-section .grid-item {
+    width: calc(50% - 15px) !important;
+  }
 }
+
 @media screen and (max-width: 992px) {
   .main-box .left-side {
     flex: 0 0 100%;
@@ -1198,8 +1215,11 @@ div.video iframe {
   .browser-filter select {
     max-width: 95px;
   }
- 
-  .grid-section .grid-container {
-    padding: 20px;
+  .main-box .left-side .bottom-details {
+    padding: 0 15px;
+  }
+  .left-side .grid-section .grid-sizer,
+  .left-side .grid-section .grid-item {
+    width: calc(100% - 15px) !important;
   }
 }

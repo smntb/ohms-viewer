@@ -183,6 +183,7 @@
     </div>
     <div class="grid-section grid_<?php echo $tab_tag; ?>">
         <div class="grid-container grid-container<?php echo $tab_tag; ?>">
+            <div class="grid-sizer"></div>
             <?php foreach ($interview->grid as $grid): ?>
                 <div class="grid-item grid-item<?php echo $tab_tag; ?> bdg-<?php echo strtolower($grid['label']) ?>" data-ref="<?php echo (int) $grid['first_ref'] ?>" data-label="<?php echo strtolower($grid['label']) ?>"
                      data-text="<?php echo htmlspecialchars($grid['text'], ENT_QUOTES) ?>"
