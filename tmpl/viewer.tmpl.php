@@ -72,7 +72,8 @@ endif;
 $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped.js',
     'jquery.simplePagination.js', 'video.min.js', 'jquery.easing.1.4.js', 'jquery.scrollTo-min.js',
     'popper.js', 'tooltip.js', 'echarts-en.min-421rc1.js', 'echarts-wordcloud2.min.js',
-    'viewer.js', 'custom.js', 'viewer_' . $interview->viewerjs . '.js', 'visualization.js']
+    'viewer.js', 'custom.js', 'viewer_' . $interview->viewerjs . '.js', 
+    'masonry.pkgd.min.js','imagesloaded.pkgd.min.js','visualization.js']
 ?>
 
 <!DOCTYPE html>

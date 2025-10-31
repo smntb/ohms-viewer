@@ -6,7 +6,8 @@
 <?php if (count($interview->mapData) > 0): ?>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="js/masonry.pkgd.min.js"></script>
+    
+
     <style>
         /* Full width; auto height via aspect ratio (fallback below) */
         #map_area_1, #map_area_2 {

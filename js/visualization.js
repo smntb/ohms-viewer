@@ -593,21 +593,24 @@ function VisualizationJS() {
             } else {
                 $('.list_' + id).hide();
                 $('.grid_' + id).show();
-                $('.grid-section').css('opacity', '0');
+                $('.grid_' + id).css('opacity', '0');
                 setTimeout(function () {
-                    callMasonary();
-                    $('.grid-section').css('opacity', '1');
+                    callMasonary(id);
+                    $('.grid_' + id).css('opacity', '1');
                 }, 300);
             }
         });
     };
-    const callMasonary = function () {
-        $('.grid-container').masonry({
+    const callMasonary = function (id) {
+        var $grid = $('.grid-container' + id).masonry({
             itemSelector: '.grid-item',
             columnWidth: '.grid-sizer',
             percentPosition: true,
             gutter: 15,
             horizontalOrder: true
+        });
+        $grid.imagesLoaded().progress(function () {
+            $grid.masonry('layout');
         });
     }
     const setupDropdownTabs = function (containerSelector, dropdownLabel = "Visualization ▼") {
