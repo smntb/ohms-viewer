@@ -314,6 +314,10 @@ function VisualizationJS() {
         const $q = $('#browser_search' + id);
         const $sort = $('#sortDropdown' + id);
 
+        if ($c.data('masonry')) {
+            $c.masonry('destroy'); // Remove Masonry instance
+            $c.removeData('masonry'); // Clear stored data
+        }
         // normalize multiselect
         let sel = $lbl.val() || [];
         if (!Array.isArray(sel))
@@ -398,6 +402,7 @@ function VisualizationJS() {
         });
 
         $(arr).appendTo($c);
+        activateMasonary(id);
     };
     const applyFilters = function () {
         let id = $(this).data('id');
@@ -595,23 +600,32 @@ function VisualizationJS() {
                 $('.grid_' + id).show();
                 $('.grid_' + id).css('opacity', '0');
                 setTimeout(function () {
-                    callMasonary(id);
+                    activateMasonary(id);
                     $('.grid_' + id).css('opacity', '1');
                 }, 300);
             }
         });
     };
-    const callMasonary = function (id) {
-        var $grid = $('.grid-container' + id).masonry({
-            itemSelector: '.grid-item',
-            columnWidth: '.grid-sizer',
-            percentPosition: true,
-            gutter: 15,
-            horizontalOrder: true
-        });
-        $grid.imagesLoaded().progress(function () {
-            $grid.masonry('layout');
-        });
+    const activateMasonary = function (id) {
+        var $container = $('.grid-container' + id);
+
+// Only initialize Masonry if it hasn’t been initialized yet
+        if (!$container.data('masonry')) {
+            var $grid = $container.masonry({
+                itemSelector: '.grid-item',
+                columnWidth: '.grid-sizer',
+                percentPosition: true,
+                gutter: 15,
+                horizontalOrder: false
+            });
+            $grid.imagesLoaded().progress(function () {
+                $grid.masonry('layout');
+            });
+
+        } else {
+            // Already initialized — just trigger a layout refresh
+            $container.masonry('layout');
+        }
     }
     const setupDropdownTabs = function (containerSelector, dropdownLabel = "Visualization ▼") {
         const $tabs = $(containerSelector).tabs();
@@ -637,7 +651,6 @@ function VisualizationJS() {
         });
         $(`${containerSelector} .ui-tabs-nav li a`).on("click", function () {
             $(`${containerSelector} .dropdown-toggle`).removeClass('active');
-            callMasonary();
         });
         $(`${containerSelector} .dropdown-menu a`).on("click", function () {
             const $li = $(this).parent();
