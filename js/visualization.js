@@ -621,7 +621,9 @@ function VisualizationJS() {
             $grid.imagesLoaded().progress(function () {
                 $grid.masonry('layout');
             });
-
+            $grid.imagesLoaded().always(function () {
+                $grid.masonry('layout');
+            });
         } else {
             // Already initialized — just trigger a layout refresh
             $container.masonry('layout');
