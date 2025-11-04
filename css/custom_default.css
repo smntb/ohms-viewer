@@ -62,7 +62,7 @@ div.video iframe {
 .tooltip {
   position: absolute;
   background: #333;
-  color: #fff;
+  color: #000;
   font-size: 14px;
   line-height: 1.2;
   text-align: left;

@@ -397,8 +397,8 @@ private function formatTranscriptVtt()
             // Footnote link (kept exactly as before)
             $footnoteHtml =
                 '<span class="footnote-ref">' .
-                    '<a name="sup' . $this->escapeAttr($ref) . '"></a>' .
-                    '<a href="#footnote' . $this->escapeAttr($ref) . '" data-index="footnote' . $this->escapeAttr($ref) . '" id="footnote_' . $this->escapeAttr($ref) . '" class="footnoteLink footnoteTooltip nblu bbold">[' . $this->escapeAttr($ref) . ']</a>' .
+                    '<a class="marker_sup marker_sup' . $this->escapeAttr($ref) . '" name="sup' . $this->escapeAttr($ref) . '"></a>' .
+                    '<a data-tooltip="Test" href="#footnote' . $this->escapeAttr($ref) . '" data-index="footnote' . $this->escapeAttr($ref) . '" id="footnote_' . $this->escapeAttr($ref) . '" class="super_footnotes footnote' . $this->escapeAttr($ref) . ' footnoteLink footnoteTooltip nblu bbold">' . $this->escapeAttr($ref) . '</a>' .
                     '<span></span>' .
                 '</span>';
 
@@ -406,32 +406,32 @@ private function formatTranscriptVtt()
             return
                 '<span class="' . $this->escapeAttr($cls) . ' ref_' . $this->escapeAttr($ref) . '" data-ref="' . $this->escapeAttr($ref) . '" ' . $dataAttrs . '>' .
                     htmlspecialchars($visible, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') .
-                '</span>';// .
-//                $footnoteHtml;
+                '</span>' .
+                $footnoteHtml;
         },
         $this->transcriptHTML
     );
 
     // ---------- PASS 3: render footnotes block ----------
-//    if ($notesBuffer !== '') {
-//        $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
-//
-//        foreach ($annotationIndex as $ref => $attrs) {
-//            $num   = $attrs['number'] ?? $ref;
-//            $inner = $attrs['_inner'] ?? ($attrs['text'] ?? '');
-//
-//            // Convert [[link]]x[[/link]] to <a>
-//            $inner = preg_replace('/\[\[link\]\](.*?)\[\[\/link\]\]/', '<a href="$1">$1</a>', $inner);
-//
-//            $foot_notes .=
-//                '<div><a name="footnote' . $this->escapeAttr($ref) . '" id="footnote' . $this->escapeAttr($ref) . '"></a> ' .
-//                '<a class="footnoteLink nblu" href="#sup' . $this->escapeAttr($ref) . '">' . $this->escapeAttr((string)$num) . '.</a> ' .
-//                '<span class="content" id="line_' . $this->escapeAttr((string)$ref) . '">' . $inner . '<p></p><p></p></span></div>';
-//        }
-//
-//        $foot_notes .= '</div>';
-//        $this->transcriptHTML .= $foot_notes;
-//    }
+    if ($notesBuffer !== '') {
+        $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
+
+        foreach ($annotationIndex as $ref => $attrs) {
+            $num   = $attrs['number'] ?? $ref;
+            $inner = $attrs['text'] ?? '';
+//            echo '<pre>'; print_r($attrs);exit;
+            // Convert [[link]]x[[/link]] to <a>
+            $inner = preg_replace('/\[\[link\]\](.*?)\[\[\/link\]\]/', '<a href="$1">$1</a>', $inner);
+
+            $foot_notes .=
+                '<div><a name="footnote' . $this->escapeAttr($ref) . '" id="footnote' . $this->escapeAttr($ref) . '" class="marker_footnote marker_footnote' . $this->escapeAttr($ref) . '"></a> ' .
+                '<a class="footnoteLink nblu" href="#sup' . $this->escapeAttr($ref) . '">' . $this->escapeAttr((string)$num) . '.</a> ' .
+                '<span class="content" id="line_' . $this->escapeAttr((string)$ref) . '">' . $inner . '<p></p><p></p></span></div>';
+        }
+
+        $foot_notes .= '</div>';
+        $this->transcriptHTML .= $foot_notes;
+    }
 }
 
     private function formatTranscript() {

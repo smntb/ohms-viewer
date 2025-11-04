@@ -182,6 +182,29 @@ function IndexJS() {
             }, 1500);
         });
         switchIndexToTranscript();
+        $('.footnoteLink').click(function (e) {
+            e.preventDefault();
+            let container;
+            let transcriptTab;
+            if ($(this).closest('.right-side').length) {
+                container = $('.right-side-inner');
+                transcriptTab = '#transcript-tab-2';
+
+            }  else {
+                container = $('.left-side');
+                transcriptTab = '#transcript-tab-1';
+            }
+            $('a[href="' + transcriptTab + '"]').trigger("click");
+            $('html, body').animate({scrollTop: 0}, 100);
+            let linkTo = $(this).attr('href').replace('#', '.marker_');
+            setTimeout(function () {
+                scrollTo = $(transcriptTab + " " + linkTo);
+                container.animate({
+                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                });
+            }, 250);
+            
+        });
 
     };
     const  copyToClipboard = function (val) {

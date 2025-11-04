@@ -1482,3 +1482,10 @@ p.bold {
     border: none !important;
     background: transparent !important;
 }
+
+.super_footnotes{
+    vertical-align: super;
+    font-size: 13px;
+    text-decoration: none;
+    padding: 0px 3px 0px 0px;
+}
