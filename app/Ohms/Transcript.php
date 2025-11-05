@@ -371,7 +371,7 @@ private function formatTranscriptVtt()
         
             $ref  = $m[1];
             $word = $m[2];
-
+            
             // Find attributes for this ref; fall back to minimal set
             $attrs = $annotationIndex[$ref] ?? ['ref' => $ref, 'text' => $word];
 
@@ -405,15 +405,16 @@ private function formatTranscriptVtt()
                 '</span>';
 
             // Final replacement: span token + footnote link
+            
             return
                 '<span class="' . $this->escapeAttr($cls) . ' ref_' . $this->escapeAttr($ref) . '" data-ref="' . $this->escapeAttr($ref) . '" ' . $dataAttrs . '>' .
-                    htmlspecialchars($visible, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') .
+                    $visible .
                 '</span>' .
                 $footnoteHtml;
         },
         $this->transcriptHTML
     );
-
+            
     // ---------- PASS 3: render footnotes block ----------
     if ($notesBuffer !== '') {
         $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
