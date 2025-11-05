@@ -368,6 +368,7 @@ private function formatTranscriptVtt()
     $this->transcriptHTML = preg_replace_callback(
         '/<c\.(\d+)>(.*?)<\/c>/s',
         function ($m) use ($annotationIndex) {
+        
             $ref  = $m[1];
             $word = $m[2];
 
@@ -375,8 +376,8 @@ private function formatTranscriptVtt()
             $attrs = $annotationIndex[$ref] ?? ['ref' => $ref, 'text' => $word];
 
             // Visible text: prefer annotation text, else the captured word
-            $visible = $attrs['text'] ?? $word;
-
+            $visible =  $word;
+            $text = $attrs['text'];
             // Classes: bdg-text + bdg-{wiki_label lower}
             
             $wikiLabel = strtolower((string)($attrs['wiki_label'] ?? ($attrs['label'] ?? '')));
@@ -388,7 +389,8 @@ private function formatTranscriptVtt()
             // Collect term (line/time are unknown in post-pass; set nulls)
             $this->annotatedTerms[] = [
                 'ref'          => (string)($attrs['ref'] ?? $ref),
-                'text'         => strip_tags($visible),
+                't_text'=> $visible,
+                'text'         => strip_tags($text),
                 'line'         => null,
                 'start_time_s' => null,
                 'meta'         => array_diff_key($attrs, array_flip(['ref', '_inner'])),

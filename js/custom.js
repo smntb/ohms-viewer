@@ -435,7 +435,7 @@ function IndexJS() {
 
                         line.find(".footnote-ref").each(function (index) {
                             $(this).html(htmlArray[index]);
-                            activatePopper($(this).find(".footnoteTooltip").attr("id"));
+//                            activatePopper($(this).find(".footnoteTooltip").attr("id"));
                         });
                         let viewer = new Viewer();
                         viewer.footerNotes('unbind');
