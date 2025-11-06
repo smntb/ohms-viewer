@@ -115,7 +115,6 @@
     <div class="list-section list_<?php echo $tab_tag; ?>">
         <?php
         $stats = [];
-
         foreach ($interview->annotations as $a) {
             $label = $a['meta']['label'] ?? '';
             $text = $a['text'] ?? '';

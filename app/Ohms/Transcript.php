@@ -377,7 +377,7 @@ private function formatTranscriptVtt()
 
             // Visible text: prefer annotation text, else the captured word
             $visible =  $word;
-            $text = $attrs['text'];
+            $text = $attrs['wiki_name'] ?? $attrs['text'];
             // Classes: bdg-text + bdg-{wiki_label lower}
             
             $wikiLabel = strtolower((string)($attrs['wiki_label'] ?? ($attrs['label'] ?? '')));
