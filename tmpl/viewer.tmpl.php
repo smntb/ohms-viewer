@@ -283,7 +283,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                 </div>
 
                 <div class="right-side">
-                    <button class="toggle-sides"><img src="/imgs/toggle-btn-icon.png" /></button>
+                    <button class="toggle-sides"><img src="./imgs/toggle-btn-icon.png" /></button>
                     <div class="right-side-inner">
                         <div class="toolbar-right">
                             <?php if ($interview->translate == '1'): ?>
