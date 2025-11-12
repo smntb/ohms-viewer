@@ -541,8 +541,8 @@ function IndexJS() {
             displayedPages: 0,
             pages: 0,
             edges: 0,
-            prevText: "<img src='/imgs/arrow-square.webp' alt='Previous'>",
-            nextText: "<img src='/imgs/arrow-square.webp' alt='Next'>",
+            prevText: "<img src='./imgs/arrow-square.webp' alt='Previous'>",
+            nextText: "<img src='./imgs/arrow-square.webp' alt='Next'>",
             cssStyle: "compact-theme",
             onPageClick: function (pageNum) {
                 var start = perPage * (pageNum - 1);

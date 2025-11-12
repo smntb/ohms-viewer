@@ -578,9 +578,9 @@ class Utils {
 
                 // Prev
                 if ($prev === null) {
-                    $html .= '<li class="disabled"><span class="current prev"><img src="/imgs/arrow-square-prev.webp" alt="Previous"></span></li>';
+                    $html .= '<li class="disabled"><span class="current prev"><img src="./imgs/arrow-square-prev.webp" alt="Previous"></span></li>';
                 } else {
-                    $html .= '<li><a href="javascript://" data-ref="' . self::h($prev) . '"  class="pop-page-link prev"><img src="/imgs/arrow-square-prev.webp" alt="Previous"></a></li>';
+                    $html .= '<li><a href="javascript://" data-ref="' . self::h($prev) . '"  class="pop-page-link prev"><img src="./imgs/arrow-square-prev.webp" alt="Previous"></a></li>';
                 }
 
                 // Info
@@ -588,9 +588,9 @@ class Utils {
 
                 // Next
                 if ($next === null) {
-                    $html .= '<li class="disabled"><span class="current next"><img src="/imgs/arrow-square-next.webp" alt="Next"></span></li>';
+                    $html .= '<li class="disabled"><span class="current next"><img src="./imgs/arrow-square-next.webp" alt="Next"></span></li>';
                 } else {
-                    $html .= '<li><span href="#javascript://" data-ref="' . self::h($next) . '" class="pop-page-link next"><img src="/imgs/arrow-square-next.webp" alt="Next"></span></li>';
+                    $html .= '<li><span href="#javascript://" data-ref="' . self::h($next) . '" class="pop-page-link next"><img src="./imgs/arrow-square-next.webp" alt="Next"></span></li>';
                 }
 
                 $html .= '</ul></div>';
