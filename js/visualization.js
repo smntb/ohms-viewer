@@ -147,7 +147,7 @@ function VisualizationJS() {
         if (marker) {
 //            marker._icon.querySelector('svg').setAttribute('fill', '#000000');
             marker.openPopup();
-            map.flyTo(marker.getLatLng(), 15, {duration: 1.5});
+            map.flyTo(marker.getLatLng(), 12, {duration: 1.5});
         }
     }
     const findMarkerByLatLng = function (lat, lng, markers) {
@@ -201,6 +201,9 @@ function VisualizationJS() {
 
             const popupHtml = `<strong class="map_highlight" data-ref="${first_ref}">${esc(text)}${count ? ' (' + count + ')' : ''}</strong>`;
             const m = L.marker([lat, lng], {icon: brandIcon}).addTo(map).bindPopup(popupHtml);
+            m.on('click', function () {
+                map.flyTo(m.getLatLng(), 12, {duration: 1.5});
+});
             markers.push(m);
         });
 
