@@ -1,6 +1,8 @@
 jQuery(function ($) {
     var loaded = false;
     $('.translate-link').click(function (e) {
+        localStorage.setItem("leftTab", currentLeftTab);
+        localStorage.setItem("rightTab", currentRightTab);
         var urlIndexPiece = '';
         var re;
         e.preventDefault();
@@ -16,13 +18,13 @@ jQuery(function ($) {
         }
         if ($(this).attr('data-linkto') == $(this).attr('data-default')) {
             re = /&translate=(.*)/g;
-            location.href = location.href.replace(re, '') + '&time=' + Math.floor(player.getCurrentTime()) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&time=' + Math.floor(player.getCurrentTime()) + toggleAvailability + urlIndexPiece;
         } else {
             re = /&time=(.*)/g;
-            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(player.getCurrentTime()) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(player.getCurrentTime()) + toggleAvailability + urlIndexPiece;
         }
     });
-    
+
 
     $('body').on('click', 'a.jumpLink', function (e) {
         e.preventDefault();
@@ -46,7 +48,7 @@ jQuery(function ($) {
             player.seekTo(target.data('timestamp'));
         }
 
-        $('body').animate({scrollTop : 0},800);
+        $('body').animate({scrollTop: 0}, 800);
 
     });
 

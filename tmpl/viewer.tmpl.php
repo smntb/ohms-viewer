@@ -125,6 +125,8 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
     <body>
 
         <script>
+            var currentLeftTab = '#about-tab-1';
+            var currentRightTab = '#index-tab-2';
             var exhibitMode = <?php echo $exhibitMode; ?>;
             var endAt = null;
             var exhibitIndex = null;
@@ -178,17 +180,17 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                         <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
                         <div id="custom-tabs-left">
                             <ul>
-                                <li><a href="#about-tab-1">About</a></li>
-                                <li><a href="#index-tab-1">Index <span class="count index_count d-none"></span></a></li>
-                                <li><a href="#transcript-tab-1">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                <li><a href="#about-tab-1" class="tab-left-tab">About</a></li>
+                                <li><a href="#index-tab-1" class="tab-left-tab">Index <span class="count index_count d-none"></span></a></li>
+                                <li><a href="#transcript-tab-1" class="tab-left-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
                                 <?php if (count($interview->annotations) > 0): ?>
                                     <!-- These will be moved into dropdown via JS -->
-                                    <li class="dropdown-tab"><a href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
+                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
                                     <?php if (count($interview->mapData) > 0): ?>
-                                        <li class="dropdown-tab"><a href="#map-tab-1" id="map-tab-1-head">Map</a></li>
+                                        <li class="dropdown-tab"><a class="tab-left-tab" href="#map-tab-1" id="map-tab-1-head">Map</a></li>
                                     <?php endif; ?>
-                                    <li class="dropdown-tab"><a href="#timeline-tab-1">Timeline</a></li>
-                                    <li class="dropdown-tab"><a href="#browser-tab-1">Browser</a></li>
+                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#timeline-tab-1">Timeline</a></li>
+                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#browser-tab-1">Browser</a></li>
                                 <?php endif; ?>
                             </ul>
                             <div id="about-tab-1">
@@ -314,17 +316,17 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
                         <div id="custom-tabs-right">
                             <ul>
-                                <li><a href="#index-tab-2">Index <span class="count index_count d-none"></span></a></li>
-                                <li><a href="#transcript-tab-2">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                <li><a href="#index-tab-2" class="tab-right-tab">Index <span class="count index_count d-none"></span></a></li>
+                                <li><a href="#transcript-tab-2" class="tab-right-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
                                 <?php if (count($interview->annotations) > 0): ?>
                                     <!-- These will be moved into dropdown via JS -->
-                                    <li class="dropdown-tab"><a href="#wordcloud-tab-2" id="wordcloud-tab-2-head">Word Cloud</a></li>
+                                    <li class="dropdown-tab"><a href="#wordcloud-tab-2" class="tab-right-tab" id="wordcloud-tab-2-head">Word Cloud</a></li>
                                     <?php if (count($interview->mapData) > 0): ?>
-                                        <li class="dropdown-tab"><a href="#map-tab-2" id="map-tab-2-head">Map</a></li>
+                                        <li class="dropdown-tab"><a href="#map-tab-2" class="tab-right-tab" id="map-tab-2-head">Map</a></li>
                                     <?php endif; ?>
 
-                                    <li class="dropdown-tab"><a href="#timeline-tab-2">Timeline</a></li>
-                                    <li class="dropdown-tab"><a href="#browser-tab-2">Browser</a></li>
+                                    <li class="dropdown-tab"><a class="tab-right-tab" href="#timeline-tab-2">Timeline</a></li>
+                                    <li class="dropdown-tab"><a class="tab-right-tab" href="#browser-tab-2">Browser</a></li>
                                 <?php endif; ?>
                             </ul>
 

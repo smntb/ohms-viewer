@@ -2,7 +2,9 @@ jQuery(function ($) {
     var loaded = false;
 
 
-$('.translate-link').click(function (e) {
+    $('.translate-link').click(function (e) {
+        localStorage.setItem("leftTab", currentLeftTab);
+        localStorage.setItem("rightTab", currentRightTab);
         var urlIndexPiece = '';
         var re;
         e.preventDefault();
@@ -24,7 +26,7 @@ $('.translate-link').click(function (e) {
             } else {
                 time = kalturaPlayer.currentTime;
             }
-            location.href = location.href.replace(re, '') + '&time=' + Math.floor(time) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&time=' + Math.floor(time) + toggleAvailability + urlIndexPiece;
         } else {
             re = /&time=(.*)/g;
             let time = 0;
@@ -33,10 +35,10 @@ $('.translate-link').click(function (e) {
             } else {
                 time = kalturaPlayer.currentTime;
             }
-            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(time) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(time) + toggleAvailability + urlIndexPiece;
         }
     });
-    
+
 
     $('body').on('click', 'a.jumpLink', function (e) {
         e.preventDefault();

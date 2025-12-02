@@ -3,6 +3,8 @@ jQuery(function ($) {
 
     
     $('.translate-link').click(function (e) {
+        localStorage.setItem("leftTab", currentLeftTab);
+        localStorage.setItem("rightTab", currentRightTab);
         var urlIndexPiece = '';
         var re;
         e.preventDefault();
@@ -20,10 +22,10 @@ jQuery(function ($) {
         var pos = parent.offsetTime;
         if ($(this).attr('data-linkto') == $(this).attr('data-default')) {
             re = /&translate=(.*)/g;
-            location.href = location.href.replace(re, '') + '&time=' + Math.floor(pos) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&time=' + Math.floor(pos) + toggleAvailability + urlIndexPiece;
         } else {
             re = /&time=(.*)/g;
-            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(pos) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(pos) + toggleAvailability + urlIndexPiece;
         }
     });
 

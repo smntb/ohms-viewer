@@ -1489,3 +1489,7 @@ p.bold {
     text-decoration: none;
     padding: 0px 3px 0px 0px;
 }
+
+.no-annotation {
+    border: none !important;
+}

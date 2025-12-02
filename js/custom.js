@@ -1,6 +1,32 @@
 
 function Viewer() {
+
     this.initialize = function () {
+        const leftTab = localStorage.getItem("leftTab");
+        const rightTab = localStorage.getItem("rightTab");
+
+        setTimeout(function () {
+            if (leftTab !== null && leftTab !== "") {
+                $('a[href="' + leftTab + '"]').trigger("click");
+                localStorage.removeItem("leftTab");
+            }
+            if (rightTab !== null && rightTab !== "") {
+                $('a[href="' + rightTab + '"]').trigger("click");
+                localStorage.removeItem("rightTab");
+            }
+        }, 500);
+
+
+
+
+        $('.tab-left-tab').click(function () {
+            currentLeftTab = $(this).attr('href');
+
+        });
+        $('.tab-right-tab').click(function () {
+            currentRightTab = $(this).attr('href');
+
+        });
         $('.refreshPage').click(function () {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
@@ -190,7 +216,7 @@ function IndexJS() {
                 container = $('.right-side-inner');
                 transcriptTab = '#transcript-tab-2';
 
-            }  else {
+            } else {
                 container = $('.left-side');
                 transcriptTab = '#transcript-tab-1';
             }
@@ -203,7 +229,7 @@ function IndexJS() {
                     scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
                 });
             }, 250);
-            
+
         });
 
     };

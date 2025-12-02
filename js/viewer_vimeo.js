@@ -2,6 +2,8 @@ jQuery(function ($) {
     var loaded = false;
 
     $('.translate-link').click(function (e) {
+        localStorage.setItem("leftTab", currentLeftTab);
+        localStorage.setItem("rightTab", currentRightTab);
         var urlIndexPiece = '';
         var re;
         e.preventDefault();
@@ -18,10 +20,10 @@ jQuery(function ($) {
         var pos = widget.getCurrentTime();
         if ($(this).attr('data-linkto') == $(this).attr('data-default')) {
             re = /&translate=(.*)/g;
-            location.href = location.href.replace(re, '') + '&time=' + Math.floor(pos) + toggleAvailability +'&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&time=' + Math.floor(pos) + toggleAvailability + urlIndexPiece;
         } else {
             re = /&time=(.*)/g;
-            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(pos) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(pos) + toggleAvailability + urlIndexPiece;
         }
     });
     
