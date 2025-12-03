@@ -252,6 +252,56 @@ div.video iframe {
   overflow: auto;
   padding-bottom: 30px;
 }
+.ui-dialog.notes-dialog {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 600px !important;
+  max-width: 90%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0 !important;
+  background: #fff;
+}
+.ui-dialog.notes-dialog .ui-dialog-titlebar {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 0;
+  border: none;
+  background: var(--tab-inactive-color);
+  color: #000;
+}
+.ui-dialog.notes-dialog .ui-dialog-content {
+  padding: 0;
+}
+.ui-dialog.notes-dialog .dialog-content {
+  text-align: left;
+  padding: 20px;
+  font-size: 14px;
+  color: #333;
+  text-align: left;
+  max-height: 400px;
+  overflow: auto;
+}
+.ui-dialog.notes-dialog .dialog-content strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.ui-dialog.notes-dialog .dialog-footer {
+  text-align: right;
+  border-top: 1px solid #ddd;
+  padding: 10px 20px;
+}
+.ui-dialog.notes-dialog .dialog-footer #btnOk {
+  padding: 8px 24px;
+  border: none;
+  background: var(--tab-active-color);
+  color: #fff;
+  border-radius: 1px;
+  font-size: 14px;
+  font-family: var(--font-family);
+}
 .toggle-sides {
   left: -30px;
   width: 50px;

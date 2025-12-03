@@ -282,6 +282,23 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                             ?>
                         </div>
                     </div>
+
+                    <div id="myModal" title="Sample Title">
+                        <div class="dialog-content">
+                            <strong>Title</strong>
+                            <p>This is some sample text inside the dialog. This is some sample text inside the dialog.
+                                This is some sample text inside the dialog. This is some sample text inside the dialog.
+                                This is some sample text inside the dialog. This is some sample text inside the dialog.
+                                This is some sample text inside the dialog. This is some sample text inside the dialog.
+                                This is some sample text inside the dialog. This is some sample text inside the dialog.
+                            </p>
+                        </div>
+                        <div class="dialog-footer">
+                            <button id="btnOk">OK</button>
+                        </div>
+                    </div>
+
+                    <button id="openDialog">Open Dialog</button>
                 </div>
 
                 <div class="right-side">
@@ -531,6 +548,28 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                     });
                 }
                 $(".fancybox").fancybox();
+
+                $("#myModal").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    dialogClass: "notes-dialog",
+                    closeOnEscape: true,
+                    draggable: false,
+                    resizable: false,
+                    // Disable closing on backdrop click
+                    open: function (event, ui) {
+                        $(".ui-widget-overlay").bind("click", function () {
+                            return false; // prevents closing
+                        });
+                    }
+                });
+
+                $("#openDialog").click(function () {
+                    $("#myModal").dialog("open");
+                });
+                $("#btnOk").click(function () {
+                    $("#myModal").dialog("close");
+                });
             });
         </script>
 
