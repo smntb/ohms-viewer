@@ -72,8 +72,8 @@ endif;
 $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped.js',
     'jquery.simplePagination.js', 'video.min.js', 'jquery.easing.1.4.js', 'jquery.scrollTo-min.js',
     'popper.js', 'tooltip.js', 'echarts-en.min-421rc1.js', 'echarts-wordcloud2.min.js',
-    'viewer.js', 'custom.js', 'viewer_' . $interview->viewerjs . '.js', 
-    'masonry.pkgd.min.js','imagesloaded.pkgd.min.js','visualization.js']
+    'viewer.js', 'custom.js', 'viewer_' . $interview->viewerjs . '.js',
+    'masonry.pkgd.min.js', 'imagesloaded.pkgd.min.js', 'visualization.js']
 ?>
 
 <!DOCTYPE html>
@@ -123,11 +123,24 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
     </head>
     <body>
-
+        <?php
+        if (preg_replace('/\xC2\xA0/', '', trim(html_entity_decode(strip_tags($interview->user_notes))))):
+            ?>
+            <div id="userNotesModal" title="User Notes">
+                <div class="dialog-content">
+                    <p><?php echo $interview->user_notes; ?>
+                    </p>
+                </div>
+                <div class="dialog-footer">
+                    <button id="btnOk" tabindex="0">OK</button>
+                </div>
+            </div>
+        <?php endif; ?>
         <script>
             var currentLeftTab = '#about-tab-1';
             var currentRightTab = '#index-tab-2';
             var exhibitMode = <?php echo $exhibitMode; ?>;
+
             var endAt = null;
             var exhibitIndex = null;
             var jumpToTime = null;
@@ -283,22 +296,9 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                         </div>
                     </div>
 
-                    <div id="myModal" title="Sample Title">
-                        <div class="dialog-content">
-                            <strong>Title</strong>
-                            <p>This is some sample text inside the dialog. This is some sample text inside the dialog.
-                                This is some sample text inside the dialog. This is some sample text inside the dialog.
-                                This is some sample text inside the dialog. This is some sample text inside the dialog.
-                                This is some sample text inside the dialog. This is some sample text inside the dialog.
-                                This is some sample text inside the dialog. This is some sample text inside the dialog.
-                            </p>
-                        </div>
-                        <div class="dialog-footer">
-                            <button id="btnOk">OK</button>
-                        </div>
-                    </div>
 
-                    <button id="openDialog">Open Dialog</button>
+
+
                 </div>
 
                 <div class="right-side">
@@ -481,7 +481,9 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                     if ($('.right-side').is(':visible')) {
                         indexTab = '#index-tab-2';
                     }
-                    setTimeout(function(){jQuery('a[href="' + indexTab + '"]').trigger("click")},500);
+                    setTimeout(function () {
+                        jQuery('a[href="' + indexTab + '"]').trigger("click")
+                    }, 500);
                     jQuery('div.point').each(function (index) {
                         if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime && initialLoad == true) {
                             initialLoad = false;
@@ -548,28 +550,32 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                     });
                 }
                 $(".fancybox").fancybox();
-
-                $("#myModal").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    dialogClass: "notes-dialog",
-                    closeOnEscape: true,
-                    draggable: false,
-                    resizable: false,
-                    // Disable closing on backdrop click
-                    open: function (event, ui) {
-                        $(".ui-widget-overlay").bind("click", function () {
-                            return false; // prevents closing
-                        });
-                    }
-                });
-
-                $("#openDialog").click(function () {
-                    $("#myModal").dialog("open");
-                });
-                $("#btnOk").click(function () {
-                    $("#myModal").dialog("close");
-                });
+                if (!jQuery.curCSS) {
+                    jQuery.curCSS = function (elem, name, force) {
+                        return jQuery.css(elem, name, force);
+                    };
+                }
+                if ($('#userNotesModal').length > 0) {
+                    $("#userNotesModal").dialog({
+                        autoOpen: true,
+                        modal: true,
+                        dialogClass: "notes-dialog",
+                        closeOnEscape: false,
+                        draggable: false,
+                        resizable: false,
+                        // Disable closing on backdrop click
+                        open: function (event, ui) {
+                            $(".ui-dialog-titlebar-close").remove();
+                            setTimeout("$('.dialog-footer').focus()", 500);
+                            $(".ui-widget-overlay").bind("click", function () {
+                                return false; // prevents closing
+                            });
+                            $("#btnOk").click(function () {
+                                $("#userNotesModal").dialog("close");
+                            });
+                        }
+                    });
+                }
             });
         </script>
 
@@ -580,6 +586,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                 viewer.initialize();
                 const visualization = new VisualizationJS();
                 visualization.initialize(<?php echo isset($entity_rows) ? json_encode($entity_rows, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) : '[]'; ?>, <?php echo count($interview->mapData) > 0 ? json_encode($interview->mapData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : '[]'; ?>);
+
             });
 
         </script>
