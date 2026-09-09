@@ -15,7 +15,7 @@ function VisualizationJS() {
         EVENT: '#c6a5ac'
     };
     this.initialize = function (entityRows, mapPoints) {
-        setupDropdownTabs("#custom-tabs-left");
+        setupDropdownTabs("#custom-tabs-left", "Visualization ▼", false);
         setupDropdownTabs("#custom-tabs-right");
         if (mapPoints.length > 0) {
 
@@ -23,10 +23,16 @@ function VisualizationJS() {
             [map1, marker1] = loadMap('map_area_1');
             [map2, marker2] = loadMap('map_area_2');
             $('#map-tab-1-head').click(function () {
-                refreshMap(map1, marker1);
+                // panel is toggled visible by the click handler in custom.js;
+                // wait a tick so the map measures its real size.
+                setTimeout(function () {
+                    refreshMap(map1, marker1);
+                }, 80);
             });
             $('#map-tab-2-head').click(function () {
-                refreshMap(map2, marker2);
+                setTimeout(function () {
+                    refreshMap(map2, marker2);
+                }, 80);
             });
         }
 
@@ -143,6 +149,14 @@ function VisualizationJS() {
                 $popover.hide();
             }
         });
+        // The popover is absolutely positioned against the page, so it can't
+        // follow its entity when the transcript scrolls inside its pane.
+        // Hide it (and any inline entity note) as soon as scrolling starts.
+        $('.right-side-inner, .left-side').on('scroll', function () {
+            if ($popover.is(':visible')) {
+                $popover.hide();
+            }
+        });
     };
     const highlightMarkerByLatLng = function (lat, lng, markers, map) {
 
@@ -179,9 +193,10 @@ function VisualizationJS() {
     }
     const loadMap = function (mapId) {
         const map = L.map(mapId).setView([20, 0], 2);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        const apiKey = (typeof mapApiKey !== 'undefined' && mapApiKey) ? mapApiKey : '';
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=' + apiKey, {
             maxZoom: 19,
-            attribution: ''
+            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         const brandIcon = L.divIcon({
             className: 'custom-marker',
@@ -209,17 +224,21 @@ function VisualizationJS() {
             const m = L.marker([lat, lng], {icon: brandIcon, ref: first_ref}).addTo(map).bindPopup(popupHtml);
             m.on('click', function () {
                 map.flyTo(m.getLatLng(), 12, {duration: 1.5});
-                let container = $('.left-side');;
-                let transcriptTab = '#transcript-tab-1';
-                if ($(this).closest('.right-side').length) {
+                // Keep the map in its own pane; drive the transcript in the
+                // other pane. map_area_1 is the left pane, map_area_2 the right.
+                let container;
+                let transcriptTab;
+                if (mapId === 'map_area_1' && $('.right-side').is(':visible')) {
+                    container = $('.right-side-inner');
+                    transcriptTab = '#transcript-tab-2';
+                } else {
                     container = $('.left-side');
                     transcriptTab = '#transcript-tab-1';
-
                 }
                 scrollToTranscript(container, transcriptTab, m.options.ref);
                 setTimeout(function () {
-                        $(transcriptTab + ' .bdg-text.ref_' +  m.options.ref).trigger('click');
-                    }, 300);
+                    $(transcriptTab + ' .bdg-text.ref_' + m.options.ref).trigger('click');
+                }, 300);
             });
             markers.push(m);
         });
@@ -703,8 +722,16 @@ function VisualizationJS() {
             $container.masonry('layout');
         }
     }
-    const setupDropdownTabs = function (containerSelector, dropdownLabel = "Visualization ▼") {
-        const $tabs = $(containerSelector).tabs();
+    const setupDropdownTabs = function (containerSelector, dropdownLabel = "Visualization ▼", initTabs = true) {
+        if (initTabs) {
+            $(containerSelector).tabs();
+        } else {
+            // Left side: nav <ul> and its panels live in separate containers,
+            // so jQuery UI tabs can't be used. Just apply the classes the
+            // markup/CSS expect; show/hide is handled in custom.js.
+            $(`${containerSelector} > ul`).addClass("ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header");
+            $(`${containerSelector} > ul > li`).addClass("ui-state-default ui-corner-top");
+        }
         const $dropdownTabs = $(`${containerSelector} .ui-tabs-nav li.dropdown-tab`);
         if ($dropdownTabs.length === 0)
             return;

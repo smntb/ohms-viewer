@@ -250,6 +250,7 @@ div.video iframe {
   box-sizing: border-box;
   position: relative;
   overflow: auto;
+  overflow-anchor: none;
   padding-bottom: 30px;
 }
  #headervid {
@@ -322,6 +323,48 @@ div.video iframe {
   height: 100%;
   cursor: pointer;
   object-fit: cover;
+}
+.return-to-top {
+  position: absolute;
+  bottom: 20px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: var(--tab-active-color);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+.return-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.return-to-top:hover {
+  background: var(--line-color);
+}
+/* Left button lives inside .left-side (its own scroll container) and pins to
+   the bottom-right of the left section. */
+.return-to-top-left {
+  position: sticky;
+  float: right;
+  bottom: 20px;
+  margin: -52px 20px 12px 0;
+}
+.return-to-top-right {
+  right: 20px;
 }
 .main-box .right-side {
   flex: 0 0 67%;
@@ -499,7 +542,40 @@ div.video iframe {
   padding: 20px 60px 20px 20px;
   text-align: left;
 }
-.main-box .left-side .bottom-details {
+/* Collapsed header on scroll: first line of the title only.
+   Animated with max-height/opacity/padding (display:none can't transition). */
+.main-box .left-side .top-details {
+  transition: padding 0.3s ease;
+}
+#headerimg {
+  transition: opacity 0.3s ease;
+}
+#secondaryMetaData {
+  overflow: hidden;
+  max-height: 200px;
+  transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+}
+.left-side.header-collapsed #headerimg {
+  opacity: 0;
+  pointer-events: none;
+}
+.left-side.header-collapsed #secondaryMetaData {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+}
+.main-box .left-side.header-collapsed .top-details {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.left-side.header-collapsed .top-details h1.truncate {
+  -webkit-line-clamp: 1;
+  margin-bottom: 0;
+}
+.main-box .left-side .bottom-details,
+.main-box .left-side #searchbox-panel,
+.main-box .left-side #custom-tabs-left {
   padding: 0 20px;
 }
 #wordcloud-1, #wordcloud-2 {
@@ -684,9 +760,33 @@ div.video iframe {
   height: 55px;
 }
 .main-box .left-side #audio-panel {
-  padding: 20px;
-  max-width: 85%;
-  margin: auto;
+  padding: 20px 7.5%;
+  max-width: 100%;
+  margin: 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #fff;
+}
+/* Freeze the search box and the tab bar on scroll, stacked below the
+   header + player (offsets are set from custom.js). */
+.main-box .left-side #searchbox-panel {
+  position: sticky;
+  top: 0;
+  z-index: 998;
+  background: #fff;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+}
+.main-box .left-side #custom-tabs-left {
+  position: sticky;
+  top: 0;
+  z-index: 997;
+  background: #fff;
+  padding-bottom: 10px;
+}
+.main-box .left-side #custom-tabs-left > ul {
+  margin-bottom: 0;
 }
 
 .main-box #custom-tabs-left,
@@ -695,13 +795,32 @@ div.video iframe {
   border: none;
   padding: 0;
 }
+/* Left side: nav <ul> and panels are separate containers; show/hide is
+   driven from custom.js by toggling .ui-tabs-hide on the panels.
+   These mirror the old jQuery UI `.ui-tabs .ui-tabs-panel` / `.ui-tabs-hide`. */
+#left-tab-content > .ui-tabs-hide {
+  display: none !important;
+}
+.main-box #left-tab-content > div {
+  padding: 10px 0;
+  line-height: 1.5;
+}
+/* Keep the index panel in normal flow so it's constrained to the padded
+   content column (same width as the search box / tab bar) instead of
+   spanning the full .left-side and forcing a horizontal scroll. */
+.main-box #left-tab-content #index-panel {
+  position: relative;
+  width: 100%;
+}
 .main-box #custom-tabs-left .ui-widget-header,
+.main-box #custom-tabs-left > ul,
 .main-box #custom-tabs-right .ui-widget-header {
   border: none;
   background: none;
   padding: 0;
   margin-bottom: 10px;
   display: flex;
+  list-style: none;
 }
 .main-box #custom-tabs-right {
   text-align: left;
@@ -714,6 +833,7 @@ div.video iframe {
 }
 
 .main-box #custom-tabs-left .ui-tabs-nav li,
+.main-box #custom-tabs-left > ul > li,
 .main-box #custom-tabs-right .ui-tabs-nav li {
   margin: 0;
   border: 1px solid var(--tab-active-color) !important;
@@ -721,7 +841,8 @@ div.video iframe {
   flex: 1;
 }
 .main-box #custom-tabs-left .ui-tabs-nav li a,
-.main-box #custom-tabs-right .ui-tabs-nav li a {  
+.main-box #custom-tabs-left > ul > li a,
+.main-box #custom-tabs-right .ui-tabs-nav li a {
   background: var(--tab-inactive-color);
   border-color: var(--tab-inactive-color);
   color: var(--line-color);
@@ -734,8 +855,10 @@ div.video iframe {
   align-items: center;
   gap: 5px;
   justify-content: center;
+  white-space: nowrap;
 }
 .main-box #custom-tabs-left .ui-tabs-nav .count,
+.main-box #custom-tabs-left > ul .count,
 .main-box #custom-tabs-right .ui-tabs-nav .count {
     font-size: 12px;
     line-height: 12px;
@@ -751,20 +874,58 @@ div.video iframe {
 }
 
 .main-box #custom-tabs-left .ui-tabs-nav li.ui-tabs-selected,
+.main-box #custom-tabs-left > ul > li.ui-tabs-selected,
 .main-box #custom-tabs-right .ui-tabs-nav li.ui-tabs-selected {
   padding-bottom: 0;
 }
 .main-box #custom-tabs-left .ui-tabs-nav li.ui-tabs-selected.ui-state-active a,
-.main-box #custom-tabs-right .ui-tabs-nav li.ui-tabs-selected.ui-state-active a {   
+.main-box #custom-tabs-left > ul > li.ui-tabs-selected.ui-state-active a,
+.main-box #custom-tabs-right .ui-tabs-nav li.ui-tabs-selected.ui-state-active a {
   background: var(--tab-active-color);
   border-color: var(--tab-active-color);
   color: #fff;
 }
 .main-box #custom-tabs-left li.ui-tabs-selected.ui-state-active .count,
-.main-box #custom-tabs-right li.ui-tabs-selected.ui-state-active .count {   
+.main-box #custom-tabs-right li.ui-tabs-selected.ui-state-active .count {
   background: #fff;
   border-color: #fff;
   color: var(--line-color);
+}
+
+/* Right side: freeze the tab bar and the per-view filter row on scroll;
+   only the content list below scrolls. */
+.main-box #custom-tabs-right > .ui-tabs-nav {
+  display: block;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: #fff;
+  margin: 0;
+  padding: 0 0 12px;
+  min-height: 54px;
+}
+/* Keep every panel/holder in normal flow with no self-scroll, so the whole
+   right column scrolls in .right-side-inner and the sticky bars work. */
+.main-box #custom-tabs-right #index-panel,
+.main-box #custom-tabs-right #transcript-panel,
+.main-box #custom-tabs-right .browser-content-holder,
+.main-box #custom-tabs-right .timeline-content-holder {
+  position: relative;
+  overflow: visible;
+}
+/* Filter row sits just under the frozen tab bar; its white area starts a
+   little above the tab bar's bottom edge so scrolling content can't peek
+   through the seam (the tab bar's higher z-index keeps the overlap hidden). */
+.main-box #custom-tabs-right .data-layers,
+.main-box #custom-tabs-right .browser-filter,
+.main-box #custom-tabs-right .ww_timeline_filter_container {
+  position: sticky;
+  top: 44px;
+  z-index: 150;
+  background: #fff;
+  padding-top: 16px;
+  padding-bottom: 12px;
 }
 .dropdown-toggle-tab .dropdown-toggle {
   background: var(--tab-inactive-color);
@@ -772,8 +933,12 @@ div.video iframe {
   color: var(--line-color);
   font-size: 16px;
   font-weight: 500;
-  padding: 8px 15px;
+  padding: 8px 10px;
   min-height: 38px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .dropdown-toggle-tab .dropdown-toggle.active {
   background: var(--tab-active-color);
@@ -783,7 +948,8 @@ div.video iframe {
 .dropdown-menu {
   max-width: 150px;
   position: absolute;
-  z-index: 999;
+  z-index: 1000;
+  background: #fff;
 }
 .dropdown-menu li,
 .dropdown-menu li a {
@@ -1236,8 +1402,8 @@ div.video iframe {
   .custom-toggle-icon .icon.active:before {
     display: none;
   }
-  .main-box #custom-tabs-left .ui-tabs-nav li a, .main-box #custom-tabs-right .ui-tabs-nav li a,
-  .dropdown-toggle-tab .dropdown-toggle,.right-side-header .custom-tabs a, 
+  .main-box #custom-tabs-left .ui-tabs-nav li a, .main-box #custom-tabs-left > ul > li a, .main-box #custom-tabs-right .ui-tabs-nav li a,
+  .dropdown-toggle-tab .dropdown-toggle,.right-side-header .custom-tabs a,
   .right-side-header .custom-tabs span {
     font-size: 13px;
     padding: 8px;
@@ -1284,10 +1450,12 @@ div.video iframe {
     padding: 0;
     margin-top: 0;
   }
-  .main-box .left-side .bottom-details {
+  .main-box .left-side .bottom-details,
+  .main-box .left-side #searchbox-panel,
+  .main-box .left-side #custom-tabs-left {
     padding: 0;
   }
-  .main-box #custom-tabs-left .ui-tabs-nav li a, .main-box #custom-tabs-right .ui-tabs-nav li a,
+  .main-box #custom-tabs-left .ui-tabs-nav li a, .main-box #custom-tabs-left > ul > li a, .main-box #custom-tabs-right .ui-tabs-nav li a,
   .dropdown-toggle-tab .dropdown-toggle {
     font-size: 14px;
   }
@@ -1301,7 +1469,8 @@ div.video iframe {
       font-size: 12px;
   }
   .main-box .left-side #audio-panel {
-    max-width: 95%;
+    max-width: 100%;
+    padding: 20px 2.5%;
   }
 }
 @media screen and (max-width: 600px) {
@@ -1314,7 +1483,7 @@ div.video iframe {
   .main-box .left-side .top-details {
     padding-left: 0;
   }
-  .main-box #custom-tabs-left .ui-tabs-nav li a, .main-box #custom-tabs-right .ui-tabs-nav li a, .dropdown-toggle-tab .dropdown-toggle {
+  .main-box #custom-tabs-left .ui-tabs-nav li a, .main-box #custom-tabs-left > ul > li a, .main-box #custom-tabs-right .ui-tabs-nav li a, .dropdown-toggle-tab .dropdown-toggle {
     font-size: 13px;
     min-height: 30px;
   }
@@ -1375,7 +1544,9 @@ div.video iframe {
   .browser-filter select {
     max-width: 95px;
   }
-  .main-box .left-side .bottom-details {
+  .main-box .left-side .bottom-details,
+  .main-box .left-side #searchbox-panel,
+  .main-box .left-side #custom-tabs-left {
     padding: 0 15px;
   }
   .left-side .grid-section .grid-sizer,

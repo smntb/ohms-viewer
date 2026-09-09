@@ -188,28 +188,29 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                     <div id="audio-panel">
                         <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
                     </div>
-
+                    <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+                    <div id="custom-tabs-left">
+                        <ul>
+                            <li><a href="#about-tab-1" class="tab-left-tab">About</a></li>
+                            <?php if (!empty((string) $interview->index)): ?>
+                                <li><a href="#index-tab-1" class="tab-left-tab">Index <span class="count index_count d-none"></span></a></li>
+                            <?php endif; ?>
+                            <?php if (!empty((string) $interview->transcript)): ?>
+                                <li><a href="#transcript-tab-1" class="tab-left-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
+                            <?php endif; ?>
+                            <?php if (count($interview->annotations) > 0): ?>
+                                <!-- These will be moved into dropdown via JS -->
+                                <li class="dropdown-tab"><a class="tab-left-tab" href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
+                                <?php if (count($interview->mapData) > 0): ?>
+                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#map-tab-1" id="map-tab-1-head">Map</a></li>
+                                <?php endif; ?>
+                                <li class="dropdown-tab"><a class="tab-left-tab" href="#timeline-tab-1">Timeline</a></li>
+                                <li class="dropdown-tab"><a class="tab-left-tab" href="#browser-tab-1">Browser</a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
                     <div class="bottom-details">
-                        <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
-                        <div id="custom-tabs-left">
-                            <ul>
-                                <li><a href="#about-tab-1" class="tab-left-tab">About</a></li>
-                                <?php if (!empty((string) $interview->index)): ?>
-                                    <li><a href="#index-tab-1" class="tab-left-tab">Index <span class="count index_count d-none"></span></a></li>
-                                <?php endif; ?>
-                                <?php if (!empty((string) $interview->transcript)): ?>
-                                    <li><a href="#transcript-tab-1" class="tab-left-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
-                                <?php endif; ?>
-                                <?php if (count($interview->annotations) > 0): ?>
-                                    <!-- These will be moved into dropdown via JS -->
-                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
-                                    <?php if (count($interview->mapData) > 0): ?>
-                                        <li class="dropdown-tab"><a class="tab-left-tab" href="#map-tab-1" id="map-tab-1-head">Map</a></li>
-                                    <?php endif; ?>
-                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#timeline-tab-1">Timeline</a></li>
-                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#browser-tab-1">Browser</a></li>
-                                <?php endif; ?>
-                            </ul>
+                        <div id="left-tab-content">
                             <div id="about-tab-1">
                                 <div class="about-panel">
                                     <div><strong><a href="javascript://" class="about-attributes">Summary</a></strong>
@@ -512,6 +513,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
             var playerNameJS = '<?php echo $interview->playername; ?>';
             var cachefile = '<?php echo $interview->cachefile; ?>';
+            var mapApiKey = '<?php echo addslashes($config['map_api_key'] ?? ''); ?>';
             var initialLoad = true;
             $(document).ready(function () {
                 setTimeout(() => {
