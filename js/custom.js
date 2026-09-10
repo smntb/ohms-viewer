@@ -84,7 +84,29 @@ function Viewer() {
             btn.setAttribute('aria-label', 'Return to top');
             btn.innerHTML = '<i class="fa fa-arrow-up"></i>';
             btn.addEventListener('click', function () {
-                scrollEl.scrollTo({ top: 0, behavior: 'smooth' });
+                // scrollTo({top, behavior:'smooth'}) is silently a no-op on
+                // iOS Safari < 15.4 and some Android WebViews (the object
+                // form isn't supported there) — that's why this button did
+                // nothing on mobile. Feature-detect and fall back to a
+                // manual scrollTop animation.
+                if ('scrollBehavior' in document.documentElement.style) {
+                    scrollEl.scrollTo({top: 0, behavior: 'smooth'});
+                    return;
+                }
+                const start = scrollEl.scrollTop;
+                if (start <= 0) {
+                    return;
+                }
+                const startTime = performance.now();
+                const duration = 300;
+                const step = function (now) {
+                    const progress = Math.min(1, (now - startTime) / duration);
+                    scrollEl.scrollTop = start * (1 - progress);
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                };
+                requestAnimationFrame(step);
             });
             hostEl.appendChild(btn);
 
@@ -435,7 +457,7 @@ function IndexJS() {
             setTimeout(function () {
                 scrollTo = $(transcriptTab + " " + linkTo);
                 container.animate({
-                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                 });
             }, 250);
 
@@ -515,7 +537,7 @@ function IndexJS() {
             setTimeout(function () {
                 scrollTo = $(transcriptTab + ">.transcript-panel>.info_trans_" + id);
                 container.animate({
-                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                 });
             }, 250);
         });
@@ -594,7 +616,7 @@ function IndexJS() {
                                 line.click();
                                 let scrollTo = line;
                                 container.animate({
-                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                                 }, 100, 'swing');
 
                             }, 250);
@@ -705,7 +727,7 @@ function IndexJS() {
                             line.click();
                             let scrollTo = line;
                             container.animate({
-                                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                             }, 100, 'swing');
 
                         }, 250);

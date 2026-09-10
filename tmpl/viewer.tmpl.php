@@ -513,7 +513,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
             var playerNameJS = '<?php echo $interview->playername; ?>';
             var cachefile = '<?php echo $interview->cachefile; ?>';
-            var mapApiKey = '<?php echo addslashes($config['map_api_key'] ?? ''); ?>';
+            var mapApiKey = 'eyJhbGciOiJIUzI1NiJ9.eyJhIjoiYWNfaGE5eDc1bjciLCJqdGkiOiI0NjU0YTJmYiJ9.spXyq_9oLaMQhxDzdEO8vkgJpOiMUQR3nzo141LKlmo';
             var initialLoad = true;
             $(document).ready(function () {
                 setTimeout(() => {

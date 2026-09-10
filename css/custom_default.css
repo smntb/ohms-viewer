@@ -359,9 +359,10 @@ div.video iframe {
    the bottom-right of the left section. */
 .return-to-top-left {
   position: sticky;
-  float: right;
+  display: block;
+  width: 40px;
   bottom: 20px;
-  margin: -52px 20px 12px 0;
+  margin: -52px 20px 12px auto;
 }
 .return-to-top-right {
   right: 20px;
@@ -1447,13 +1448,13 @@ div.video iframe {
       padding: 0 15px;
   }
   #searchbox-panel {
-    padding: 0;
+    padding: 0 15px;
     margin-top: 0;
   }
   .main-box .left-side .bottom-details,
   .main-box .left-side #searchbox-panel,
   .main-box .left-side #custom-tabs-left {
-    padding: 0;
+    padding: 0 15px;
   }
   .main-box #custom-tabs-left .ui-tabs-nav li a, .main-box #custom-tabs-left > ul > li a, .main-box #custom-tabs-right .ui-tabs-nav li a,
   .dropdown-toggle-tab .dropdown-toggle {

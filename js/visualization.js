@@ -185,8 +185,25 @@ function VisualizationJS() {
         map.invalidateSize();
         if (markers.length) {
             const group = L.featureGroup(markers);
-            map.fitBounds(group.getBounds().pad(0.2));
+            // animate:false — an animated fitBounds right after switching to
+            // the Map tab leaves the view mid-flight; Leaflet ignores marker
+            // clicks while panning/zooming, so the first click after opening
+            // the tab would appear to do nothing until the flight settled.
+            map.fitBounds(group.getBounds().pad(0.2), {animate: false});
         }
+        // invalidateSize()/fitBounds() reposition the map and its markers via
+        // JS, but the browser's own hit-testing for that area can stay stale
+        // until something moves the mouse over it — which is exactly why
+        // hovering a pin first makes the very next click land, but clicking
+        // cold does not. Fire a synthetic mousemove over the map so the
+        // hit-test region is refreshed before the user's first real click.
+        const mapEl = map.getContainer();
+        const rect = mapEl.getBoundingClientRect();
+        mapEl.dispatchEvent(new MouseEvent('mousemove', {
+            bubbles: true,
+            clientX: rect.left + rect.width / 2,
+            clientY: rect.top + rect.height / 2
+        }));
     }
     const esc = function (s) {
         return String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
@@ -196,7 +213,7 @@ function VisualizationJS() {
         const apiKey = (typeof mapApiKey !== 'undefined' && mapApiKey) ? mapApiKey : '';
         L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=' + apiKey, {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: ''
         }).addTo(map);
         const brandIcon = L.divIcon({
             className: 'custom-marker',
@@ -246,7 +263,7 @@ function VisualizationJS() {
 // Fit to markers
         if (markers.length) {
             const group = L.featureGroup(markers);
-            map.fitBounds(group.getBounds().pad(0.2));
+            map.fitBounds(group.getBounds().pad(0.2), {animate: false});
         }
         return [map, markers];
     };
