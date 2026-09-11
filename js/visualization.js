@@ -92,15 +92,11 @@ function VisualizationJS() {
             if (!$(this).hasClass('bdg-text-disabled')) {
                 $popover.hide();
                 e.stopPropagation(); // prevent immediate close
-                let rect = this.getBoundingClientRect();
-                let ref = $(this).data('ref');
+                const $clicked = $(this);
+                let ref = $clicked.data('ref');
                 $('.popover-body').addClass('d-none');
-                if ($(this).hasClass('pop-page-link')) {
+                if ($clicked.hasClass('pop-page-link')) {
                     scrollToTranscript(container, transcriptTab, ref);
-                    setTimeout(function () {
-                        rect = $(transcriptTab + ' .ref_' + ref)[0].getBoundingClientRect();
-                    }, 300);
-
                 } else {
                     if ($(this).closest('.right-side').length) {
                         transcriptTab = '#transcript-tab-2';
@@ -118,7 +114,7 @@ function VisualizationJS() {
 
                     }
                 }
-                let geoLocation = $.trim($(this).data('geolocation'));
+                let geoLocation = $.trim($clicked.data('geolocation'));
                 if (geoLocation) {
                     const [lat, lng] = geoLocation.split(",").map(Number);
                     $('a[href="' + mapTab + '"]').trigger("click");
@@ -130,6 +126,17 @@ function VisualizationJS() {
                     if ($popover.css('display') === 'block') {
                         $popover.hide();
                     } else {
+                        // Re-measure now, right before showing: the click
+                        // above can scroll/resize panes (map tab switch,
+                        // header collapse, etc.), so a position captured at
+                        // click time can be stale by the time we get here.
+                        const $target = $clicked.hasClass('pop-page-link')
+                                ? $(transcriptTab + ' .ref_' + ref)
+                                : $clicked;
+                        if (!$target.length) {
+                            return;
+                        }
+                        const rect = $target[0].getBoundingClientRect();
                         $popover.show();
                         $popover.css({
                             top: rect.bottom + 12 + window.scrollY + 'px',
@@ -167,7 +174,10 @@ function VisualizationJS() {
         if (marker) {
 //            marker._icon.querySelector('svg').setAttribute('fill', '#000000');
             marker.openPopup();
-            map.flyTo(marker.getLatLng(), 12, {duration: 1.5});
+            // Left map: stay exactly where it is — no recenter, no zoom.
+            if (map !== map1) {
+                map.flyTo(marker.getLatLng(), 12, {duration: 1.5});
+            }
         }
     }
     const findMarkerByLatLng = function (lat, lng, markers) {
@@ -212,7 +222,7 @@ function VisualizationJS() {
         const map = L.map(mapId).setView([20, 0], 2);
         const apiKey = (typeof mapApiKey !== 'undefined' && mapApiKey) ? mapApiKey : '';
         L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=' + apiKey, {
-            maxZoom: 19,
+            maxZoom: 20,
             attribution: ''
         }).addTo(map);
         const brandIcon = L.divIcon({
@@ -238,9 +248,28 @@ function VisualizationJS() {
             const count = Number(row.count || 0);
 
             const popupHtml = `<strong class="map_highlight" data-ref="${first_ref}">${esc(text)}${count ? ' (' + count + ')' : ''}</strong>`;
-            const m = L.marker([lat, lng], {icon: brandIcon, ref: first_ref}).addTo(map).bindPopup(popupHtml);
+            // Keep marker popups clear of the frozen header/tab bar sitting on
+            // top of the map: map_area_1 (left) sits under the whole frozen
+            // header/player/search/tab stack, map_area_2 (right) only under
+            // the tab bar.
+            const topPad = mapId === 'map_area_1' ? ((window.frozenLeftHeight || 0) + 20) : 60;
+            const m = L.marker([lat, lng], {icon: brandIcon, ref: first_ref}).addTo(map).bindPopup(popupHtml, {
+                autoPanPaddingTopLeft: L.point(20, topPad),
+                autoPanPaddingBottomRight: L.point(20, 20)
+            });
             m.on('click', function () {
-                map.flyTo(m.getLatLng(), 12, {duration: 1.5});
+                if (mapId !== 'map_area_1') {
+                    // Center the pin in the VISIBLE map area — below the frozen
+                    // header/tab-bar sitting on top of it — rather than the
+                    // geometric center of the whole map div, so its popup opens
+                    // somewhere the user can actually read it.
+                    const targetZoom = 12;
+                    const latlng = m.getLatLng();
+                    const point = map.project(latlng, targetZoom);
+                    const shifted = map.unproject(point.subtract([0, topPad / 2]), targetZoom);
+                    map.flyTo(shifted, targetZoom, {duration: 1.5});
+                }
+                // Left map: stay exactly where it is — no recenter, no zoom.
                 // Keep the map in its own pane; drive the transcript in the
                 // other pane. map_area_1 is the left pane, map_area_2 the right.
                 let container;
@@ -402,9 +431,7 @@ function VisualizationJS() {
         $('html, body').animate({scrollTop: 0}, 100);
         setTimeout(function () {
             let scrollTo = $(transcriptTab + ">.transcript-panel .ref_" + ref);
-            const isRightSide = container.hasClass('right-side-inner');
-
-            const offsetAdjustment = isRightSide ? 100 : 200;
+            const offsetAdjustment = window.getFrozenClearance ? window.getFrozenClearance(container) : 200;
             container.animate({
             scrollTop: scrollTo.offset().top 
                     - container.offset().top 
