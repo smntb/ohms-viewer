@@ -23,15 +23,152 @@ function Viewer() {
 
         const innerDiv = document.querySelector('.right-side-inner');
         const headerRight = document.querySelector('.right-side-header');
+        // The real tab bar and filter rows are now frozen via CSS sticky
+        // (see custom_default.css), so the old scroll-swapped ".scrolled"
+        // header is no longer needed.
 
-        if (innerDiv && headerRight) {
-            innerDiv.addEventListener('scroll', function () {
-                if (innerDiv.scrollTop > 100) {
-                    headerRight.classList.add('scrolled'); // add sticky class
-                } else {
-                    headerRight.classList.remove('scrolled'); // remove sticky class
+        // Keep the frozen left-side chrome (header, player, search box, tab bar)
+        // stacked: each sticks directly below the previous one while the panel
+        // content scrolls underneath.
+        const frozenLeft = [
+            document.querySelector('#headervid'),
+            document.querySelector('.left-side #audio-panel'),
+            document.querySelector('.left-side #searchbox-panel'),
+            document.querySelector('.left-side #custom-tabs-left')
+        ].filter(Boolean);
+        if (frozenLeft.length > 1) {
+            const syncFrozenLeftOffsets = function () {
+                let offset = 0;
+                frozenLeft.forEach(function (el) {
+                    el.style.top = offset + 'px';
+                    offset += el.offsetHeight;
+                });
+            };
+            syncFrozenLeftOffsets();
+            setTimeout(syncFrozenLeftOffsets, 800);
+            window.addEventListener('resize', syncFrozenLeftOffsets);
+            if (window.ResizeObserver) {
+                const ro = new ResizeObserver(syncFrozenLeftOffsets);
+                frozenLeft.forEach(function (el) {
+                    ro.observe(el);
+                });
+            }
+
+            // Collapse the header on scroll: first line of the title only,
+            // no logo, no collection/series/repository lines. Hysteresis +
+            // overflow-anchor:none (CSS) keep it from flickering at the edge.
+            const leftSide = document.querySelector('.left-side');
+            if (leftSide) {
+                let headerCollapsed = false;
+                leftSide.addEventListener('scroll', function () {
+                    const st = leftSide.scrollTop;
+                    if (!headerCollapsed && st > 40) {
+                        headerCollapsed = true;
+                        leftSide.classList.add('header-collapsed');
+                    } else if (headerCollapsed && st < 10) {
+                        headerCollapsed = false;
+                        leftSide.classList.remove('header-collapsed');
+                    }
+                });
+            }
+        }
+
+        // "Return to top" buttons for each scrolling section.
+        const addReturnToTop = function (scrollEl, hostEl, sideClass) {
+            if (!scrollEl || !hostEl || hostEl.querySelector('.return-to-top.' + sideClass)) {
+                return;
+            }
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'return-to-top ' + sideClass;
+            btn.setAttribute('aria-label', 'Return to top');
+            btn.innerHTML = '<i class="fa fa-arrow-up"></i>';
+            btn.addEventListener('click', function () {
+                // scrollTo({top, behavior:'smooth'}) is silently a no-op on
+                // iOS Safari < 15.4 and some Android WebViews (the object
+                // form isn't supported there) — that's why this button did
+                // nothing on mobile. Feature-detect and fall back to a
+                // manual scrollTop animation.
+                if ('scrollBehavior' in document.documentElement.style) {
+                    scrollEl.scrollTo({top: 0, behavior: 'smooth'});
+                    return;
                 }
+                const start = scrollEl.scrollTop;
+                if (start <= 0) {
+                    return;
+                }
+                const startTime = performance.now();
+                const duration = 300;
+                const step = function (now) {
+                    const progress = Math.min(1, (now - startTime) / duration);
+                    scrollEl.scrollTop = start * (1 - progress);
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                };
+                requestAnimationFrame(step);
             });
+            hostEl.appendChild(btn);
+
+            // Hidden by default; reveal on scroll-up and keep it shown until
+            // the section is scrolled back near the top.
+            let lastScroll = scrollEl.scrollTop;
+            scrollEl.addEventListener('scroll', function () {
+                const st = scrollEl.scrollTop;
+                if (st <= 150) {
+                    btn.classList.remove('visible');
+                } else if (st < lastScroll - 2) {
+                    btn.classList.add('visible');
+                }
+                lastScroll = st;
+            });
+        };
+        addReturnToTop(document.querySelector('.left-side'),
+                document.querySelector('.left-side'), 'return-to-top-left');
+        addReturnToTop(document.querySelector('.right-side-inner'),
+                document.querySelector('.right-side'), 'return-to-top-right');
+
+        // Left side: the tab <ul> (#custom-tabs-left) and its panels
+        // (#left-tab-content) are separate containers, so jQuery UI tabs can't
+        // wire them. Handle show/hide manually off the nav links.
+        const $leftContent = $('#left-tab-content');
+        if ($leftContent.length) {
+            const $leftNav = $('#custom-tabs-left > ul');
+            $leftContent.children().addClass('ui-tabs-hide');
+
+            const activateLeftTab = function (hash) {
+                const $panel = hash ? $leftContent.children(hash) : $();
+                if (!$panel.length) {
+                    return;
+                }
+                $leftContent.children().addClass('ui-tabs-hide');
+                $panel.removeClass('ui-tabs-hide');
+                $leftNav.find('li').removeClass('ui-tabs-selected ui-state-active');
+                $leftNav.find('a[href="' + hash + '"]').first().closest('li')
+                        .addClass('ui-tabs-selected ui-state-active');
+                // The panel was display:none until now, so anything that measured
+                // its own size on init (Leaflet map, ECharts word cloud, Masonry
+                // grid) needs a nudge once it's actually visible.
+                setTimeout(function () {
+                    window.dispatchEvent(new Event('resize'));
+                }, 60);
+            };
+            window.activateLeftTab = activateLeftTab;
+
+            $leftNav.on('click', 'a[href^="#"]', function (e) {
+                e.preventDefault();
+                activateLeftTab($(this).attr('href'));
+            });
+
+            // Initial selection mirrors the previous jQuery UI behaviour:
+            // Index first, then Transcript, then About.
+            let initialHash = '#about-tab-1';
+            if ($leftContent.children('#index-tab-1').length) {
+                initialHash = '#index-tab-1';
+            } else if ($leftContent.children('#transcript-tab-1').length) {
+                initialHash = '#transcript-tab-1';
+            }
+            activateLeftTab(initialHash);
         }
 
         const dataLayers = document.querySelector('.right-side-inner .data-layers');
@@ -320,7 +457,7 @@ function IndexJS() {
             setTimeout(function () {
                 scrollTo = $(transcriptTab + " " + linkTo);
                 container.animate({
-                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                 });
             }, 250);
 
@@ -400,7 +537,7 @@ function IndexJS() {
             setTimeout(function () {
                 scrollTo = $(transcriptTab + ">.transcript-panel>.info_trans_" + id);
                 container.animate({
-                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                 });
             }, 250);
         });
@@ -479,7 +616,7 @@ function IndexJS() {
                                 line.click();
                                 let scrollTo = line;
                                 container.animate({
-                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                                 }, 100, 'swing');
 
                             }, 250);
@@ -590,7 +727,7 @@ function IndexJS() {
                             line.click();
                             let scrollTo = line;
                             container.animate({
-                                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
                             }, 100, 'swing');
 
                         }, 250);
