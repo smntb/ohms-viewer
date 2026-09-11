@@ -1,4 +1,31 @@
 
+// How far a scroll-to-word/marker jump needs to clear the frozen chrome on
+// top of each pane. Left: the real, current height of the frozen
+// header/player/search/tab-bar stack (window.frozenLeftHeight, kept in sync
+// by Viewer.initialize below) — that stack's height varies with viewport
+// width (the video's aspect-ratio) and whether the header is collapsed, so a
+// fixed guess was either too small (content hidden behind it) or too large.
+// Right: the tab bar's height, PLUS whatever per-view filter row is also
+// frozen right below it on the currently active tab (e.g. "View Data
+// Layers" on Transcript) — that row only exists on some views, so it has to
+// be measured live rather than assumed away.
+window.getFrozenClearance = function (container) {
+    if (container && container.hasClass && container.hasClass('right-side-inner')) {
+        const nav = document.querySelector('#custom-tabs-right > .ui-tabs-nav');
+        let height = nav ? nav.offsetHeight : 54;
+        const filterRow = document.querySelector(
+                '#custom-tabs-right .ui-tabs-panel:not(.ui-tabs-hide) .data-layers, ' +
+                '#custom-tabs-right .ui-tabs-panel:not(.ui-tabs-hide) .browser-filter, ' +
+                '#custom-tabs-right .ui-tabs-panel:not(.ui-tabs-hide) .ww_timeline_filter_container'
+        );
+        if (filterRow) {
+            height += filterRow.offsetHeight;
+        }
+        return height + 12;
+    }
+    return (window.frozenLeftHeight || 200) + 12;
+};
+
 function Viewer() {
 
     this.initialize = function () {
@@ -43,6 +70,10 @@ function Viewer() {
                     el.style.top = offset + 'px';
                     offset += el.offsetHeight;
                 });
+                // Exposed so the left map (visualization.js) can keep its
+                // popups clear of this frozen stack when they open near the
+                // top of the map.
+                window.frozenLeftHeight = offset;
             };
             syncFrozenLeftOffsets();
             setTimeout(syncFrozenLeftOffsets, 800);
@@ -457,7 +488,7 @@ function IndexJS() {
             setTimeout(function () {
                 scrollTo = $(transcriptTab + " " + linkTo);
                 container.animate({
-                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
+                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - window.getFrozenClearance(container)
                 });
             }, 250);
 
@@ -537,7 +568,7 @@ function IndexJS() {
             setTimeout(function () {
                 scrollTo = $(transcriptTab + ">.transcript-panel>.info_trans_" + id);
                 container.animate({
-                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
+                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - window.getFrozenClearance(container)
                 });
             }, 250);
         });
@@ -616,7 +647,7 @@ function IndexJS() {
                                 line.click();
                                 let scrollTo = line;
                                 container.animate({
-                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
+                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - window.getFrozenClearance(container)
                                 }, 100, 'swing');
 
                             }, 250);
@@ -727,7 +758,7 @@ function IndexJS() {
                             line.click();
                             let scrollTo = line;
                             container.animate({
-                                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - (container.hasClass('right-side-inner') ? 52 : 152)
+                                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop() - window.getFrozenClearance(container)
                             }, 100, 'swing');
 
                         }, 250);
