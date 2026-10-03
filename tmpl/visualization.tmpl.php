@@ -57,16 +57,25 @@
     </div>
 <?php endif; ?>
 
+<?php
+// Entity types shown on the timeline when it first opens; the user can
+// select any of the others from the filter.
+$timeline_default_types = ['date', 'event'];
+$timeline_type_options = [
+    'person' => 'Person',
+    'place' => 'Place',
+    'date' => 'Date',
+    'org' => 'Org',
+    'event' => 'Event',
+];
+?>
 <div id="timeline-tab-<?php echo $tab_tag; ?>">
     <div class="timeline-content-holder">
         <div class="ww_timeline_filter_container">
             <select id="timeline_type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type" multiple="multiple">
-
-                <option value="person" selected="selected">Person</option>
-                <option value="place" selected="selected">Place</option>
-                <option value="date" selected="selected">Date</option>
-                <option value="org" selected="selected">Org</option>
-                <option value="event" selected="selected">Event</option>
+                <?php foreach ($timeline_type_options as $value => $text): ?>
+                    <option value="<?php echo $value; ?>"<?php echo in_array($value, $timeline_default_types, true) ? ' selected="selected"' : ''; ?>><?php echo $text; ?></option>
+                <?php endforeach; ?>
             </select> 
         </div>
         <div class="timeline">
@@ -86,10 +95,19 @@
 
     // Now $filtered has duplicates removed
             $timeline = $filtered;
-            foreach ($timeline as $i => $item) {
-                $sideClass = ($i % 2 === 0) ? 'left' : 'right';
+            // Alternate left/right over the initially visible items only,
+            // matching reflowTimeline() in js/visualization.js.
+            $visibleIndex = 0;
+            foreach ($timeline as $item) {
+                $type = strtolower($item['label']);
+                $isVisible = in_array($type, $timeline_default_types, true);
+                $sideClass = '';
+                if ($isVisible) {
+                    $sideClass = ($visibleIndex % 2 === 0) ? 'left' : 'right';
+                    $visibleIndex++;
+                }
                 ?>
-                <div data-type="<?php echo strtolower($item['label']); ?>" class="<?php echo strtolower($item['label']) ?> timeline_container container <?php echo $sideClass; ?>">
+                <div data-type="<?php echo $type; ?>" class="<?php echo $type ?> timeline_container container <?php echo $sideClass; ?>"<?php echo $isVisible ? '' : ' style="display: none;"'; ?>>
                     <div class="content">
                         <strong><?php echo htmlspecialchars($item['date']); ?></strong>
                         <div class="org timeline_event" data-ref="<?php echo $item['ref']; ?>"><?php echo htmlspecialchars((string) $item['label']); ?>: <?php echo htmlspecialchars((string) $item['wiki']['name']); ?></div>
