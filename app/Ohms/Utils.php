@@ -31,7 +31,7 @@ class Utils {
             if ($source) {
 
                 if ($source->src) {
-                    $mediaURL = $source->src;
+                    $mediaURL = self::resolveUrl($source->src, $embed);
                 }
             }
             // Get all track elements
@@ -41,7 +41,7 @@ class Utils {
                 if (isset($track->kind) && strtolower($track->kind) === 'captions') {
 
                     $captions[] = [
-                        'src' => isset($track->src) ? $track->src : null,
+                        'src' => isset($track->src) ? self::resolveUrl($track->src, $embed) : null,
                         'srclang' => isset($track->srclang) ? $track->srclang : null,
                         'label' => isset($track->label) ? $track->label : null,
                     ];
@@ -52,6 +52,35 @@ class Utils {
             'media_url' => $mediaURL,
             'captions' => $captions,
         ];
+    }
+
+    /**
+     * Resolve a possibly relative URL (e.g. "/collection_resource_files/..")
+     * against the URL of the page it was found on, so it is not resolved
+     * against the viewer's own host by the browser.
+     * @param string $url
+     * @param string $base
+     * @return string
+     */
+    public static function resolveUrl($url, $base) {
+        $url = html_entity_decode(trim($url), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if ($url === '' || preg_match('#^[a-z][a-z0-9+.-]*:#i', $url)) {
+            return $url;
+        }
+        $parts = parse_url($base);
+        if (empty($parts['scheme']) || empty($parts['host'])) {
+            return $url;
+        }
+        if (strpos($url, '//') === 0) {
+            return $parts['scheme'] . ':' . $url;
+        }
+        $origin = $parts['scheme'] . '://' . $parts['host'] . (isset($parts['port']) ? ':' . $parts['port'] : '');
+        if ($url[0] === '/') {
+            return $origin . $url;
+        }
+        $path = isset($parts['path']) ? $parts['path'] : '/';
+        $dir = substr($path, 0, strrpos($path, '/') + 1);
+        return $origin . $dir . $url;
     }
 
     /**
