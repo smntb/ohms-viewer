@@ -152,6 +152,7 @@ class Version3 {
             $player = 'other';
         } else {
             $this->data['media_url'] = $ohfile->record->media_url;
+            $this->data['captions'] = [];
         }
 
         if (in_array($player, $players)) {

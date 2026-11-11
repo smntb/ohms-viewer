@@ -38,7 +38,7 @@ else:
         <video id="my_player" controls
                preload="auto"  class="video-js">
             <source src="<?php echo $linkToMedia ?>" type="video/<?php echo $mediaFormat ?>" />
-            <?php if (count($interview->captions) > 0): ?>
+            <?php if (!empty($interview->captions)): ?>
                 <?php foreach ($interview->captions as $cap): ?>
                     <?php if (!empty($cap['src'])): ?>
                         <track
